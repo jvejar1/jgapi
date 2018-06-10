@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  multimedia: one
+  description: MyText
+  wfeeling_question: one
+  wreaction_question: one
+
+two:
+  multimedia: two
+  description: MyText
+  wfeeling_question: two
+  wreaction_question: two

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Version:</strong>
+  <%= @ace.version %>
+</p>
+
+<p>
+  <strong>Current:</strong>
+  <%= @ace.current %>
+</p>
+
+<%= link_to 'Edit', edit_ace_path(@ace) %> |
+<%= link_to 'Back', aces_path %>

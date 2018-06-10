@@ -1,0 +1,27 @@
+<%= form_with(model: wreaction, local: true) do |form| %>
+  <% if wreaction.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(wreaction.errors.count, "error") %> prohibited this wreaction from being saved:</h2>
+
+      <ul>
+      <% wreaction.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :text %>
+    <%= form.text_field :text, id: :wreaction_text %>
+  </div>
+
+  <div class="field">
+    <%= form.label :index %>
+    <%= form.number_field :index, id: :wreaction_index %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

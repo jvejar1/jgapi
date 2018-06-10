@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Version:</strong>
+  <%= @wally.version %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @wally.description %>
+</p>
+
+<p>
+  <strong>Current:</strong>
+  <%= @wally.current %>
+</p>
+
+<%= link_to 'Edit', edit_wally_path(@wally) %> |
+<%= link_to 'Back', wallies_path %>
