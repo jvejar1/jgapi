@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180609051346) do
+ActiveRecord::Schema.define(version: 20180612040411) do
 
   create_table "acase_correct_feelings", force: :cascade do |t|
     t.integer "acase_id"
@@ -105,22 +105,17 @@ ActiveRecord::Schema.define(version: 20180609051346) do
     t.index ["item_id"], name: "index_fgroup_items_on_item_id"
   end
 
-  create_table "fgroups", force: :cascade do |t|
-    t.boolean "example"
-    t.string "description"
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "fonotest_fgroups", force: :cascade do |t|
-    t.integer "index"
+  create_table "fonotest_items", force: :cascade do |t|
     t.integer "fonotest_id"
-    t.integer "fgroup_id"
+    t.integer "item_id"
+    t.string "name"
+    t.boolean "example"
+    t.integer "index"
+    t.string "instruction"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["fgroup_id"], name: "index_fonotest_fgroups_on_fgroup_id"
-    t.index ["fonotest_id"], name: "index_fonotest_fgroups_on_fonotest_id"
+    t.index ["fonotest_id"], name: "index_fonotest_items_on_fonotest_id"
+    t.index ["item_id"], name: "index_fonotest_items_on_item_id"
   end
 
   create_table "fonotests", force: :cascade do |t|

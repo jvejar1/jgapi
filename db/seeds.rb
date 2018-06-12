@@ -5,39 +5,59 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-#
+
 
 
 ##Fonotest
-
+items_descriptions=[["3..perro","perro seguido por 3"],
+                    ["9..manzana","manzana seguido por 9"],
+                    ["zapato..6","zapato..6"],
+                    ["5..pájaro","pájaro..5"],
+                    ["2..carne","carne..2"],
+                    ["1..gato..leche","gato..leche seguido por 1"],
+                    ["8..suéter..5","suéter..8..5"],
+                    ["sapo..2..cuchara","sapo..cuchara..2"],
+                    ["7..fruta..casa","fruta..casa..7"],
+                    ["3..pan..1..leon",""],
+                    ["peine..5..jugo..9",""],
+                    ["8..caballo..media..2",""],
+                    ["4..naranja..1..oso..7",""],
+                    ["cinturón..3..6..mantequilla..8",""],
+                    ["9..conejo..5..4..vestido",""],
+                    ["vaca..1..pastel..3..camisa..6",""],
+                    ["7..mosca..sopa..2..9..guante",""],
+                    ["8..pantalón..3..rata..1..huevos",""],
+                    ["silla..4..7..ojos..azúcar..6..5",""],
+                    ["2..araña..9..cama..3..falda..1",""],
+                    ["dulce..5..8..cortina..puerta..6..botón",""],
+                    ["4..sal..lobo..7..estufa..2..9..bota",""],
+                    ["galleta..1..tortuga..5..mesa..6..manopla..3",""],
+                    ["zanahoria..8..reloj..4..9..maíz..pájaro..2",""]]
 fonotest=Fonotest.create(current:true,version:0.5)
-Fgroup.create(description:"Diga: “Voy a decir el nombre de ciertas cosas, como animales o comidas, y algunos números. Una vez que los diga, debes decirme las palabras en el mismo orden en que yo las dije. Después, debes decirme los números en el mismo orden en que yo los dije. Vamos a comenzar con un número y una palabra. Repite primero la palabra, seguida del número”",example:true,name:"A")
-Item.create(description:"3..perro",audio:nil)
-FgroupItem.create(fgroup_id:1,item_id:1,index:1)
-FonotestFgroup.create(fonotest_id:fonotest.id,fgroup_id:1,index:1)
+instruction="Diga: “Voy a decir el nombre de ciertas cosas, como animales o comidas, y algunos números. Una vez que los diga, debes decirme las palabras en el mismo orden en que yo las dije. Después, debes decirme los números en el mismo orden en que yo los dije. Vamos a comenzar con un número y una palabra. Repite primero la palabra, seguida del número” "
 
-Fgroup.create(description:"Diga: “Ahora vas a escuchar otras palabras y otros números. Siempre dime las palabras en el mismo orden, luego dime los números en el mismo orden. Si la tarea se te hace muy difícil, dime simplemente lo que puedas recordar”",example:true,name:"B")
-audio=Audio.create(audio:File.open(File.join(Rails.root,"public","system","fonotest","b0.mp3")))
-item=Item.create(description:"9..manzana",correct_sequence:"manzana..9",audio:audio)
-FgroupItem.create(index:1,fgroup_id:2,item:item)
-FonotestFgroup.create(fonotest_id:fonotest.id,fgroup_id:2,index:1)
-
-fgroup=Fgroup.create(description:"xd",example:false,name:"C")
-audio=Audio.create(audio:File.open(File.join(Rails.root,"db","seeds","fonotest","b1.mp3")))
-item=Item.create(description:"zapato..6",audio:audio)
-FgroupItem.create(index:3,fgroup:fgroup,item:item)
-
-audio=Audio.create(audio:File.open(File.join(Rails.root,"db","seeds","fonotest","b2.mp3")))
-item=Item.create(description:"5..pájaro",audio:audio)
-FgroupItem.create(index:4,fgroup:fgroup,item:item)
-
-audio=Audio.create(audio:File.open(File.join(Rails.root,"db","seeds","fonotest","b3.mp3")))
-item=Item.create(description:"2..carne",audio:audio)
-FgroupItem.create(index:5,fgroup:fgroup,item:item)
-
-FonotestFgroup.create(fonotest_id:fonotest.id,fgroup_id:fgroup.id,index:2)
-
-
+item=Item.create(description:"3..perro",correct_sequence:"perro seguido por 3",audio_id:nil)
+FonotestItem.create(fonotest_id:fonotest.id,item_id:item.id,instruction:instruction,example:true,name:"Ejemplo A",index:1)
+current_index=1
+for i in 1..23
+  audio=Audio.create(audio:File.open(File.join(Rails.root,"db","seeds","fonotest","#{i}.mp3")))
+  item=Item.create(description:items_descriptions[i][0],correct_sequence:items_descriptions[i][1],audio:audio)
+  name="#{current_index}"
+  instruction=""
+  example=false
+  if i==1
+    example=true
+    name="Ejemplo B"
+    instruction="Diga: “Voy a decir el nombre de ciertas cosas, como animales o comidas, y algunos números. Una vez que los diga, debes decirme las palabras en el mismo orden en que yo las dije. Después, debes decirme los números en el mismo orden en que yo los dije. Vamos a comenzar con un número y una palabra. Repite primero la palabra, seguida del número” "
+  elsif i==5
+    instruction="Diga: “Ahora vas a escuchar otras palabras y otros números. Siempre dime las palabras en el mismo orden, luego dime los números en el mismo orden. Si la tarea se te hace muy difícil, dime simplemente lo que puedas recordar”"
+    example=true
+    name="Ejemplo C"
+  else
+    current_index+=1
+  end
+  FonotestItem.create(fonotest_id:fonotest.id,item_id:item.id,example:example,name:name,instruction:instruction,index:i+1)
+end
 
 
 
@@ -55,12 +75,15 @@ HnftestFigure.create(hnftest:hnf,figure:1,index:4,position:1)
 HnftestFigure.create(hnftest:hnf,figure:1,index:5,position:1)
 HnftestFigure.create(hnftest:hnf,figure:0,index:6,position:0)
 HnftestFigure.create(hnftest:hnf,figure:1,index:7,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:8,position:0)
+HnftestFigure.create(hnftest:hnf,figure:0,index:8,position:1)
 HnftestFigure.create(hnftest:hnf,figure:0,index:9,position:1)
-
 HnftestFigure.create(hnftest:hnf,figure:1,index:10,position:0)
 HnftestFigure.create(hnftest:hnf,figure:1,index:11,position:0)
 HnftestFigure.create(hnftest:hnf,figure:0,index:12,position:1)
+HnftestFigure.create(hnftest:hnf,figure:0,index:13,position:1)
+HnftestFigure.create(hnftest:hnf,figure:1,index:14,position:0)
+HnftestFigure.create(hnftest:hnf,figure:1,index:15,position:1)
+HnftestFigure.create(hnftest:hnf,figure:0,index:16,position:1)
 
 set.hnftests<<hnf
 #Hearts
@@ -102,26 +125,46 @@ set.hnftests<<hnf
 
 #Corsi
 corsi=Corsi.create(version:1,current:true)
-secuences_ord=[[2,6,7],[3,4,5],[1,2,7,8],[1,3,4,9],[1,2,5,8,10],[3,4,5,7,10],
-[2,5,6,7,8,9],[1,3,4,6,7,10],[1,2,3,5,8,9,10],[1,2,4,5,]]
-for i in 2..4
+seqs_ord=[[2,7,6],[5,4,3],[8,7,2,1],[9,1,4,3],
+[1,10,2,8,5],[10,3,7,5,4],[8,2,7,6,5,9],[7,4,1,3,6,10],[9,2,1,8,5,10,3]]
+
+
+seqs_ord.each do |seq|
 
   cseq=Csequence.create(ordered:true)
 
   cseq_rev=Csequence.create(ordered:false)
+  seq.each do |number|
+    Csquare.create(square:number,index:seq.index(number)+1,csequence:cseq)
 
-  for j in 0..i
-    Csquare.create(square:rand(1..10),index:j+1,csequence:cseq)
-    Csquare.create(square:rand(1..10),index:j+1,csequence:cseq_rev)
-
-
+    Csquare.create(square:number,index:seq.index(number)+1,csequence:cseq_rev)
   end
-  CorsiCsequence.create(corsi:corsi,csequence:cseq,index:i-2)
-  CorsiCsequence.create(corsi:corsi,csequence:cseq_rev,index:i-2)
+  CorsiCsequence.create(corsi:corsi,csequence:cseq,index:seqs_ord.index(seq)+1)
 
-
+  CorsiCsequence.create(corsi:corsi,csequence:cseq_rev,index:seqs_ord.index(seq)+1)
 
 end
+
+#
+#
+# for i in 2..8
+#
+#   cseq=Csequence.create(ordered:true)
+#
+#   cseq_rev=Csequence.create(ordered:false)
+#
+#   for j in 0..i
+#     Csquare.create(square:rand(1..10),index:j+1,csequence:cseq)
+#     Csquare.create(square:rand(1..10),index:j+1,csequence:cseq_rev)
+#
+#
+#   end
+#   CorsiCsequence.create(corsi:corsi,csequence:cseq,index:i-2)
+#   CorsiCsequence.create(corsi:corsi,csequence:cseq_rev,index:i-2)
+#
+#
+#
+# end
 
 # cseq=Csequence.create(ordered:true)
 #
@@ -147,7 +190,7 @@ end
 #########
 #ACES seed
 ace=Ace.create(version:1,current:true)
-male=[1,2,5,7]
+male=[1,2,5,7,8,9,11,13,14,20,21,22,24,25]
 female=[3,4,6,]
 distractors=[3, 6, 7, 12, 13, 15, 16, 18, 21, 26]
 angry=[3,6,7,11,12,13,15,16,18,19,21,22,26]
@@ -162,9 +205,9 @@ for i in 1..26
   end
   description="se siente...?"
   if(male.include?i)
-    description="Él "+description
+    description="¿Él "+description
   else
-    description="Ella "+description
+    description="¿Ella "+description
   end
   distractor=false
   if distractors.include?i

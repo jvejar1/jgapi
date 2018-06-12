@@ -23,19 +23,21 @@ class AcesController < ApplicationController
   def get_fonotest_current_data
     fonotest=Fonotest.find_by(current:true)
 
-    ftfg=fonotest.fonotest_fgroups
+    as=fonotest.fonotest_items
     fonotest=fonotest.as_json
-
-    fonotest[:groups]=[]
-    ftfg.each do |f|
-      index= f.index
-      fgroup=f.fgroup
-      items=fgroup.items
-      fgroup=fgroup.as_json
-      fgroup[:index]=index
-      fgroup[:items]=items.as_json
-      fonotest[:groups]<<fgroup
+    items=[]
+    as.each do |a|
+      instruction=a.instruction
+      example=a.example
+      item=a.item
+      name=a.name
+      item=item.as_json
+      item[:example]=example
+      item[:instruction]=instruction
+      item[:name]=name
+      items<<item
     end
+    fonotest[:items]=items
     return fonotest
   end
 
