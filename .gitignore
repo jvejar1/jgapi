@@ -11,6 +11,7 @@
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /config/database.yml
+/config/secrets.yml
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
@@ -22,3 +23,5 @@
 
 .byebug_history
 /public/system
+/public/assets
+/vendor/bundle
