@@ -2,8 +2,9 @@ class EvaluationsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
   def create
 
+    sleep(3)
 
-    render json:{id_to_erase:1,headers:{:status=>200}},:status=>:ok
+    render json:{request_id_to_delete:params[:request_id_to_delete],headers:{:status=>200}},:status=>:ok
 
   end
 

@@ -9,9 +9,12 @@ class PicturesController < ApplicationController
 
   def download
     p=Picture.find(params[:id])
-    puts p.image.url(:small)
-    send_file "public"+p.image.url(:small).split('?')[0], :disposition => 'attachment',:type=>p.image_content_type
-  end
+    style=params[:style]
+
+    send_file "public"+p.image.url(style).split('?')[0], :disposition => 'attachment',:type=>p.image_content_type
+
+
+    end
 
   # GET /multimedia/1
   # GET /multimedia/1.json

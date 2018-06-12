@@ -7,6 +7,6 @@ class SchoolsController < ApplicationController
   def students #by school_id
     school=School.find(params[:id])
     @students=school.students
-    render :json =>{students:@students}
+    render :json =>{id:school.id,students:@students}
   end
 end

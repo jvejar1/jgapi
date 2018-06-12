@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get '/audios/download/:id', to:"audios#download"
   post '/evaluations', to:"evaluations#create"
   get '/corsi/get_current_data', to:"corsis#get_current_data"
-  get '/pictures/download/:id', to:"pictures#download"
+  get '/pictures/download/:id/:style', to:"pictures#download"
   get '/wally/get_all_of_current', to:"wallies#get_all_of_current"
 
 

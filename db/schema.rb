@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20180609051346) do
     t.datetime "updated_at", null: false
     t.string "sex", limit: 1
     t.string "description"
+    t.boolean "distractor"
     t.integer "picture_id"
     t.index ["picture_id"], name: "index_acases_on_picture_id"
   end
