@@ -14,7 +14,7 @@ class AcesController < ApplicationController
     acases_ar=aces.acases
     aces=aces.as_json
     aces[:acases]=acases_ar
-    json_response={fonotest:get_fonotest_current_data,hnf:get_hnf_current_data,corsi:get_corsi_current_data,ace:aces,wally:get_all_of_current_wally}
+    json_response={fonotest:nil,hnf:get_hnf_current_data,corsi:get_corsi_current_data,ace:aces,wally:get_all_of_current_wally}
     render json: json_response.as_json
 
   end
