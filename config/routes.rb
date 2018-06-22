@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  devise_for :users, controllers: {
+      sessions: 'users/sessions',registrations:'users/registrations'
+  }
+
   resources :csequences
   resources :corsis
   get '/hnf/get_current_data', to:"hnftests#get_current_data"
@@ -31,5 +35,7 @@ Rails.application.routes.draw do
   resources :afeelings
   resources :acases
   resources :aces
+
+  root to:"home#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
