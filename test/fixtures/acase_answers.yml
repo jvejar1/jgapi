@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ace_evaluation: one
+  acase: one
+  score: 1
+
+two:
+  ace_evaluation: two
+  acase: two
+  score: 1

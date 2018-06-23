@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180620032446) do
+ActiveRecord::Schema.define(version: 20180622031001) do
+
+  create_table "acase_answers", force: :cascade do |t|
+    t.integer "ace_evaluation_id"
+    t.integer "acase_id"
+    t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["acase_id"], name: "index_acase_answers_on_acase_id"
+    t.index ["ace_evaluation_id"], name: "index_acase_answers_on_ace_evaluation_id"
+  end
 
   create_table "acase_correct_feelings", force: :cascade do |t|
     t.integer "acase_id"
@@ -38,6 +48,18 @@ ActiveRecord::Schema.define(version: 20180620032446) do
     t.datetime "updated_at", null: false
     t.index ["acase_id"], name: "index_ace_acases_on_acase_id"
     t.index ["ace_id"], name: "index_ace_acases_on_ace_id"
+  end
+
+  create_table "ace_evaluations", force: :cascade do |t|
+    t.integer "ace_id"
+    t.integer "user_id"
+    t.integer "student_id"
+    t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ace_id"], name: "index_ace_evaluations_on_ace_id"
+    t.index ["student_id"], name: "index_ace_evaluations_on_student_id"
+    t.index ["user_id"], name: "index_ace_evaluations_on_user_id"
   end
 
   create_table "aces", force: :cascade do |t|

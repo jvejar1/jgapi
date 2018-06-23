@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get '/wally/get_all_of_current', to:"wallies#get_all_of_current"
 
 
+  get '/evaluations/get_aces_csv', to:"evaluations#get_aces_csv"
   resources :wsituations
   resources :wreaction_questions
   resources :wreactions
