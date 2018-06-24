@@ -217,7 +217,7 @@ class EvaluationsController < ApplicationController
 
         acases.each do |acase|
           answer=AcaseAnswer.find_by(acase:acase,evaluation:evaluation)
-          row<<answer.score if !answer.nil? else "N/A"
+          row<<answer.score if !answer.nil? else row<<"N/A"
         end
         csv<<row
       end
