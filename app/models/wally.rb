@@ -1,4 +1,10 @@
 class Wally < ApplicationRecord
+  has_many :wally_evaluations
+  has_many :situation_sets
+  has_many :wsituations, :through => :situation_sets
+
+  has_many :evaluations
+
   def self.feelings_by_number
       return {1=>"FELIZ",2=>"TRISTE",3=>"ENOJADO",4=>"SOLO BIEN"}
   end
@@ -15,6 +21,4 @@ class Wally < ApplicationRecord
   def self.EVASIVA
     4
   end
-  has_many :situation_sets
-  has_many :wsituations, :through => :situation_sets
-end
+  end

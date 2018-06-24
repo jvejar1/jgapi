@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get '/schools/:id/students', to:"schools#students"
 
   get '/audios/download/:id', to:"audios#download"
-  post '/evaluations', to:"evaluations#create"
+  post '/evaluations', to:"evaluations#create", as:'create_evaluation'
   get '/corsi/get_current_data', to:"corsis#get_current_data"
   get '/pictures/download/:id/:style', to:"pictures#download"
   get '/pictures/download/:id', to:"pictures#download"
@@ -21,7 +21,13 @@ Rails.application.routes.draw do
   get '/wally/get_all_of_current', to:"wallies#get_all_of_current"
 
 
-  get '/evaluations/get_aces_csv', to:"evaluations#get_aces_csv"
+  get '/evaluations', to:"evaluations#index", as: 'evaluations'
+
+  get '/evaluations/get_aces_csv', to:"evaluations#get_aces_csv", as: 'get_aces_csv'
+  get '/evaluations/get_wally_csv', to:"evaluations#get_wally_csv", as: 'get_wally_csv'
+  get '/evaluations/get_corsi_csv', to:"evaluations#get_corsi_csv", as: 'get_corsi_csv'
+  get '/evaluations/get_hnf_csv', to:"evaluations#get_hnf_csv", as: 'get_hnf_csv'
+
   resources :wsituations
   resources :wreaction_questions
   resources :wreactions
@@ -37,6 +43,6 @@ Rails.application.routes.draw do
   resources :acases
   resources :aces
 
-  root to:"home#index"
+  root to:"evaluations#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

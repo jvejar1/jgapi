@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ordered_score: 1
+  reversed_score: 1
+  total_score: 1
+  realized_at: 2018-06-23 16:33:59
+  student: one
+  user: one
+  corsi: one
+
+two:
+  ordered_score: 1
+  reversed_score: 1
+  total_score: 1
+  realized_at: 2018-06-23 16:33:59
+  student: two
+  user: two
+  corsi: two

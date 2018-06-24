@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180622031001) do
+ActiveRecord::Schema.define(version: 20180624071849) do
 
   create_table "acase_answers", force: :cascade do |t|
     t.integer "ace_evaluation_id"
@@ -18,8 +18,10 @@ ActiveRecord::Schema.define(version: 20180622031001) do
     t.integer "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "evaluation_id"
     t.index ["acase_id"], name: "index_acase_answers_on_acase_id"
     t.index ["ace_evaluation_id"], name: "index_acase_answers_on_ace_evaluation_id"
+    t.index ["evaluation_id"], name: "index_acase_answers_on_evaluation_id"
   end
 
   create_table "acase_correct_feelings", force: :cascade do |t|
@@ -101,6 +103,16 @@ ActiveRecord::Schema.define(version: 20180622031001) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "csequence_answers", force: :cascade do |t|
+    t.integer "csequence_id"
+    t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "evaluation_id"
+    t.index ["csequence_id"], name: "index_csequence_answers_on_csequence_id"
+    t.index ["evaluation_id"], name: "index_csequence_answers_on_evaluation_id"
+  end
+
   create_table "csequences", force: :cascade do |t|
     t.boolean "ordered"
     t.datetime "created_at", null: false
@@ -115,6 +127,27 @@ ActiveRecord::Schema.define(version: 20180622031001) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["csequence_id"], name: "index_csquares_on_csequence_id"
+  end
+
+  create_table "evaluations", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "student_id"
+    t.integer "wally_id"
+    t.integer "corsi_id"
+    t.integer "fonotest_id"
+    t.integer "hnfset_id"
+    t.datetime "realized_at"
+    t.integer "ace_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "total_score"
+    t.index ["ace_id"], name: "index_evaluations_on_ace_id"
+    t.index ["corsi_id"], name: "index_evaluations_on_corsi_id"
+    t.index ["fonotest_id"], name: "index_evaluations_on_fonotest_id"
+    t.index ["hnfset_id"], name: "index_evaluations_on_hnfset_id"
+    t.index ["student_id"], name: "index_evaluations_on_student_id"
+    t.index ["user_id"], name: "index_evaluations_on_user_id"
+    t.index ["wally_id"], name: "index_evaluations_on_wally_id"
   end
 
   create_table "fgroup_items", force: :cascade do |t|
@@ -146,6 +179,16 @@ ActiveRecord::Schema.define(version: 20180622031001) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "hnf_answers", force: :cascade do |t|
+    t.integer "evaluation_id"
+    t.integer "hnftest_id"
+    t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["evaluation_id"], name: "index_hnf_answers_on_evaluation_id"
+    t.index ["hnftest_id"], name: "index_hnf_answers_on_hnftest_id"
   end
 
   create_table "hnfset_hnftests", force: :cascade do |t|
@@ -287,6 +330,17 @@ ActiveRecord::Schema.define(version: 20180622031001) do
     t.datetime "updated_at", null: false
     t.index ["picture_id"], name: "index_wreactions_on_picture_id"
     t.index ["wsituation_id"], name: "index_wreactions_on_wsituation_id"
+  end
+
+  create_table "wsituation_answers", force: :cascade do |t|
+    t.integer "wfeeling_answer"
+    t.integer "wreaction_answer"
+    t.integer "wsituation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "evaluation_id"
+    t.index ["evaluation_id"], name: "index_wsituation_answers_on_evaluation_id"
+    t.index ["wsituation_id"], name: "index_wsituation_answers_on_wsituation_id"
   end
 
   create_table "wsituations", force: :cascade do |t|

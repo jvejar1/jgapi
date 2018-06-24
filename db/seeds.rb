@@ -293,7 +293,7 @@ evasiva_description=Hash(1=>"¿Ir a buscar otra cosa para jugar?",
                            4=>"¿Ir a jugar con otra persona?",
                            5=>"Dejar de dibujar y buscar otra cosa para hacer?",
                            6=>"¿Ignorar a Bruno?")
-for i in 1..5
+for i in 1..6
 
   ws_picture=Picture.create(image:File.open(File.join(Rails.root,"db","seeds","wally_seed","#{i}","situation.png")))
   ws= Wsituation.create(picture_id:ws_picture.id,description:situation_description[i])
@@ -320,7 +320,7 @@ for i in 1..5
   #   Wreaction.create(wsituation:ws,picture_id:wr_picture.id,wreaction:j,description:"description")
   #
   # end
-  SituationSet.create(wally_id:wally.id,wsituation_id:ws.id)
+  SituationSet.create(wally_id:wally.id,wsituation_id:ws.id,index:i)
 
 end
 
