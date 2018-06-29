@@ -87,7 +87,7 @@ class EvaluationsController < ApplicationController
       # the key csequence_id,score, TODO: change it in android to do it a unique hash whit a value that contains the time
       ordered_score=params[:ordered_score]
       reversed_score=params[:reversed_score]
-      evaluation=Evaluation.create(corsi_id:corsi.id,user_id:evaluator_id,student_id:student_id)
+      evaluation=Evaluation.create(corsi_id:corsi.id,user_id:evaluator_id,student_id:student_id,realized_at:realized_at)
       total_score=0
       responses.each do |response|
         csequence_id=response[:csequence_id]
