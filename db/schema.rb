@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180624071849) do
+ActiveRecord::Schema.define(version: 20180704055155) do
 
   create_table "acase_answers", force: :cascade do |t|
     t.integer "ace_evaluation_id"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20180624071849) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "evaluation_id"
+    t.integer "selected_feeling"
     t.index ["acase_id"], name: "index_acase_answers_on_acase_id"
     t.index ["ace_evaluation_id"], name: "index_acase_answers_on_ace_evaluation_id"
     t.index ["evaluation_id"], name: "index_acase_answers_on_evaluation_id"

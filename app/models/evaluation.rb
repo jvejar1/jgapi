@@ -9,4 +9,5 @@ class Evaluation < ApplicationRecord
   has_many :csequence_answers
   has_many :hnf_answers
   has_many :wsituation_answers
+  has_many :acase_answers
 end

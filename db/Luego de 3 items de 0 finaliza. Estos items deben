@@ -1,0 +1,24 @@
+Luego de 3 items de 0 finaliza. Estos items deben ser consecutivos para que finalice? se consideran los ejemplos? si hay uno de cero, luego un ejemplo, luego 0 y 0, que pasa?
+
+
+R: los puntajes del ejemplo se registran pero no se suman.
+
+R: si hace bien el ejemplo, se resetea el conteo de las malas. Si hace mal el ejemplo, luego se equivoca en uno, para
+
+
+Corsi: Debe permitir el avance erroneo en el ensayo (yo creo que si?
+
+Los audios los quieren para las competencias o solo para ensayo 
+
+R:poner tiempo a hnf y corsi
+
+Corsi: se para si tiene los 2 ejemplos malos (puntaje 0), o si en la prueba tiene 2 secuencias malas.
+Arreglo putuacion corsi: cada secuencia se evalua con 1 todo bien, 0 en otro caso,
+Se debe registrar la secuencia indicada por el alumno ("1-2-4-5")
+
+
+ACES: cambiar sexo de los sentimientos ("enojada para mujeres")
+manejo de distractores, se evaluan siempre con 0.
+
+
+HNF: revisar secuencias originales

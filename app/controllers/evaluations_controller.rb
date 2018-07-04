@@ -2,7 +2,6 @@ class EvaluationsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
   require 'csv'
 
-
   #TODO: check the last edition of test to ignore certain old results
   #TODO: respond to erase
 
@@ -38,13 +37,15 @@ class EvaluationsController < ApplicationController
         acase=Acase.find_by(id:response)
         correct_feelings=acase.acase_correct_feelings
         score=0
-        correct_feelings.each do |correct_feeling|
-          if correct_feeling.correct_feeling==responses[response]
-            score+=1
+        if(!acase.distractor?)
+          correct_feelings.each do |correct_feeling|
+            if correct_feeling.correct_feeling==responses[response]
+              score+=1
+            end
           end
         end
 
-        AcaseAnswer.create(acase_id:acase.id,evaluation_id:ace_evaluation.id,score:score)
+        AcaseAnswer.create(acase_id:acase.id,evaluation_id:ace_evaluation.id,score:score,selected_feeling:responses[response])
 
         total_score+=score
       end
@@ -87,7 +88,7 @@ class EvaluationsController < ApplicationController
       # the key csequence_id,score, TODO: change it in android to do it a unique hash whit a value that contains the time
       ordered_score=params[:ordered_score]
       reversed_score=params[:reversed_score]
-      evaluation=Evaluation.create(corsi_id:corsi.id,user_id:evaluator_id,student_id:student_id)
+      evaluation=Evaluation.create(corsi_id:corsi.id,user_id:evaluator_id,student_id:student_id,realized_at:realized_at)
       total_score=0
       responses.each do |response|
         csequence_id=response[:csequence_id]
@@ -100,11 +101,16 @@ class EvaluationsController < ApplicationController
 
     elsif test_name=="fonotest"
 
-
       scores=params[:scores].split(',')
 
-      puts scores
+      scores.each do |score|
+        puts scores.class
+        puts scores.respond_to?(:each_pair)
+        puts scores.respond_to?(:has_key?)
+        puts scores.respond_to?(:to_hash)
 
+      end
+      puts scores.kind_of?(Hash)
 
     elsif test_name=="hnf"
       old_evaluation=Evaluation.find_by(hnfset_id:test_id,realized_at:realized_at)
@@ -202,6 +208,7 @@ class EvaluationsController < ApplicationController
     column_index=1
     acases.each do |acase|
       headers<<"Aces "+column_index.to_s
+      headers<<"Respuesta Aces "+column_index.to_s
       column_index+=1
     end
     evaluations=current_ace.evaluations
@@ -222,6 +229,8 @@ class EvaluationsController < ApplicationController
           else
             row<<"N/A"
           end
+
+          row<<answer.selected_feeling
         end
         csv<<row
       end
@@ -316,7 +325,12 @@ class EvaluationsController < ApplicationController
         row<<eval.total_score
         csequences.each do |cseq|
           cseq_answer=cseq_answers.find_by(csequence_id:cseq.id)
-          row<<cseq_answer.score
+          if cseq_answer.nil?
+            row<<"N/A"
+          else
+            row<<cseq_answer.score
+
+          end
 
         end
         csv<<row
