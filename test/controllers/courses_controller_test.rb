@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SchoolLevelTest < ActiveSupport::TestCase
+class CoursesControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

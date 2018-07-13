@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180704055155) do
+ActiveRecord::Schema.define(version: 20180710065745) do
 
   create_table "acase_answers", force: :cascade do |t|
     t.integer "ace_evaluation_id"
@@ -93,8 +93,25 @@ ActiveRecord::Schema.define(version: 20180704055155) do
     t.integer "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "example"
     t.index ["corsi_id"], name: "index_corsi_csequences_on_corsi_id"
     t.index ["csequence_id"], name: "index_corsi_csequences_on_csequence_id"
+  end
+
+  create_table "corsi_evaluations", force: :cascade do |t|
+    t.integer "corsi_id"
+    t.integer "student_id"
+    t.integer "ordered_score"
+    t.integer "reversed_score"
+    t.integer "ordered_practice_tries"
+    t.integer "reversed_practice_tries"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "realized_at"
+    t.integer "user_id"
+    t.index ["corsi_id"], name: "index_corsi_evaluations_on_corsi_id"
+    t.index ["student_id"], name: "index_corsi_evaluations_on_student_id"
+    t.index ["user_id"], name: "index_corsi_evaluations_on_user_id"
   end
 
   create_table "corsis", force: :cascade do |t|
@@ -104,12 +121,25 @@ ActiveRecord::Schema.define(version: 20180704055155) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "courses", force: :cascade do |t|
+    t.string "level"
+    t.string "letter"
+    t.integer "school_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["school_id"], name: "index_courses_on_school_id"
+  end
+
   create_table "csequence_answers", force: :cascade do |t|
     t.integer "csequence_id"
     t.integer "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "evaluation_id"
+    t.float "time_in_seconds"
+    t.string "answer_string"
+    t.integer "corsi_evaluation_id"
+    t.index ["corsi_evaluation_id"], name: "index_csequence_answers_on_corsi_evaluation_id"
     t.index ["csequence_id"], name: "index_csequence_answers_on_csequence_id"
     t.index ["evaluation_id"], name: "index_csequence_answers_on_evaluation_id"
   end
@@ -119,6 +149,7 @@ ActiveRecord::Schema.define(version: 20180704055155) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "time_limit"
+    t.string "csequence"
   end
 
   create_table "csquares", force: :cascade do |t|
@@ -188,6 +219,11 @@ ActiveRecord::Schema.define(version: 20180704055155) do
     t.integer "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "time_in_seconds"
+    t.integer "corrects"
+    t.integer "omitted"
+    t.integer "total_errors"
+    t.integer "practice_tries"
     t.index ["evaluation_id"], name: "index_hnf_answers_on_evaluation_id"
     t.index ["hnftest_id"], name: "index_hnf_answers_on_hnftest_id"
   end
@@ -224,6 +260,17 @@ ActiveRecord::Schema.define(version: 20180704055155) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "item_answers", force: :cascade do |t|
+    t.integer "evaluation_id"
+    t.integer "item_id"
+    t.string "answer_string"
+    t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["evaluation_id"], name: "index_item_answers_on_evaluation_id"
+    t.index ["item_id"], name: "index_item_answers_on_item_id"
+  end
+
   create_table "items", force: :cascade do |t|
     t.integer "audio_id"
     t.string "description"
@@ -238,12 +285,6 @@ ActiveRecord::Schema.define(version: 20180704055155) do
     t.string "image_content_type"
     t.integer "image_file_size"
     t.datetime "image_updated_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "school_levels", force: :cascade do |t|
-    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -269,17 +310,6 @@ ActiveRecord::Schema.define(version: 20180704055155) do
     t.index ["wsituation_id"], name: "index_situation_sets_on_wsituation_id"
   end
 
-  create_table "student_schools", force: :cascade do |t|
-    t.integer "student_id"
-    t.integer "school_id"
-    t.integer "school_level_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["school_id"], name: "index_student_schools_on_school_id"
-    t.index ["school_level_id"], name: "index_student_schools_on_school_level_id"
-    t.index ["student_id"], name: "index_student_schools_on_student_id"
-  end
-
   create_table "students", force: :cascade do |t|
     t.string "name"
     t.string "last_name"
@@ -287,6 +317,8 @@ ActiveRecord::Schema.define(version: 20180704055155) do
     t.integer "age"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "course_id"
+    t.index ["course_id"], name: "index_students_on_course_id"
   end
 
   create_table "users", force: :cascade do |t|

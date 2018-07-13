@@ -7,6 +7,12 @@ class HnftestFigure < ApplicationRecord
   def self.RIGHT
     1
   end
+  def self.HEART
+    0
+  end
+  def self.FLOWER
+    1
+  end
 
   figure_by_id={0=>'heart',1=>'flower'}
 

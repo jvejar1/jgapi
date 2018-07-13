@@ -1,2 +1,0 @@
-class SchoolLevel < ApplicationRecord
-end

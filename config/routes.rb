@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   get '/schools/get_all', to:"schools#get_all"
   get '/schools/:id/students', to:"schools#students"
+  get '/schools_and_courses', to:"schools#schools_and_courses"
+  get '/courses/:id/students', to:"courses#show"
 
   get '/audios/download/:id', to:"audios#download"
   post '/evaluations', to:"evaluations#create", as:'create_evaluation'
@@ -27,6 +29,8 @@ Rails.application.routes.draw do
   get '/evaluations/get_wally_csv', to:"evaluations#get_wally_csv", as: 'get_wally_csv'
   get '/evaluations/get_corsi_csv', to:"evaluations#get_corsi_csv", as: 'get_corsi_csv'
   get '/evaluations/get_hnf_csv', to:"evaluations#get_hnf_csv", as: 'get_hnf_csv'
+
+  get '/evaluations/get_fonotest_csv', to:"evaluations#get_fonotest_csv", as: 'get_fonotest_csv'
 
   resources :wsituations
   resources :wreaction_questions

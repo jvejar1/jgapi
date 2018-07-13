@@ -132,8 +132,9 @@ class AcesController < ApplicationController
       set.each do |s|
 
         s_as_json=s.as_json
-        s_as_json[:squares]=s.csquares
         s_as_json[:index]=CorsiCsequence.find_by(corsi:corsi,csequence:s).index
+
+        s_as_json[:example]=CorsiCsequence.find_by(corsi:corsi,csequence:s).example
         set_list<<s_as_json
         puts "hola"
         puts CorsiCsequence.find_by(corsi:corsi,csequence:s).as_json

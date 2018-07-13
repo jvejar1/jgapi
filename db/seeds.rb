@@ -6,8 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-
-
 ##Fonotest
 items_descriptions=[["3..perro","perro seguido por 3"],
                     ["9..manzana","manzana seguido por 9"],
@@ -18,23 +16,23 @@ items_descriptions=[["3..perro","perro seguido por 3"],
                     ["8..suéter..5","suéter..8..5"],
                     ["sapo..2..cuchara","sapo..cuchara..2"],
                     ["7..fruta..casa","fruta..casa..7"],
-                    ["3..pan..1..leon",""],
-                    ["peine..5..jugo..9",""],
-                    ["8..caballo..media..2",""],
-                    ["4..naranja..1..oso..7",""],
-                    ["cinturón..3..6..mantequilla..8",""],
-                    ["9..conejo..5..4..vestido",""],
-                    ["vaca..1..pastel..3..camisa..6",""],
-                    ["7..mosca..sopa..2..9..guante",""],
-                    ["8..pantalón..3..rata..1..huevos",""],
-                    ["silla..4..7..ojos..azúcar..6..5",""],
-                    ["2..araña..9..cama..3..falda..1",""],
-                    ["dulce..5..8..cortina..puerta..6..botón",""],
-                    ["4..sal..lobo..7..estufa..2..9..bota",""],
-                    ["galleta..1..tortuga..5..mesa..6..manopla..3",""],
-                    ["zanahoria..8..reloj..4..9..maíz..pájaro..2",""]]
+                    ["3..pan..1..leon","pan..leon..3..1"],
+                    ["peine..5..jugo..9","peine..jugo..5..9"],
+                    ["8..caballo..media..2","caballo..media..8..2"],
+                    ["4..naranja..1..oso..7","naranja..oso..4..1"],
+                    ["cinturón..3..6..mantequilla..8","cinturón..mantequilla..3..6..8"],
+                    ["9..conejo..5..4..vestido","conejo..vestido..9..5..4"],
+                    ["vaca..1..pastel..3..camisa..6","vaca..pastel..camisa..1..3..6"],
+                    ["7..mosca..sopa..2..9..guante","mosca..sopa..guante..7..2..9"],
+                    ["8..pantalón..3..rata..1..huevos","pantalón..rata..huevos..8..3..1"],
+                    ["silla..4..7..ojos..azúcar..6..5","silla..ojos..azúcar..4..7..6..5"],
+                    ["2..araña..9..cama..3..falda..1","araña..cama..falda..2..9..3..1"],
+                    ["dulce..5..8..cortina..puerta..6..botón","dulce..cortina..puerta..botón..5..8..6"],
+                    ["4..sal..lobo..7..estufa..2..9..bota","sal..lobo..estufa..bota..4..7..2..9"],
+                    ["galleta..1..tortuga..5..mesa..6..manopla..3","galleta..tortuga..mesa..manopla..1..5..6..3"],
+                    ["zanahoria..8..reloj..4..9..maíz..pájaro..2","zanahoria..reloj..maíz..pájaro..8..4..9..2"]]
 fonotest=Fonotest.create(current:true,version:0.5)
-instruction="Diga: “Voy a decir el nombre de ciertas cosas, como animales o comidas, y algunos números. Una vez que los diga, debes decirme las palabras en el mismo orden en que yo las dije. Después, debes decirme los números en el mismo orden en que yo los dije. Vamos a comenzar con un número y una palabra. Repite primero la palabra, seguida del número” "
+instruction="“Voy a decir el nombre de ciertas cosas, como animales o comidas, y algunos números. Una vez que los diga, debes decirme las palabras en el mismo orden en que yo las dije. Después, debes decirme los números en el mismo orden en que yo los dije. Vamos a comenzar con un número y una palabra. Repite primero la palabra, seguida del número” "
 
 item=Item.create(description:"3..perro",correct_sequence:"perro seguido por 3",audio_id:nil)
 FonotestItem.create(fonotest_id:fonotest.id,item_id:item.id,instruction:instruction,example:true,name:"Ejemplo A",index:1)
@@ -42,15 +40,15 @@ current_index=1
 for i in 1..23
   audio=Audio.create(audio:File.open(File.join(Rails.root,"db","seeds","fonotest","#{i}.mp3")))
   item=Item.create(description:items_descriptions[i][0],correct_sequence:items_descriptions[i][1],audio:audio)
-  name="#{current_index}"
+  name="Item #{current_index}"
   instruction=""
   example=false
   if i==1
     example=true
     name="Ejemplo B"
-    instruction="Diga: “Voy a decir el nombre de ciertas cosas, como animales o comidas, y algunos números. Una vez que los diga, debes decirme las palabras en el mismo orden en que yo las dije. Después, debes decirme los números en el mismo orden en que yo los dije. Vamos a comenzar con un número y una palabra. Repite primero la palabra, seguida del número” "
+    instruction="“Ahora vas a escuchar las palabras y los números de la grabación. Recuerda que debes decir primero la palabra y luego el número” "
   elsif i==5
-    instruction="Diga: “Ahora vas a escuchar otras palabras y otros números. Siempre dime las palabras en el mismo orden, luego dime los números en el mismo orden. Si la tarea se te hace muy difícil, dime simplemente lo que puedas recordar”"
+    instruction="“Ahora vas a escuchar otras palabras y otros números. Siempre dime las palabras en el mismo orden, luego dime los números en el mismo orden. Si la tarea se te hace muy difícil, dime simplemente lo que puedas recordar”"
     example=true
     name="Ejemplo C"
   else
@@ -68,39 +66,32 @@ set=Hnfset.create(current:true,version:0.5)
 
 #Hearts and flowers
 hnf=Hnftest.create(hnf_type:0)
-HnftestFigure.create(hnftest:hnf,figure:0,index:1,position:0)
-HnftestFigure.create(hnftest:hnf,figure:1,index:2,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:3,position:0)
-HnftestFigure.create(hnftest:hnf,figure:1,index:4,position:1)
-HnftestFigure.create(hnftest:hnf,figure:1,index:5,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:6,position:0)
-HnftestFigure.create(hnftest:hnf,figure:1,index:7,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:8,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:9,position:1)
-HnftestFigure.create(hnftest:hnf,figure:1,index:10,position:0)
-HnftestFigure.create(hnftest:hnf,figure:1,index:11,position:0)
-HnftestFigure.create(hnftest:hnf,figure:0,index:12,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:13,position:1)
-HnftestFigure.create(hnftest:hnf,figure:1,index:14,position:0)
-HnftestFigure.create(hnftest:hnf,figure:1,index:15,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:16,position:1)
+heart_figure=HnftestFigure.HEART
+flower_figure=HnftestFigure.FLOWER
+right=HnftestFigure.RIGHT
+left=HnftestFigure.LEFT
+positions=[right,right,right,left,right,left,left,left,right,right,right,left,left,right,right,right,left,left,left,right,left,right,right,left,left,left,right,left,right,right,left,right,right]
+figures=[flower_figure,heart_figure,heart_figure,heart_figure,flower_figure,flower_figure,flower_figure,heart_figure,flower_figure,flower_figure,heart_figure,heart_figure,heart_figure,flower_figure,heart_figure,flower_figure,flower_figure, flower_figure,heart_figure,heart_figure,flower_figure,heart_figure, flower_figure,heart_figure,heart_figure,flower_figure,flower_figure,heart_figure,heart_figure,heart_figure,flower_figure,flower_figure,flower_figure]
+zipped=positions.zip(figures)
+index=1
+zipped.each do |position_figure|
+  position=position_figure[0]
+  figure=position_figure[1]
+  HnftestFigure.create(hnftest:hnf,figure:figure,index:index,position:position)
+  index+=1
+end
 
 set.hnftests<<hnf
 #Hearts
 
 hnf=Hnftest.create(hnf_type:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:1,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:2,position:0)
-HnftestFigure.create(hnftest:hnf,figure:0,index:3,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:4,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:5,position:0)
-HnftestFigure.create(hnftest:hnf,figure:0,index:6,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:7,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:8,position:0)
-HnftestFigure.create(hnftest:hnf,figure:0,index:9,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:10,position:1)
-HnftestFigure.create(hnftest:hnf,figure:0,index:11,position:0)
-HnftestFigure.create(hnftest:hnf,figure:0,index:12,position:1)
+positions=[right,left,left,right,right,left,right,right,left,left,left,right]
+index=1
+positions.each do |position|
+
+  HnftestFigure.create(hnftest:hnf,figure:heart_figure,index:index,position:position)
+  index+=1
+end
 
 set.hnftests<<hnf
 
@@ -108,40 +99,66 @@ set.hnftests<<hnf
 #Flowers
 
 hnf=Hnftest.create(hnf_type:2)
-HnftestFigure.create(hnftest:hnf,figure:1,index:1,position:1)
-HnftestFigure.create(hnftest:hnf,figure:1,index:2,position:0)
-HnftestFigure.create(hnftest:hnf,figure:1,index:3,position:1)
-HnftestFigure.create(hnftest:hnf,figure:1,index:4,position:1)
-HnftestFigure.create(hnftest:hnf,figure:1,index:5,position:0)
-HnftestFigure.create(hnftest:hnf,figure:1,index:6,position:1)
-HnftestFigure.create(hnftest:hnf,figure:1,index:7,position:1)
-HnftestFigure.create(hnftest:hnf,figure:1,index:8,position:0)
-HnftestFigure.create(hnftest:hnf,figure:1,index:9,position:1)
-HnftestFigure.create(hnftest:hnf,figure:1,index:10,position:1)
-HnftestFigure.create(hnftest:hnf,figure:1,index:11,position:0)
-HnftestFigure.create(hnftest:hnf,figure:1,index:12,position:1)
+positions=[right,left,left,right,right,left,right,right,left,left,right,left]
+index=1
+positions.each do |position|
+  HnftestFigure.create(hnftest:hnf,figure:flower_figure,index:index,position:position)
+
+  index+=1
+end
 
 set.hnftests<<hnf
 
 #Corsi
 corsi=Corsi.create(version:1,current:true)
-seqs_ord=[[2,7,6],[5,4,3],[8,7,2,1],[9,1,4,3],
-[1,10,2,8,5],[10,3,7,5,4],[8,2,7,6,5,9],[7,4,1,3,6,10],[9,2,1,8,5,10,3]]
+
+#create the examples for the ordered test
+ex_1=Csequence.create(ordered:true,csequence:"6-9")
+ex_2=Csequence.create(ordered:true,csequence:"3-8")
+CorsiCsequence.create(corsi:corsi,csequence:ex_1,index:1,example:true)
+CorsiCsequence.create(corsi:corsi,csequence:ex_2,index:2,example:true)
 
 
-seqs_ord.each do |seq|
+##create the exapmples for the reversed test
+ex_1=Csequence.create(ordered:false,csequence:"3-8")
+ex_2=Csequence.create(ordered:false,csequence:"6-9")
+CorsiCsequence.create(corsi:corsi,csequence:ex_1,index:1,example:true)
+CorsiCsequence.create(corsi:corsi,csequence:ex_2,index:2,example:true)
 
-  cseq=Csequence.create(ordered:true)
 
-  cseq_rev=Csequence.create(ordered:false)
-  seq.each do |number|
-    Csquare.create(square:number,index:seq.index(number)+1,csequence:cseq)
+#create the sequences for both tests
+seqs_ord=[[2,7,6],
+          [5,4,3],
+          [8,7,2,1],
+          [9,1,4,3],
+          [1,10,2,8,5],
+          [10,3,7,5,4],
+          [8,2,7,6,5,9],
+          [7,4,1,3,6,10],
+          [9,2,1,8,5,10,3],
+          [4,1,6,5,4,9,2]]
 
-    Csquare.create(square:number,index:seq.index(number)+1,csequence:cseq_rev)
-  end
-  CorsiCsequence.create(corsi:corsi,csequence:cseq,index:seqs_ord.index(seq)+1)
+seqs_rev=[[5,4,3],
+          [2,7,6],
+          [9,1,4,3],
+          [8,7,2,1],
+          [10,3,7,5,4],
+          [1,10,2,8,5],
+          [7,4,1,3,6,10],
+          [8,2,7,6,5,9],
+          [4,1,6,5,4,9,2],
+          [9,2,1,8,5,10,3]]
 
-  CorsiCsequence.create(corsi:corsi,csequence:cseq_rev,index:seqs_ord.index(seq)+1)
+
+for i in 0..8
+
+  cseq=Csequence.create(ordered:true,csequence:seqs_ord[i].join('-'))
+
+  cseq_rev=Csequence.create(ordered:false,csequence:seqs_rev[i].join('-'))
+
+  CorsiCsequence.create(corsi:corsi,csequence:cseq,index:i+3,example:false)
+
+  CorsiCsequence.create(corsi:corsi,csequence:cseq_rev,index:i+3,example:false)
 
 end
 
@@ -204,17 +221,19 @@ for i in 1..26
     picture=Picture.create(image:File.open(File.join(Rails.root,"db","seeds","acases","images","original","#{i}.png")))
   end
   description="se siente...?"
+  sex="F"
   if(male.include?i)
+    sex="M"
     description="¿Él "+description
   else
     description="¿Ella "+description
   end
   distractor=false
   if distractors.include?i
-    distractor=false
+    distractor=true
   end
 
-  acase=Acase.create(description:description,distractor:distractor,picture:picture)
+  acase=Acase.create(description:description,distractor:distractor,picture:picture,sex:sex)
 
 
   if angry.include?i
@@ -225,7 +244,6 @@ for i in 1..26
   end
   if happy.include?i
     AcaseCorrectFeeling.create(acase:acase,correct_feeling:Ace.HAPPY)
-
   end
   if sad.include?i
     AcaseCorrectFeeling.create(acase:acase,correct_feeling:Ace.SAD)
@@ -261,9 +279,9 @@ situation_name=Hash(1=>"Bloques",
                     6=>"Muñeco/a de siesta")
 
 situation_description=Hash(1=>"María/Juan estaba construyendo una torre muy alta con bloques. Bruno lo derribó.",
-                           2=>"María/Juan se está divirtiendo jugando en la caja de arena cuando Bruno le pega.",
+                           2=>"María/Juan se está divirtiendo jugando en el patio cuando Bruno le pega.",
                            3=>"María/Juan estaba pegándole a una pelota de fútbol. Llegó Bruno y le quitó la pelota.",
-                           4=>"María/Juan le pidió a Bruno que jugara con él/ella. Pero Bruno dijo que no quería jugar con María/Juan. Él va a jugar con Tomás.",
+                           4=>"María/Juan le pidió a Bruno que jugara con él/ella. Pero Bruno dijo que no quería jugar con María/Juan. Él/Ella va a jugar con Tomás.",
                            5=>"María/Juan hizo un dibujo de un perro. Bruno lo miró y dijo: “No parece un perro. ¡Parece un monstruo feo!”, y comenzó a reírse.",
                            6=>"María/Juan trajo un/a muñeco/a a la escuela para la hora de la siesta. Bruno le dijo: “¡Eres una guagua!”")
 
@@ -327,21 +345,38 @@ end
 require 'csv'
 csvprocessor=CSVProcessor.new()
 #Schools
-transicion_menor=SchoolLevel.create(name:"Transicion Menor")
 c2=Commune.create(name:"Puente Alto")
 jardin_ernesto_pinto=School.create(name:"Jardin Infantil Ernesto Pinto Lagarrigue",commune_id:c2.id)
+transicion_menor=Course.create(level:"PRE-KINDER",letter:"C",school:jardin_ernesto_pinto)
+
 #process_the students
 
 csv=CSV.read(File.join(Rails.root,"db","seeds","ernesto_pinto.csv"),headers:true)
-student_inserter=StudentInserter.new(jardin_ernesto_pinto.id,transicion_menor.id)
+student_inserter=StudentInserter.new(transicion_menor.id)
 csvprocessor.process(csv,student_inserter,student_inserter.required_fields)
 
 c1=Commune.create(name:"Lo Barnechea")
 inst_estados_americanos=School.create(name:"Instituto Estados Americanos",commune_id:c1.id)
-csv=CSV.read(File.join(Rails.root,"db","seeds","trebol.csv"),headers:true)
-student_inserter=StudentInserter.new(inst_estados_americanos.id,transicion_menor.id)
-csvprocessor.process(csv,student_inserter,student_inserter.required_fields)
+csv_k_a=CSV.read(File.join(Rails.root,"db","seeds","trebol_kinder_a.csv"),headers:true)
+csv_k_b=CSV.read(File.join(Rails.root,"db","seeds","trebol_kinder_b.csv"),headers:true)
+csv_k_c=CSV.read(File.join(Rails.root,"db","seeds","trebol_kinder_c.csv"),headers:true)
 
+transicion_menor_k_a=Course.create(level:"KINDER",letter:"A",school:inst_estados_americanos)
+
+
+transicion_menor_k_b=Course.create(level:"KINDER",letter:"B",school:inst_estados_americanos)
+
+transicion_menor_k_c=Course.create(level:"KINDER",letter:"C",school:inst_estados_americanos)
+
+student_inserter=StudentInserter.new(transicion_menor_k_a.id)
+csvprocessor.process(csv_k_a,student_inserter,student_inserter.required_fields)
+
+
+student_inserter=StudentInserter.new(transicion_menor_k_b.id)
+csvprocessor.process(csv_k_b,student_inserter,student_inserter.required_fields)
+
+student_inserter=StudentInserter.new(transicion_menor_k_c.id)
+csvprocessor.process(csv_k_c,student_inserter,student_inserter.required_fields)
 
 
 
