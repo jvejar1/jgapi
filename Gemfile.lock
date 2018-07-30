@@ -227,8 +227,8 @@ PLATFORMS
 DEPENDENCIES
   byebug
   capistrano (~> 3.7, >= 3.7.1)
-  capistrano-passenger (~> 0.2.0)
-  capistrano-rails (~> 1.2)
+  capistrano-passenger
+  capistrano-rails
   capistrano-rbenv (~> 2.1)
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
