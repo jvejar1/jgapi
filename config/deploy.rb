@@ -1,5 +1,5 @@
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.11.1"
+lock "~> 3.11.0"
 require "bundler/capistrano"
 set :application, "jgapi"
 set :repo_url, "https://github.com/jvejar1/jgapi.git"
