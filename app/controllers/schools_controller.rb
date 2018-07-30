@@ -7,8 +7,31 @@ class SchoolsController < ApplicationController
   def students #by school_id
     school=School.find(params[:id])
     @students=school.students
-    render :json =>{id:school.id,students:@students}
+
+    courses_by_id=school.courses.index_by(&:id)
+    puts courses_by_id
+    formatted_students=[]
+    @students.each do |student|
+
+      course=courses_by_id[student.course_id]
+      student_json=student.as_json
+      puts student.course_id
+      student_json[:course_level]=course[:level]
+      student_json[:course_letter]=course[:letter]
+      student_json[:server_id]=student.id
+      student_json[:school_name]=school.name
+      student_json.delete("id")
+      student_json.delete("course_id")
+      student_json.delete("created_at")
+      student_json.delete("updated_at")
+
+      formatted_students<<student_json
+
+    end
+
+    render :json =>{id:school.id,name:school.name,formatted_students:formatted_students,students:formatted_students,courses_by_id:courses_by_id}
   end
+
   def schools_and_courses
     schools=School.all
     @courses=[]

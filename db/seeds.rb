@@ -65,7 +65,7 @@ end
 set=Hnfset.create(current:true,version:0.5)
 
 #Hearts and flowers
-hnf=Hnftest.create(hnf_type:0)
+hnf=Hnftest.create(hnf_type:Hnftest.HEARTS_AND_FLOWERS_TEST_TYPE)
 heart_figure=HnftestFigure.HEART
 flower_figure=HnftestFigure.FLOWER
 right=HnftestFigure.RIGHT
@@ -84,7 +84,7 @@ end
 set.hnftests<<hnf
 #Hearts
 
-hnf=Hnftest.create(hnf_type:1)
+hnf=Hnftest.create(hnf_type:Hnftest.HEARTS_TEST_TYPE)
 positions=[right,left,left,right,right,left,right,right,left,left,left,right]
 index=1
 positions.each do |position|
@@ -98,7 +98,7 @@ set.hnftests<<hnf
 
 #Flowers
 
-hnf=Hnftest.create(hnf_type:2)
+hnf=Hnftest.create(hnf_type:Hnftest.FLOWERS_TEST_TYPE)
 positions=[right,left,left,right,right,left,right,right,left,left,right,left]
 index=1
 positions.each do |position|
@@ -228,29 +228,38 @@ for i in 1..26
   else
     description="¿Ella "+description
   end
+
   distractor=false
-  if distractors.include?i
-    distractor=true
-  end
+  acase=Acase.create(description:description,picture:picture,sex:sex,distractor:distractor)
 
-  acase=Acase.create(description:description,distractor:distractor,picture:picture,sex:sex)
-
-
-  if angry.include?i
-    AcaseCorrectFeeling.create(acase:acase,correct_feeling:Ace.ANGRY)
-  end
-  if scared.include?i
-    AcaseCorrectFeeling.create(acase:acase,correct_feeling:Ace.SCARED)
-  end
-  if happy.include?i
-    AcaseCorrectFeeling.create(acase:acase,correct_feeling:Ace.HAPPY)
-  end
-  if sad.include?i
-    AcaseCorrectFeeling.create(acase:acase,correct_feeling:Ace.SAD)
-
-  end
   AceAcase.create(ace:ace,acase:acase,index:i)
 
+  correct_feeling=nil
+
+  if distractors.include?i
+    distractor=true
+    acase.update(distractor:distractor,correct_feeling:correct_feeling)
+    next
+  end
+
+  if angry.include?i
+    correct_feeling=Ace.ANGRY
+  end
+  if scared.include?i
+
+    correct_feeling=Ace.SCARED
+
+  end
+  if happy.include?i
+    correct_feeling=Ace.HAPPY
+
+  end
+  if sad.include?i
+    correct_feeling=Ace.SAD
+
+  end
+
+  acase.update(correct_feeling:correct_feeling)
 end
 
 
@@ -314,7 +323,7 @@ evasiva_description=Hash(1=>"¿Ir a buscar otra cosa para jugar?",
 for i in 1..6
 
   ws_picture=Picture.create(image:File.open(File.join(Rails.root,"db","seeds","wally_seed","#{i}","situation.png")))
-  ws= Wsituation.create(picture_id:ws_picture.id,description:situation_description[i])
+  ws= Wsituation.create(picture_id:ws_picture.id,description:situation_description[i],name:situation_name[i])
 
   #open prosocial
   wr_picture=Picture.create(image:File.open(File.join(Rails.root,"db","seeds","wally_seed","#{i}","prosocial.png")))
@@ -347,7 +356,7 @@ csvprocessor=CSVProcessor.new()
 #Schools
 c2=Commune.create(name:"Puente Alto")
 jardin_ernesto_pinto=School.create(name:"Jardin Infantil Ernesto Pinto Lagarrigue",commune_id:c2.id)
-transicion_menor=Course.create(level:"PRE-KINDER",letter:"C",school:jardin_ernesto_pinto)
+transicion_menor=Course.create(level:1,letter:3,school:jardin_ernesto_pinto)
 
 #process_the students
 
@@ -361,16 +370,15 @@ csv_k_a=CSV.read(File.join(Rails.root,"db","seeds","trebol_kinder_a.csv"),header
 csv_k_b=CSV.read(File.join(Rails.root,"db","seeds","trebol_kinder_b.csv"),headers:true)
 csv_k_c=CSV.read(File.join(Rails.root,"db","seeds","trebol_kinder_c.csv"),headers:true)
 
-transicion_menor_k_a=Course.create(level:"KINDER",letter:"A",school:inst_estados_americanos)
+transicion_menor_k_a=Course.create(level:2,letter:1,school:inst_estados_americanos)
 
 
-transicion_menor_k_b=Course.create(level:"KINDER",letter:"B",school:inst_estados_americanos)
+transicion_menor_k_b=Course.create(level:2,letter:2,school:inst_estados_americanos)
 
-transicion_menor_k_c=Course.create(level:"KINDER",letter:"C",school:inst_estados_americanos)
+transicion_menor_k_c=Course.create(level:2,letter:3,school:inst_estados_americanos)
 
 student_inserter=StudentInserter.new(transicion_menor_k_a.id)
 csvprocessor.process(csv_k_a,student_inserter,student_inserter.required_fields)
-
 
 student_inserter=StudentInserter.new(transicion_menor_k_b.id)
 csvprocessor.process(csv_k_b,student_inserter,student_inserter.required_fields)

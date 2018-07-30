@@ -6,8 +6,7 @@ class EvaluationsController < ApplicationController
   #TODO: respond to erase
 
   def index
-    @evaluations=Evaluation.all
-
+    @evaluations_count=Evaluation.count+CorsiEvaluation.count
   end
 
   def create
@@ -24,7 +23,6 @@ class EvaluationsController < ApplicationController
     if ["aces","ace"].include?test_name
       ace=Ace.find(test_id)
       #ace_evaluation=AceEvaluation.create(user_id:evaluator_id,student_id:student_id,score:0)
-      total_score=0
 
       old_eval=Evaluation.find_by(ace_id:ace.id,student_id:student_id,realized_at:realized_at)
       if !old_eval.nil?
@@ -32,26 +30,30 @@ class EvaluationsController < ApplicationController
         return
       end
 
+      total_score=0
+
       ace_evaluation=Evaluation.create(ace:ace,student_id:student_id,user_id:evaluator_id,realized_at:realized_at)
       if ace_evaluation.errors.any?
         puts ace_evaluation.errors.as_json
       end
+
+
       responses.each do |response|
         acase=Acase.find_by(id:response)
-        correct_feelings=acase.acase_correct_feelings
+
         score=0
-        if(!acase.distractor?)
-          correct_feelings.each do |correct_feeling|
-            if correct_feeling.correct_feeling==responses[response]
-              score+=1
-            end
-          end
+
+        puts acase.correct_feeling,responses[response]
+        if acase.correct_feeling==responses[response]
+          score=1
         end
 
         acase_answer=AcaseAnswer.create(acase_id:acase.id,evaluation_id:ace_evaluation.id,score:score,selected_feeling:responses[response])
+
         if acase_answer.errors.any?
           puts acase_answer.errors.as_json
         end
+
         total_score+=score
       end
       ace_evaluation.update(total_score:total_score)
@@ -68,9 +70,12 @@ class EvaluationsController < ApplicationController
 
       wally_evaluation=Evaluation.create(student_id:student_id,user_id:evaluator_id,realized_at:realized_at,wally_id:wally.id)
       responses.each do |response|
-        wsituation_id=response[:wsituation_id]
-        wreaction=response[:wreaction]
-        wfeeling=response[:wfeeling]
+
+        wsituation_id=response
+
+        douple_hash=responses[response]
+        wreaction=douple_hash[:wreaction]
+        wfeeling=douple_hash[:wfeeling]
         wsituation=Wsituation.find_by(id:wsituation_id)
         WsituationAnswer.create(evaluation_id:wally_evaluation.id,wfeeling_answer:wfeeling,wreaction_answer:wreaction,wsituation_id:wsituation.id)
 
@@ -106,13 +111,11 @@ class EvaluationsController < ApplicationController
 
         join_record_corsi_cseq=CorsiCsequence.find_by(corsi_id:corsi.id,csequence_id:csequence_id)
 
-        if(join_record_corsi_cseq.example)
-          score=0
+        if(!join_record_corsi_cseq.example)
+          total_score+=score
         end
 
         CsequenceAnswer.create(csequence_id:csequence_id,score:score,time_in_seconds:answer_time,corsi_evaluation_id:evaluation.id,answer_string:answer_string)
-
-        total_score+=score
       end
 
     elsif test_name=="fonotest"
@@ -133,6 +136,8 @@ class EvaluationsController < ApplicationController
       total_score=0
       test_items.each do |test_item|
 
+        join_fonotest_item=test.fonotest_items.find_by(item_id:test_item)
+
         item_score=scores[test_item.id.to_s]
         item_answer_string=responses[test_item.id.to_s]
 
@@ -140,9 +145,13 @@ class EvaluationsController < ApplicationController
           next
         end
 
-        total_score+=item_score
+        if(!join_fonotest_item.example)
+          total_score+=item_score
+        end
         ItemAnswer.create(item_id:test_item.id,evaluation_id:eval.id,score:item_score,answer_string:item_answer_string)
       end
+      eval.update(total_score:total_score)
+
 
     elsif test_name=="hnf"
       old_evaluation=Evaluation.find_by(hnfset_id:test_id,realized_at:realized_at)
@@ -167,7 +176,7 @@ class EvaluationsController < ApplicationController
 
       end
 
-      Evaluation.update(total_score:total_score)
+      hnf_evaluation.update(total_score:total_score)
     end
 
 
@@ -187,17 +196,28 @@ class EvaluationsController < ApplicationController
     evaluations=hnfset.evaluations
     headers=["Rut","Nombres","Puntaje total"]
 
-
-    puts "hola"
     hnftests=hnfset.hnftests
+    row=[]
+    second_row=[]
+    total_max_score=0
     hnftests.each do |test|
+      test_name=Hnftest.TEST_NAME_BY_NUMBER[test.hnf_type]
       headers<<"Puntaje "+Hnftest.TEST_NAME_BY_NUMBER[test.hnf_type]
       headers<<"Tiempo en segundos "+ Hnftest.TEST_NAME_BY_NUMBER[test.hnf_type]
+      row<<"Puntaje Maximo "+test_name
+      max_score=test.hnftest_figures.count()
+      second_row<<max_score
+      total_max_score+=max_score
     end
-    puts headers
+    row<<"Puntaje Maximo Total"
+    second_row<<total_max_score
 
     csv_string=CSV.generate do |csv|
 
+      csv<<row
+      csv<<second_row
+
+      csv<<[]
       csv<<headers
 
 
@@ -211,8 +231,8 @@ class EvaluationsController < ApplicationController
         hnf_answers=eval.hnf_answers
         hnftests.each do |hnftest|
           hnf_answer=hnf_answers.find_by(hnftest_id:hnftest.id)
+          puts hnf_answer.as_json
           row<<hnf_answer.score
-
           row<<hnf_answer.time_in_seconds
         end
         csv<<row
@@ -236,6 +256,16 @@ class EvaluationsController < ApplicationController
     end
     evaluations=current_ace.evaluations
     csv_string = CSV.generate do |csv|
+
+      #generate the info table
+
+      max_score=acases.where(distractor:false).count
+      puts max_score.as_json
+      row=["Puntaje maximo",max_score]
+      csv<<row
+      csv<<[]
+
+
       csv << headers
       evaluations.each do |evaluation|
         #get and puts student info
@@ -243,13 +273,14 @@ class EvaluationsController < ApplicationController
         student=evaluation.student
         row<<student.rut
         row<<student.last_name+" "+student.name
-        row<<evaluation.total_score
+        total_score=0
 
         acases.each do |acase|
           answer=AcaseAnswer.find_by(acase:acase,evaluation:evaluation)
           if !answer.nil?
             row<<answer.score
 
+            total_score+=answer.score
             row<<answer.selected_feeling
           else
             row<<"N/A"
@@ -257,6 +288,7 @@ class EvaluationsController < ApplicationController
           end
 
         end
+        row.insert(2,total_score)
         csv<<row
       end
       # ...
@@ -303,7 +335,6 @@ class EvaluationsController < ApplicationController
         end
 
 
-        row<<wally_evaluation.realized_at
       csv<<row
       end
     end
@@ -322,7 +353,9 @@ class EvaluationsController < ApplicationController
     headers=["Rut","Nombres","Puntaje total"," Ensayos Ordenado","   Ensayos Contrario"]
 
     #define the header for each cseq
-
+    info_first_row=["Puntaje Maximo"]
+    info_second_row=[]
+    max_score=0
     counter=1
     csequences.each do |cseq|
 
@@ -330,9 +363,9 @@ class EvaluationsController < ApplicationController
       if(join_corsi_cseq_record.example)
         header="Ejemplo Corsi "+join_corsi_cseq_record.index.to_s
       else
+        max_score+=1
         header="Corsi "+counter.to_s
         counter+=1
-
       end
       if cseq.ordered?
         header+=" (Ordenado)"
@@ -340,11 +373,19 @@ class EvaluationsController < ApplicationController
 
         header+=" (Contrario)"
       end
+
+      info_first_row<<header
+      info_second_row<<join_corsi_cseq_record.csequence.csequence
       headers<<header
       headers<<"Respuesta"
     end
+    info_second_row.insert(0,max_score)
 
     csv_string=CSV.generate do |csv|
+      csv<<info_first_row
+      csv<<info_second_row
+      csv<<[]
+
       csv<<headers
 
       corsi_evaluations.each do |eval|
@@ -388,7 +429,7 @@ class EvaluationsController < ApplicationController
     fonotest=Fonotest.find_by(current:true)
     fonotest_item_joins=fonotest.fonotest_items
     evaluations=fonotest.evaluations
-    headers=["Rut","Nombre"]
+    headers=["Rut","Nombre","Puntaje Total"]
     fonotest_item_joins.each do |fonotest_item_join|
       header_name=fonotest_item_join.name
       headers<<header_name+" Puntaje"
@@ -398,12 +439,24 @@ class EvaluationsController < ApplicationController
 
 
     csv_string=CSV.generate do |csv|
+      #generate the info table
+      row=["Puntaje máximo"]
+      max_score=fonotest_item_joins.where(example:false).count*2
+      second_row=[max_score]
+      fonotest_item_joins.each do |fonotest_item_join|
+        row<<fonotest_item_join.name
+        second_row<<fonotest_item_join.item.description
+      end
+      csv<<row
+      csv<<second_row
+      csv<<[]
       csv<<headers
       evaluations.each do |eval|
         row=[]
         student=eval.student
         row<<student.rut
         row<<student.last_name+" "+student.name
+        row<<eval.total_score
         fonotest_item_joins.each do |fonotest_item_join|
           item_answer=ItemAnswer.find_by(item_id:fonotest_item_join.item_id,evaluation_id:eval.id)
           if(item_answer.nil?)
