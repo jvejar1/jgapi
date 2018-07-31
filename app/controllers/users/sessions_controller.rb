@@ -2,7 +2,7 @@
 
 class Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
-  skip_before_action :verify_authenticity_token, :only => :create
+  skip_before_action :verify_authenticity_token
   # GET /resource/sign_in
   # def new
   #   super
@@ -10,7 +10,26 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
    def create
-     super
+     puts "hola"
+
+     respond_to do |format|
+       format.html {super}
+       format.json {
+
+         user_email=params[:user_email]
+         password=params[:password]
+         user=User.find_by_email(user_email)
+         if(!user)
+           render :json => {},status: :unauthorized
+         elsif user.valid_password?(password)
+           render :json =>{token:user.auth_token}, status: :ok
+         else
+           render :json =>{}, status: :unauthorized
+         end
+          }
+
+     end
+
     end
 
   # DELETE /resource/sign_out
