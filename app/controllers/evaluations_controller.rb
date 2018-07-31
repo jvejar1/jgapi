@@ -1,6 +1,6 @@
 class EvaluationsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
- # before_action :authenticate_token, only: :create
+  before_action :authenticate_token, only: :create
   require 'csv'
 
   #TODO: check the last edition of test to ignore certain old results
@@ -12,7 +12,6 @@ class EvaluationsController < ApplicationController
 
   def create
 
-    render json:{request_id_to_delete:params[:request_id_to_delete],headers:{:status=>200}},:status=>:ok
 
     test_name=params[:test_name]
     responses=params[:responses]
@@ -180,6 +179,7 @@ class EvaluationsController < ApplicationController
       hnf_evaluation.update(total_score:total_score)
     end
 
+    render json:{request_id_to_delete:params[:request_id_to_delete],headers:{:status=>200}},:status=>:ok
 
     def respond_with_success_to_erase(request_id_to_erase)
       render json:{request_id_to_delete:request_id_to_erase,headers:{:status=>201}},:status=>:accepted

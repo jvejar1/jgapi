@@ -10,19 +10,18 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
    def create
-     puts "hola"
-
+     sleep(1)
      respond_to do |format|
        format.html {super}
        format.json {
 
-         user_email=params[:user_email]
+         user_email=params[:email]
          password=params[:password]
          user=User.find_by_email(user_email)
          if(!user)
            render :json => {},status: :unauthorized
          elsif user.valid_password?(password)
-           render :json =>{token:user.auth_token}, status: :ok
+           render :json =>{Authorization:user.auth_token}, status: :ok
          else
            render :json =>{}, status: :unauthorized
          end
