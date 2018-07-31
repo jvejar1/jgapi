@@ -1,5 +1,6 @@
 class EvaluationsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
+ # before_action :authenticate_token, only: :create
   require 'csv'
 
   #TODO: check the last edition of test to ignore certain old results
