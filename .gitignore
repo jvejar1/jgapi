@@ -25,3 +25,4 @@
 /public/system
 /public/assets
 /vendor/bundle
+config/database.yml\nconfig/secrets.yml
