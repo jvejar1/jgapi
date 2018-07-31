@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  student: one
+  wally: one
+  corsi: one
+  fonotest: one
+  hnfset: one
+  realized_at: 2018-06-23 18:13:22
+  ace: one
+
+two:
+  user: two
+  student: two
+  wally: two
+  corsi: two
+  fonotest: two
+  hnfset: two
+  realized_at: 2018-06-23 18:13:22
+  ace: two

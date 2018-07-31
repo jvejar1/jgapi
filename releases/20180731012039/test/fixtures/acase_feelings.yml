@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  acase: one
+  feeling: one
+  correct: false
+
+two:
+  acase: two
+  feeling: two
+  correct: false

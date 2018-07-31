@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Version:</strong>
+  <%= @corsi.version %>
+</p>
+
+<p>
+  <strong>Current:</strong>
+  <%= @corsi.current %>
+</p>
+
+<%= link_to 'Edit', edit_corsi_path(@corsi) %> |
+<%= link_to 'Back', corsis_path %>

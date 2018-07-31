@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item: one
+  fgroup: one
+  index: 1
+
+two:
+  item: two
+  fgroup: two
+  index: 1

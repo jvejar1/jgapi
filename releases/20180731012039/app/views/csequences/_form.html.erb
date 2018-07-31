@@ -1,0 +1,22 @@
+<%= form_with(model: csequence, local: true) do |form| %>
+  <% if csequence.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(csequence.errors.count, "error") %> prohibited this csequence from being saved:</h2>
+
+      <ul>
+      <% csequence.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :sequence %>
+    <%= form.text_area :sequence, id: :csequence_sequence %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

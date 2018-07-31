@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fonotest: one
+  item: one
+  name: MyString
+  example: false
+  index: 1
+
+two:
+  fonotest: two
+  item: two
+  name: MyString
+  example: false
+  index: 1

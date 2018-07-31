@@ -1,0 +1,15 @@
+current directory: /home/deploy/jgapi/shared/bundle/ruby/2.5.0/gems/websocket-driver-0.6.5/ext/websocket-driver
+/home/deploy/.rbenv/versions/2.5.1/bin/ruby -r ./siteconf20180731-15855-f7j720.rb extconf.rb
+creating Makefile
+
+current directory: /home/deploy/jgapi/shared/bundle/ruby/2.5.0/gems/websocket-driver-0.6.5/ext/websocket-driver
+make "DESTDIR=" clean
+
+current directory: /home/deploy/jgapi/shared/bundle/ruby/2.5.0/gems/websocket-driver-0.6.5/ext/websocket-driver
+make "DESTDIR="
+compiling websocket_mask.c
+linking shared-object websocket_mask.so
+
+current directory: /home/deploy/jgapi/shared/bundle/ruby/2.5.0/gems/websocket-driver-0.6.5/ext/websocket-driver
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 websocket_mask.so ./.gem.20180731-15855-ewlmce

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  corsi: one
+  student: one
+  ordered_score: 1
+  reversed_score: 1
+  ordered_practice_tries: 1
+  reversed_practice_tries: 1
+
+two:
+  corsi: two
+  student: two
+  ordered_score: 1
+  reversed_score: 1
+  ordered_practice_tries: 1
+  reversed_practice_tries: 1

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ace: one
+  acase: one
+  index: 1
+
+two:
+  ace: two
+  acase: two
+  index: 1

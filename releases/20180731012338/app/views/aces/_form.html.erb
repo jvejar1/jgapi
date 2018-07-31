@@ -1,0 +1,27 @@
+<%= form_with(model: ace, local: true) do |form| %>
+  <% if ace.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ace.errors.count, "error") %> prohibited this ace from being saved:</h2>
+
+      <ul>
+      <% ace.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :version %>
+    <%= form.number_field :version, id: :ace_version %>
+  </div>
+
+  <div class="field">
+    <%= form.label :current %>
+    <%= form.check_box :current, id: :ace_current %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

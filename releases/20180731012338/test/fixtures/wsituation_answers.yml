@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  wally_evaluation: one
+  wfeeling_answer: 1
+  wreaction_answer: 1
+  wsituation: one
+
+two:
+  wally_evaluation: two
+  wfeeling_answer: 1
+  wreaction_answer: 1
+  wsituation: two

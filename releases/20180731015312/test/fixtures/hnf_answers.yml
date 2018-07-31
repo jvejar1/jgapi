@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  evaluation: one
+  hnftest: one
+  score: 1
+
+two:
+  evaluation: two
+  hnftest: two
+  score: 1

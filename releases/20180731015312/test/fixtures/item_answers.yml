@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  evaluation: one
+  item: one
+  answer_string: MyString
+  score: 1
+
+two:
+  evaluation: two
+  item: two
+  answer_string: MyString
+  score: 1

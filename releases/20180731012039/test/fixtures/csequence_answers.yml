@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  corsi_evaluation: one
+  csequence: one
+  score: 1
+
+two:
+  corsi_evaluation: two
+  csequence: two
+  score: 1

@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Multimedia</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @multimedia.each do |multimedium| %>
+      <tr>
+        <td><%= multimedium.image %></td>
+        <td><%= link_to 'Show', multimedium %></td>
+        <td><%= link_to 'Edit', edit_multimedium_path(multimedium) %></td>
+        <td><%= link_to 'Destroy', multimedium, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Multimedium', new_multimedium_path %>

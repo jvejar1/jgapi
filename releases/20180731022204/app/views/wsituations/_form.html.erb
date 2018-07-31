@@ -1,0 +1,37 @@
+<%= form_with(model: wsituation, local: true) do |form| %>
+  <% if wsituation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(wsituation.errors.count, "error") %> prohibited this wsituation from being saved:</h2>
+
+      <ul>
+      <% wsituation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :multimedia_id %>
+    <%= form.text_field :multimedia_id, id: :wsituation_multimedia_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: :wsituation_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :wfeeling_question_id %>
+    <%= form.text_field :wfeeling_question_id, id: :wsituation_wfeeling_question_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :wreaction_question_id %>
+    <%= form.text_field :wreaction_question_id, id: :wsituation_wreaction_question_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
