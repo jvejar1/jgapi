@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 #Users
-User.create(email:"admin.uandes@uandes.cl",password:"admin.uandes.#123")
+User.create(email:"admin.uandes@uandes.cl",password:"admin.uandes.#123",role:1)
 ##Fonotest
 items_descriptions=[["3..perro","perro seguido por 3"],
                     ["9..manzana","manzana seguido por 9"],
@@ -350,38 +350,5 @@ end
 
 require 'csv'
 csvprocessor=CSVProcessor.new()
-#Schools
-c2=Commune.create(name:"Puente Alto")
-jardin_ernesto_pinto=School.create(name:"Jardin Infantil Ernesto Pinto Lagarrigue",commune_id:c2.id)
-transicion_menor=Course.create(level:1,letter:3,school:jardin_ernesto_pinto)
-
-#process_the students
-
-csv=CSV.read(File.join(Rails.root,"db","seeds","ernesto_pinto.csv"),headers:true)
-student_inserter=StudentInserter.new(transicion_menor.id)
-csvprocessor.process(csv,student_inserter,student_inserter.required_fields)
-
-c1=Commune.create(name:"Lo Barnechea")
-inst_estados_americanos=School.create(name:"Instituto Estados Americanos",commune_id:c1.id)
-csv_k_a=CSV.read(File.join(Rails.root,"db","seeds","trebol_kinder_a.csv"),headers:true)
-csv_k_b=CSV.read(File.join(Rails.root,"db","seeds","trebol_kinder_b.csv"),headers:true)
-csv_k_c=CSV.read(File.join(Rails.root,"db","seeds","trebol_kinder_c.csv"),headers:true)
-
-transicion_menor_k_a=Course.create(level:2,letter:1,school:inst_estados_americanos)
-
-
-transicion_menor_k_b=Course.create(level:2,letter:2,school:inst_estados_americanos)
-
-transicion_menor_k_c=Course.create(level:2,letter:3,school:inst_estados_americanos)
-
-student_inserter=StudentInserter.new(transicion_menor_k_a.id)
-csvprocessor.process(csv_k_a,student_inserter,student_inserter.required_fields)
-
-student_inserter=StudentInserter.new(transicion_menor_k_b.id)
-csvprocessor.process(csv_k_b,student_inserter,student_inserter.required_fields)
-
-student_inserter=StudentInserter.new(transicion_menor_k_c.id)
-csvprocessor.process(csv_k_c,student_inserter,student_inserter.required_fields)
-
 
 
