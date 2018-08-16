@@ -1,6 +1,7 @@
 class AcesController < ApplicationController
   before_action :set_ace, only: [:show, :edit, :update, :destroy]
 
+  skip_before_action :authenticate_user!
   # GET /aces
   # GET /aces.json
 

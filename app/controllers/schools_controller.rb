@@ -4,6 +4,7 @@ class SchoolsController < ApplicationController
 
   before_action :check_permissions, except:[:students,:schools_and_courses]
 
+  skip_before_action :authenticate_user!, only:[:students,:schools_and_courses]
   def check_permissions
     if current_user.can_admin_schools?
     else
@@ -47,13 +48,6 @@ class SchoolsController < ApplicationController
   end
 
 
-  private
-  def school_params
-    params.require(:school).permit(:name)
-  end
-  def set_school
-    @school=School.find(params[:id])
-  end
 
 
   def get_all
@@ -112,4 +106,12 @@ class SchoolsController < ApplicationController
     render json:{courses:@courses_as_arr,schools:schools}
 
   end
+  private
+  def school_params
+    params.require(:school).permit(:name)
+  end
+  def set_school
+    @school=School.find(params[:id])
+  end
+
 end

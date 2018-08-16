@@ -1,5 +1,7 @@
 class EvaluationsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
+
+  skip_before_action :authenticate_user!, only: :create
   before_action :authenticate_token, only: :create
   require 'csv'
 
@@ -22,8 +24,7 @@ class EvaluationsController < ApplicationController
     test_name=params[:test_name]
     responses=params[:responses]
     test_id=params[:test_id]
-    evaluator_id=params[:evaluator_id]
-    evaluator_id=nil unless evaluator_id!=0
+    evaluator_id=@current_user.id
     student_id=params[:student_id]
     realized_at=params[:timestamp].to_datetime
     if ["aces","ace"].include?test_name
@@ -201,7 +202,7 @@ class EvaluationsController < ApplicationController
   def get_hnf_csv
     hnfset=Hnfset.find_by(current:true)
     evaluations=hnfset.evaluations
-    headers=["Fecha Aplicacion","Fecha Servidor","Rut","Nombres","Puntaje total"]
+    headers=["Evaluador","Fecha Aplicacion","Fecha Servidor","Rut","Nombres","Puntaje total"]
 
     hnftests=hnfset.hnftests
     row=[]
@@ -232,6 +233,7 @@ class EvaluationsController < ApplicationController
       evaluations.each do |eval|
         row=[]
 
+        row<<eval.user_id
         row<<eval.realized_at.to_date
         row<<eval.created_at.to_date
         student=eval.student
@@ -266,7 +268,7 @@ class EvaluationsController < ApplicationController
   def get_aces_csv
     current_ace=Ace.find_by(current:true)
     acases=current_ace.acases
-    headers=["Fehca Aplicacion","Fecha Servidor","Rut","Nombres","Puntaje total"]
+    headers=["Evaluador","Fecha Aplicacion","Fecha Servidor","Rut","Nombres","Puntaje total"]
     column_index=1
     acases.each do |acase|
       headers<<"Aces "+column_index.to_s
@@ -295,7 +297,7 @@ class EvaluationsController < ApplicationController
       csv << headers
       evaluations.each do |evaluation|
         row=[]
-
+        row<<evaluation.user.email
 
         #dates
 
@@ -336,7 +338,7 @@ class EvaluationsController < ApplicationController
   def get_wally_csv
     wally=Wally.find_by(current:true)
     wally_evaluations=wally.evaluations
-    headers=["Fecha Aplicacion","Fecha Servidor","Rut","Nombre"]
+    headers=["Evaluador","Fecha Aplicacion","Fecha Servidor","Rut","Nombre"]
     wsituations=wally.wsituations
 
     #generate headers for each wsituation
@@ -356,6 +358,7 @@ class EvaluationsController < ApplicationController
       csv<<headers
       wally_evaluations.each do |wally_evaluation|
         row=[]
+        row<<wally_evaluation.user.email
         row<<wally_evaluation.realized_at.to_date
         row<<wally_evaluation.created_at.to_date
         answers=wally_evaluation.wsituation_answers
@@ -391,7 +394,7 @@ class EvaluationsController < ApplicationController
 
     csequences=corsi.csequences
 
-    headers=["Fecha Aplicacion","Fecha Servidor","Rut","Nombres","Puntaje total"," Ensayos Ordenado","   Ensayos Contrario"]
+    headers=["Evaluador","Fecha Aplicacion","Fecha Servidor","Rut","Nombres","Puntaje total"," Ensayos Ordenado","   Ensayos Contrario"]
 
     #define the header for each cseq
     info_first_row=["Puntaje Maximo"]
@@ -432,10 +435,12 @@ class EvaluationsController < ApplicationController
       corsi_evaluations.each do |eval|
 
 
+
         #get student_info
         cseq_answers=eval.csequence_answers
 
         row=[]
+        row<<eval.user.email
         row<<eval.realized_at.to_date
         row<<eval.created_at.to_date
         student=eval.student
@@ -471,7 +476,7 @@ class EvaluationsController < ApplicationController
     fonotest=Fonotest.find_by(current:true)
     fonotest_item_joins=fonotest.fonotest_items
     evaluations=fonotest.evaluations
-    headers=["Fecha Aplicacion","Fecha Servidor","Rut","Nombre","Puntaje Total"]
+    headers=["Evaluador","Fecha Aplicacion","Fecha Servidor","Rut","Nombre","Puntaje Total"]
     fonotest_item_joins.each do |fonotest_item_join|
       header_name=fonotest_item_join.name
       headers<<header_name+" Puntaje"
@@ -495,6 +500,7 @@ class EvaluationsController < ApplicationController
       csv<<headers
       evaluations.each do |eval|
         row=[]
+        row<<eval.user.email
         row<<eval.realized_at.to_date
         row<<eval.created_at.to_date
         student=eval.student
