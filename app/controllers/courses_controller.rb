@@ -1,5 +1,7 @@
 class CoursesController < ApplicationController
   require 'csv'
+  require 'csv_processor'
+  require 'student_inserter'
   before_action :set_school
   before_action :set_course, only: [:show,:upload_students,:edit,:destroy,:update]
 
