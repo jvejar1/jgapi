@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-<p><%=Course.course_level_hash[@course.level]+" "+Course.course_letter_hash[@course.letter] +" "+@course.school.name %></p>
+<p><%=Course.course_level_hash[@course.level]+" "+Course.course_letter_hash[@course.letter] +" "+@course.school.name unless @course.school.nil? %></p>
 <%= link_to 'Edit', edit_course_path(@course) %> |
 <%= link_to 'Back', courses_path %>
 <%= form_tag(upload_students_path(@course.id),{ :multipart => true}) do %>

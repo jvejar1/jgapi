@@ -15,7 +15,7 @@
         <td><%= school.name %></td>
         <td><%= link_to 'Show', school %></td>
         <td><%= link_to 'Edit', edit_school_path(school) %></td>
-        <td><%= link_to 'Destroy', school, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', school, :method=> :delete, data: { confirm: 'Are you sure?' } %></td>
         <td><%= link_to 'Add Course', new_school_course_path(school.id)%></td>
       </tr>
     <% end %>
