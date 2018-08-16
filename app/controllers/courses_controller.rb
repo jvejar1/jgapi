@@ -47,6 +47,7 @@ class CoursesController < ApplicationController
     rescue Exception =>e
       flash[:notice]=e.to_s
       render :show
+      return
     end
 
     flash[:notice]="Se ingresaron #{student_inserter.get_correct_rows} y "+
