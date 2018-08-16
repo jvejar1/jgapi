@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
 
   devise_for :users, controllers: {
-      sessions: 'users/sessions',registrations:'users/registrations'
+      sessions: 'users/sessions',
+      #registrations:'users/registrations'
   }
+  resources :users
 
   resources :csequences
   resources :corsis
@@ -14,8 +16,14 @@ Rails.application.routes.draw do
   get '/schools_and_courses', to:"schools#schools_and_courses"
   get '/courses/:id/students', to:"courses#show"
 
+  resources :schools
+  resources :schools do
+    resources :courses
+  end
+  resources :courses
   get '/audios/download/:id', to:"audios#download"
   post '/evaluations', to:"evaluations#create", as:'create_evaluation'
+  post '/courses/:id/csv', to:"courses#upload_students", as: 'upload_students'
   get '/corsi/get_current_data', to:"corsis#get_current_data"
   get '/pictures/download/:id/:style', to:"pictures#download"
   get '/pictures/download/:id', to:"pictures#download"

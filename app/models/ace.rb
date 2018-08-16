@@ -12,6 +12,7 @@ class Ace < ApplicationRecord
   def self.SAD
     3
   end
+
   def self.SCARED
     4
   end

@@ -6,7 +6,7 @@ class CSVProcessor
     headers=csv.headers
     required_headers.each do |required_header|
       if not headers.include? required_header
-        raise 'Invalid headers, required: '+required_headers.join(", ")
+        raise 'Headers invalidos, requeridos: '+required_headers.join(", ")
         return
       end
     end

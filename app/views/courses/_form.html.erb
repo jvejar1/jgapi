@@ -1,0 +1,27 @@
+<%= form_with(model: course, local: true) do |form| %>
+  <% if course.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(course.errors.count, "error") %> prohibited this course from being saved:</h2>
+
+      <ul>
+      <% course.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%=form.label :school_id,"Institucion"%>
+
+  <%=form.select(:school_id,School.all.collect{|school| [school.name,school.id]},{include_blank: 'Seleccione'})%>
+  <div class="field">
+  <%=form.label :level, "Nivel"%>
+  <%=form.select(:level, Course.course_level_hash.invert,{include_blank: 'Seleccione'},id: :course_level)%>
+  </div>
+    <%=form.label :letter, "Letra"%>
+  <%=form.select(:letter, Course.course_letter_hash.invert,{include_blank: 'Seleccione'})%>
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

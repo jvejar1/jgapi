@@ -10,7 +10,6 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
    def create
-     sleep(1)
      respond_to do |format|
        format.html {super}
        format.json {
@@ -32,9 +31,14 @@ class Users::SessionsController < Devise::SessionsController
     end
 
   # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+   def destroy
+     super do
+       redirect_to root_url, notice: 'Sesión cerrada'
+       return
+     end
+
+
+   end
 
   # protected
 

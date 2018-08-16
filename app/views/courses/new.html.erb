@@ -1,0 +1,9 @@
+<h1>New Course</h1>
+
+<%= render 'form', course: @course do |form| %>
+
+
+<%end%>
+<%=@course.school_id
+%>
+<%= link_to 'Back', courses_path %>

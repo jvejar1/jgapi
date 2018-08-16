@@ -211,10 +211,10 @@ ace=Ace.create(version:1,current:true)
 male=[1,2,5,7,8,9,11,13,14,20,21,22,24,25]
 female=[3,4,6,]
 distractors=[3, 6, 7, 12, 13, 15, 16, 18, 21, 26]
-angry=[3,6,7,11,12,13,15,16,18,19,21,22,26]
-scared=[3,5,6,7,10,12,13,15,16,18,20,21,24,26]
+angry=[1,11,19,22]
+scared=[5,10,20,24]
 happy=[2,8,17,25]
-sad=[1,4,9,14,23]
+sad=[4,9,14,23]
 
 for i in 1..26
   picture=Picture.create(image:File.open(File.join(Rails.root,"db","seeds","acases","images","original","#{i}.jpg")))
@@ -245,21 +245,17 @@ for i in 1..26
 
   if angry.include?i
     correct_feeling=Ace.ANGRY
-  end
-  if scared.include?i
+  elsif scared.include?i
 
     correct_feeling=Ace.SCARED
 
-  end
-  if happy.include?i
+  elsif happy.include?i
     correct_feeling=Ace.HAPPY
 
-  end
-  if sad.include?i
+  elsif sad.include?i
     correct_feeling=Ace.SAD
 
   end
-
   acase.update(correct_feeling:correct_feeling)
 end
 

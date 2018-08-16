@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+<p><%=Course.course_level_hash[@course.level]+" "+Course.course_letter_hash[@course.letter] +" "+@course.school.name %></p>
+<%= link_to 'Edit', edit_course_path(@course) %> |
+<%= link_to 'Back', courses_path %>
+<%= form_tag(upload_students_path(@course.id),{ :multipart => true}) do %>
+  <div class="field"><%=file_field_tag :csv_file%></div>
+  <div class="field"><%=submit_tag :Importar%></div>
+<% end -%>
+
+<%@course.students.each do |student| %>
+<p><%=student.name%><p>
+<%end%>

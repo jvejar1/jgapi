@@ -8,6 +8,12 @@ class EvaluationsController < ApplicationController
 
   def index
     @evaluations_count=Evaluation.count+CorsiEvaluation.count
+    @ace_evaluations_count=Evaluation.where(ace_id:!nil).count
+    @wally_evaluations_count=Evaluation.where(wally_id:!nil).count
+    @corsi_evaluations_count=CorsiEvaluation.count
+    @fonotest_evaluations_count=Evaluation.where(fonotest_id:!nil).count
+    @hnf_evaluations_count=Evaluation.where(hnfset_id:!nil).count
+
   end
 
   def create
@@ -195,7 +201,7 @@ class EvaluationsController < ApplicationController
   def get_hnf_csv
     hnfset=Hnfset.find_by(current:true)
     evaluations=hnfset.evaluations
-    headers=["Rut","Nombres","Puntaje total"]
+    headers=["Fecha Aplicacion","Fecha Servidor","Rut","Nombres","Puntaje total"]
 
     hnftests=hnfset.hnftests
     row=[]
@@ -210,6 +216,7 @@ class EvaluationsController < ApplicationController
       second_row<<max_score
       total_max_score+=max_score
     end
+    headers<<"Tiempo total"
     row<<"Puntaje Maximo Total"
     second_row<<total_max_score
 
@@ -225,17 +232,22 @@ class EvaluationsController < ApplicationController
       evaluations.each do |eval|
         row=[]
 
+        row<<eval.realized_at.to_date
+        row<<eval.created_at.to_date
         student=eval.student
         row<<student.rut
         row<<student.last_name+" "+student.name
         row<<eval.total_score
         hnf_answers=eval.hnf_answers
+        total_time=0
         hnftests.each do |hnftest|
           hnf_answer=hnf_answers.find_by(hnftest_id:hnftest.id)
           puts hnf_answer.as_json
           row<<hnf_answer.score
           row<<hnf_answer.time_in_seconds
+          total_time+=hnf_answer.time_in_seconds
         end
+        row<<total_time
         csv<<row
       end
 
@@ -245,10 +257,16 @@ class EvaluationsController < ApplicationController
 
 
 
+
+  def get_aces_info_rows
+    rows=[["Sentimiento "+ Ace.ANGRY.to_s,"ENOJADO"],["Sentimiento "+ Ace.HAPPY.to_s,"FELIZ"],["Sentimiento "+ Ace.SAD.to_s,"TRISTE"],["Sentimiento "+ Ace.SCARED.to_s,"ASUSTADO"]]
+    return rows
+  end
+
   def get_aces_csv
     current_ace=Ace.find_by(current:true)
     acases=current_ace.acases
-    headers=["Rut","Nombres","Puntaje total"]
+    headers=["Fehca Aplicacion","Fecha Servidor","Rut","Nombres","Puntaje total"]
     column_index=1
     acases.each do |acase|
       headers<<"Aces "+column_index.to_s
@@ -263,14 +281,28 @@ class EvaluationsController < ApplicationController
       max_score=acases.where(distractor:false).count
       puts max_score.as_json
       row=["Puntaje maximo",max_score]
+
+
       csv<<row
+
+      info_rows=get_aces_info_rows
+      info_rows.each do |info_row|
+        csv<<info_row
+      end
       csv<<[]
 
 
       csv << headers
       evaluations.each do |evaluation|
-        #get and puts student info
         row=[]
+
+
+        #dates
+
+        row<<evaluation.realized_at.to_date
+        row<<evaluation.created_at.to_date
+        #get and puts student info
+
         student=evaluation.student
         row<<student.rut
         row<<student.last_name+" "+student.name
@@ -289,7 +321,7 @@ class EvaluationsController < ApplicationController
           end
 
         end
-        row.insert(2,total_score)
+        row.insert(4,total_score)
         csv<<row
       end
       # ...
@@ -304,7 +336,7 @@ class EvaluationsController < ApplicationController
   def get_wally_csv
     wally=Wally.find_by(current:true)
     wally_evaluations=wally.evaluations
-    headers=["Rut","Nombre"]
+    headers=["Fecha Aplicacion","Fecha Servidor","Rut","Nombre"]
     wsituations=wally.wsituations
 
     #generate headers for each wsituation
@@ -315,9 +347,17 @@ class EvaluationsController < ApplicationController
       counter+=1
     end
     csv_string=CSV.generate do |csv|
+
+      #info
+      Wally.get_info_rows.each do |info_row|
+        csv<<info_row
+      end
+      csv<<[]
       csv<<headers
       wally_evaluations.each do |wally_evaluation|
         row=[]
+        row<<wally_evaluation.realized_at.to_date
+        row<<wally_evaluation.created_at.to_date
         answers=wally_evaluation.wsituation_answers
         student=wally_evaluation.student
         row<<student.rut
@@ -351,7 +391,7 @@ class EvaluationsController < ApplicationController
 
     csequences=corsi.csequences
 
-    headers=["Rut","Nombres","Puntaje total"," Ensayos Ordenado","   Ensayos Contrario"]
+    headers=["Fecha Aplicacion","Fecha Servidor","Rut","Nombres","Puntaje total"," Ensayos Ordenado","   Ensayos Contrario"]
 
     #define the header for each cseq
     info_first_row=["Puntaje Maximo"]
@@ -376,7 +416,7 @@ class EvaluationsController < ApplicationController
       end
 
       info_first_row<<header
-      info_second_row<<join_corsi_cseq_record.csequence.csequence
+      info_second_row<<join_corsi_cseq_record.csequence.get_correct_sequence
       headers<<header
       headers<<"Respuesta"
     end
@@ -394,9 +434,10 @@ class EvaluationsController < ApplicationController
 
         #get student_info
         cseq_answers=eval.csequence_answers
-        puts cseq_answers.as_json
-        puts "hola"
+
         row=[]
+        row<<eval.realized_at.to_date
+        row<<eval.created_at.to_date
         student=eval.student
         row<<student.rut
         row<<student.last_name+" "+student.name
@@ -430,7 +471,7 @@ class EvaluationsController < ApplicationController
     fonotest=Fonotest.find_by(current:true)
     fonotest_item_joins=fonotest.fonotest_items
     evaluations=fonotest.evaluations
-    headers=["Rut","Nombre","Puntaje Total"]
+    headers=["Fecha Aplicacion","Fecha Servidor","Rut","Nombre","Puntaje Total"]
     fonotest_item_joins.each do |fonotest_item_join|
       header_name=fonotest_item_join.name
       headers<<header_name+" Puntaje"
@@ -454,6 +495,8 @@ class EvaluationsController < ApplicationController
       csv<<headers
       evaluations.each do |eval|
         row=[]
+        row<<eval.realized_at.to_date
+        row<<eval.created_at.to_date
         student=eval.student
         row<<student.rut
         row<<student.last_name+" "+student.name

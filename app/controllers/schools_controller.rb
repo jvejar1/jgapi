@@ -1,8 +1,67 @@
 class SchoolsController < ApplicationController
+
+  before_action :set_school, only:[:show,:edit,:destroy,:update]
+
+  before_action :check_permissions, except:[:students,:schools_and_courses]
+
+  def check_permissions
+    if current_user.can_admin_schools?
+    else
+      head(:forbidden)
+    end
+  end
+  def index
+    @schools=School.all
+  end
+
+  def destroy
+    @school.destroy
+    redirect_to schools_url, notice: "Escuela eliminada"
+  end
+
+  def show
+  end
+
+  def new
+    @school=School.new()
+  end
+
+  def update
+    if @school.update(school_params)
+      redirect_to @school, notice: "Escuela actualizada"
+
+    else
+      render :edit
+
+    end
+  end
+  def create
+
+    @school=School.new(school_params)
+
+    if @school.save
+      redirect_to @school
+    else
+      render :new , notice: "Error"
+    end
+  end
+
+
+  private
+  def school_params
+    params.require(:school).permit(:name)
+  end
+  def set_school
+    @school=School.find(params[:id])
+  end
+
+
   def get_all
     @schools=School.all
     render :json => {schools:@schools}
   end
+
+
 
   def students #by school_id
     school=School.find(params[:id])
