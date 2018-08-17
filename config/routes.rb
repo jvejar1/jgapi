@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'apk/latest'
+
   devise_for :users, controllers: {
       sessions: 'users/sessions',
       #registrations:'users/registrations'
@@ -16,6 +18,7 @@ Rails.application.routes.draw do
   get '/schools_and_courses', to:"schools#schools_and_courses"
   get '/courses/:id/students', to:"courses#show"
 
+  get '/apk', to:"apk#latest_release"
   resources :schools
   resources :schools do
     resources :courses
