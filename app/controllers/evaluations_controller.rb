@@ -233,7 +233,7 @@ class EvaluationsController < ApplicationController
       evaluations.each do |eval|
         row=[]
 
-        row<<eval.user_id
+        row<<eval.user.email
         row<<eval.realized_at.to_date
         row<<eval.created_at.to_date
         student=eval.student
