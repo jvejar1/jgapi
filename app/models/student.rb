@@ -6,7 +6,7 @@ class Student < ApplicationRecord
 
   def clean_fields
     self.name=self.name.upcase
-    self.last_name=self.name.upcase
+    self.last_name=self.last_name.upcase
   end
 
   def validate_rut
@@ -15,6 +15,7 @@ class Student < ApplicationRecord
     # if rut.present? && rut==""
     #   errors.add(:rut,"No puede ser vacío")
     if (rut.present? && !rut.scan(/\D/).empty?)
+
        errors.add(:rut,"Solo debe contener números, reemplace las K's por ceros, elimine puntos y guiones")
     end
 

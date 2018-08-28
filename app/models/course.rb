@@ -1,5 +1,5 @@
 class Course < ApplicationRecord
-  has_many :students
+  has_many :students, dependent: :destroy
   belongs_to :school
   validates :school_id, uniqueness: { scope: [:level, :letter], message:"Curso existente en el colegio"}
   validate :validate_level_and_letter
