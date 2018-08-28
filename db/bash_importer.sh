@@ -39,6 +39,7 @@ declare -a arr=(
 for i in "${arr[@]}"
 do
    echo "COPY $i from '$backup_directory/$i.csv' DELIMITER ',' CSV HEADER;">>queries.sql
+   echo "select setval('$i""_id_seq',(select max(id) from $i));">>queries.sql
    # or do whatever with individual element of the array
 done
 
