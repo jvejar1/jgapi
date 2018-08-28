@@ -12,9 +12,12 @@
 
 ActiveRecord::Schema.define(version: 20180731025227) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "acase_answers", force: :cascade do |t|
-    t.integer "evaluation_id"
-    t.integer "acase_id"
+    t.bigint "evaluation_id"
+    t.bigint "acase_id"
     t.integer "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -24,7 +27,7 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   end
 
   create_table "acase_correct_feelings", force: :cascade do |t|
-    t.integer "acase_id"
+    t.bigint "acase_id"
     t.integer "correct_feeling"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -38,13 +41,13 @@ ActiveRecord::Schema.define(version: 20180731025227) do
     t.string "description"
     t.integer "correct_feeling"
     t.boolean "distractor"
-    t.integer "picture_id"
+    t.bigint "picture_id"
     t.index ["picture_id"], name: "index_acases_on_picture_id"
   end
 
   create_table "ace_acases", force: :cascade do |t|
-    t.integer "ace_id"
-    t.integer "acase_id"
+    t.bigint "ace_id"
+    t.bigint "acase_id"
     t.integer "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -75,8 +78,8 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   end
 
   create_table "corsi_csequences", force: :cascade do |t|
-    t.integer "corsi_id"
-    t.integer "csequence_id"
+    t.bigint "corsi_id"
+    t.bigint "csequence_id"
     t.integer "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -86,8 +89,8 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   end
 
   create_table "corsi_evaluations", force: :cascade do |t|
-    t.integer "corsi_id"
-    t.integer "student_id"
+    t.bigint "corsi_id"
+    t.bigint "student_id"
     t.integer "ordered_score"
     t.integer "reversed_score"
     t.integer "ordered_practice_tries"
@@ -95,7 +98,7 @@ ActiveRecord::Schema.define(version: 20180731025227) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "realized_at"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["corsi_id"], name: "index_corsi_evaluations_on_corsi_id"
     t.index ["student_id"], name: "index_corsi_evaluations_on_student_id"
     t.index ["user_id"], name: "index_corsi_evaluations_on_user_id"
@@ -111,21 +114,21 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   create_table "courses", force: :cascade do |t|
     t.integer "level"
     t.integer "letter"
-    t.integer "school_id"
+    t.bigint "school_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["school_id"], name: "index_courses_on_school_id"
   end
 
   create_table "csequence_answers", force: :cascade do |t|
-    t.integer "csequence_id"
+    t.bigint "csequence_id"
     t.integer "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "evaluation_id"
+    t.bigint "evaluation_id"
     t.float "time_in_seconds"
     t.string "answer_string"
-    t.integer "corsi_evaluation_id"
+    t.bigint "corsi_evaluation_id"
     t.index ["corsi_evaluation_id"], name: "index_csequence_answers_on_corsi_evaluation_id"
     t.index ["csequence_id"], name: "index_csequence_answers_on_csequence_id"
     t.index ["evaluation_id"], name: "index_csequence_answers_on_evaluation_id"
@@ -141,7 +144,7 @@ ActiveRecord::Schema.define(version: 20180731025227) do
 
   create_table "csquares", force: :cascade do |t|
     t.integer "square"
-    t.integer "csequence_id"
+    t.bigint "csequence_id"
     t.integer "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -149,13 +152,13 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   end
 
   create_table "evaluations", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "student_id"
-    t.integer "wally_id"
-    t.integer "fonotest_id"
-    t.integer "hnfset_id"
+    t.bigint "user_id"
+    t.bigint "student_id"
+    t.bigint "wally_id"
+    t.bigint "fonotest_id"
+    t.bigint "hnfset_id"
     t.datetime "realized_at"
-    t.integer "ace_id"
+    t.bigint "ace_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "total_score"
@@ -167,19 +170,9 @@ ActiveRecord::Schema.define(version: 20180731025227) do
     t.index ["wally_id"], name: "index_evaluations_on_wally_id"
   end
 
-  create_table "fgroup_items", force: :cascade do |t|
-    t.integer "item_id"
-    t.integer "fgroup_id"
-    t.integer "index"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["fgroup_id"], name: "index_fgroup_items_on_fgroup_id"
-    t.index ["item_id"], name: "index_fgroup_items_on_item_id"
-  end
-
   create_table "fonotest_items", force: :cascade do |t|
-    t.integer "fonotest_id"
-    t.integer "item_id"
+    t.bigint "fonotest_id"
+    t.bigint "item_id"
     t.string "name"
     t.boolean "example"
     t.integer "index"
@@ -199,8 +192,8 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   end
 
   create_table "hnf_answers", force: :cascade do |t|
-    t.integer "evaluation_id"
-    t.integer "hnftest_id"
+    t.bigint "evaluation_id"
+    t.bigint "hnftest_id"
     t.integer "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -214,8 +207,8 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   end
 
   create_table "hnfset_hnftests", force: :cascade do |t|
-    t.integer "hnfset_id"
-    t.integer "hnftest_id"
+    t.bigint "hnfset_id"
+    t.bigint "hnftest_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["hnfset_id"], name: "index_hnfset_hnftests_on_hnfset_id"
@@ -235,7 +228,7 @@ ActiveRecord::Schema.define(version: 20180731025227) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "hnftest_id"
+    t.bigint "hnftest_id"
     t.index ["hnftest_id"], name: "index_hnftest_figures_on_hnftest_id"
   end
 
@@ -246,8 +239,8 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   end
 
   create_table "item_answers", force: :cascade do |t|
-    t.integer "evaluation_id"
-    t.integer "item_id"
+    t.bigint "evaluation_id"
+    t.bigint "item_id"
     t.string "answer_string"
     t.integer "score"
     t.datetime "created_at", null: false
@@ -257,7 +250,7 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   end
 
   create_table "items", force: :cascade do |t|
-    t.integer "audio_id"
+    t.bigint "audio_id"
     t.string "description"
     t.string "correct_sequence"
     t.datetime "created_at", null: false
@@ -276,7 +269,7 @@ ActiveRecord::Schema.define(version: 20180731025227) do
 
   create_table "schools", force: :cascade do |t|
     t.string "name"
-    t.integer "commune_id"
+    t.bigint "commune_id"
     t.string "street"
     t.string "street_number"
     t.string "phone_number"
@@ -286,8 +279,8 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   end
 
   create_table "situation_sets", force: :cascade do |t|
-    t.integer "wally_id"
-    t.integer "wsituation_id"
+    t.bigint "wally_id"
+    t.bigint "wsituation_id"
     t.integer "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -302,7 +295,7 @@ ActiveRecord::Schema.define(version: 20180731025227) do
     t.integer "age"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "course_id"
+    t.bigint "course_id"
     t.index ["course_id"], name: "index_students_on_course_id"
   end
 
@@ -335,7 +328,7 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   end
 
   create_table "wfeelings", force: :cascade do |t|
-    t.integer "picture_id"
+    t.bigint "picture_id"
     t.integer "wfeeling"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -345,8 +338,8 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   create_table "wreactions", force: :cascade do |t|
     t.string "description"
     t.integer "wreaction"
-    t.integer "picture_id"
-    t.integer "wsituation_id"
+    t.bigint "picture_id"
+    t.bigint "wsituation_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["picture_id"], name: "index_wreactions_on_picture_id"
@@ -356,16 +349,16 @@ ActiveRecord::Schema.define(version: 20180731025227) do
   create_table "wsituation_answers", force: :cascade do |t|
     t.integer "wfeeling_answer"
     t.integer "wreaction_answer"
-    t.integer "wsituation_id"
+    t.bigint "wsituation_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "evaluation_id"
+    t.bigint "evaluation_id"
     t.index ["evaluation_id"], name: "index_wsituation_answers_on_evaluation_id"
     t.index ["wsituation_id"], name: "index_wsituation_answers_on_wsituation_id"
   end
 
   create_table "wsituations", force: :cascade do |t|
-    t.integer "picture_id"
+    t.bigint "picture_id"
     t.string "description"
     t.string "name"
     t.datetime "created_at", null: false
@@ -373,4 +366,46 @@ ActiveRecord::Schema.define(version: 20180731025227) do
     t.index ["picture_id"], name: "index_wsituations_on_picture_id"
   end
 
+  add_foreign_key "acase_answers", "acases"
+  add_foreign_key "acase_answers", "evaluations"
+  add_foreign_key "acase_correct_feelings", "acases"
+  add_foreign_key "acases", "pictures"
+  add_foreign_key "ace_acases", "acases"
+  add_foreign_key "ace_acases", "aces"
+  add_foreign_key "corsi_csequences", "corsis"
+  add_foreign_key "corsi_csequences", "csequences"
+  add_foreign_key "corsi_evaluations", "corsis"
+  add_foreign_key "corsi_evaluations", "students"
+  add_foreign_key "corsi_evaluations", "users"
+  add_foreign_key "courses", "schools"
+  add_foreign_key "csequence_answers", "corsi_evaluations"
+  add_foreign_key "csequence_answers", "csequences"
+  add_foreign_key "csequence_answers", "evaluations"
+  add_foreign_key "csquares", "csequences"
+  add_foreign_key "evaluations", "aces"
+  add_foreign_key "evaluations", "fonotests"
+  add_foreign_key "evaluations", "hnfsets"
+  add_foreign_key "evaluations", "students"
+  add_foreign_key "evaluations", "users"
+  add_foreign_key "evaluations", "wallies"
+  add_foreign_key "fonotest_items", "fonotests"
+  add_foreign_key "fonotest_items", "items"
+  add_foreign_key "hnf_answers", "evaluations"
+  add_foreign_key "hnf_answers", "hnftests"
+  add_foreign_key "hnfset_hnftests", "hnfsets"
+  add_foreign_key "hnfset_hnftests", "hnftests"
+  add_foreign_key "hnftest_figures", "hnftests"
+  add_foreign_key "item_answers", "evaluations"
+  add_foreign_key "item_answers", "items"
+  add_foreign_key "items", "audios"
+  add_foreign_key "schools", "communes"
+  add_foreign_key "situation_sets", "wallies"
+  add_foreign_key "situation_sets", "wsituations"
+  add_foreign_key "students", "courses"
+  add_foreign_key "wfeelings", "pictures"
+  add_foreign_key "wreactions", "pictures"
+  add_foreign_key "wreactions", "wsituations"
+  add_foreign_key "wsituation_answers", "evaluations"
+  add_foreign_key "wsituation_answers", "wsituations"
+  add_foreign_key "wsituations", "pictures"
 end

@@ -1,0 +1,13 @@
+acase_answers           csequences              pictures              
+acase_correct_feelings  csquares                schema_migrations     
+acases                  evaluations             schools               
+ace_acases              fgroup_items            situation_sets        
+aces                    fonotest_items          students              
+ar_internal_metadata    fonotests               users                 
+audios                  hnf_answers             wallies               
+communes                hnfset_hnftests         wfeelings             
+corsi_csequences        hnfsets                 wreactions            
+corsi_evaluations       hnftest_figures         wsituation_answers    
+corsis                  hnftests                wsituations           
+courses                 item_answers          
+csequence_answers       items                 
