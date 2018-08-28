@@ -11,7 +11,7 @@ gem 'capistrano-rails'
 gem 'capistrano-passenger'
 gem 'capistrano-rbenv', '~> 2.1'
 gem "devise"
-gem 'jquery-rails'
+
 gem "paperclip", "~> 5.0.0"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.6'
