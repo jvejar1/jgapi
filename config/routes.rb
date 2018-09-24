@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   get '/schools/:id/students', to:"schools#students"
   get '/schools_and_courses', to:"schools#schools_and_courses"
   get '/courses/:id/students', to:"courses#show"
-
+  resources :students
   get '/apk', to:"apk#latest_release"
   resources :schools
   resources :schools do
