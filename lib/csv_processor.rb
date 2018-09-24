@@ -1,4 +1,4 @@
-class CSVProcessor
+  class CSVProcessor
   def initialize
   end
 

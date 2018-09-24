@@ -8,5 +8,7 @@
 <% end -%>
 
 <%@course.students.each do |student| %>
-<p><%=student.name%><p>
+<p><%=student.name%>
+  <%=link_to "Editar", edit_student_path(student)%>
+  <p>
 <%end%>

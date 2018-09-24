@@ -23,6 +23,13 @@ class Course < ApplicationRecord
 
   end
 
+  def to_string
+  #  puts @@course_letter_by_number
+    string = "#{self.school.name} - #{Course.course_level_hash[self.level]} #{Course.course_letter_hash[self.letter]}"
+    puts string
+    return string
+  end
+
   def self.course_level_hash
     @@course_levels_by_number
   end
