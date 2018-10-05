@@ -25,5 +25,10 @@
   <%= @student.course %>
 </p>
 
+<p>
+  <strong>Active:</strong>
+  <%= if @student.active then "Activo" elsif !@student.active then "Inactivo" else "sin especificar" end %>
+</p>
+
 <%= link_to 'Edit', edit_student_path(@student) %> |
 <%= link_to 'Back', students_path %>

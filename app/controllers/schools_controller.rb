@@ -59,8 +59,8 @@ class SchoolsController < ApplicationController
 
   def students #by school_id
     school=School.find(params[:id])
-    @students=school.students
-
+    @students=school.students.where(active:true)
+    courses_ids = school.courses.collect{|c| c.id}
     courses_by_id=school.courses.index_by(&:id)
     puts courses_by_id
     formatted_students=[]
@@ -82,7 +82,7 @@ class SchoolsController < ApplicationController
 
     end
 
-    render :json =>{id:school.id,name:school.name,formatted_students:formatted_students,students:formatted_students,courses_by_id:courses_by_id}
+    render :json =>{id:school.id,name:school.name,formatted_students:formatted_students,students:formatted_students,courses_by_id:courses_by_id,courses_ids:courses_ids}
   end
 
   def schools_and_courses
