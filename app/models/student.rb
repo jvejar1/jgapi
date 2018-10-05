@@ -1,6 +1,6 @@
 class Student < ApplicationRecord
   belongs_to :course
-  validates :course, presence:true
+  #validates :course, presence:true
   validate :validate_rut
   before_save :clean_fields
 

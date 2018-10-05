@@ -131,7 +131,6 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (~> 0.3.0)
-
     pg (1.1.1)
     public_suffix (3.0.2)
     puma (3.12.0)
