@@ -26,6 +26,7 @@ class EvaluationsController < ApplicationController
     test_id=params[:test_id]
     evaluator_id=@current_user.id
     student_id=params[:student_id]
+    request_id_to_delete = params[:request_id_to_delete] #request id in the android device to delete after create the evaluation resource
     realized_at=params[:timestamp].to_datetime
     if ["aces","ace"].include?test_name
       ace=Ace.find(test_id)
@@ -34,7 +35,7 @@ class EvaluationsController < ApplicationController
       old_eval=Evaluation.find_by(ace_id:ace.id,student_id:student_id,realized_at:realized_at)
       if !old_eval.nil?
         puts "SKIPPING BECAUSE THE EVALUATION ALREADY EXISTS"
-        return
+        return respond_created_evaluation(request_id_to_delete)
       end
 
       total_score=0
@@ -72,7 +73,7 @@ class EvaluationsController < ApplicationController
       old_eval=Evaluation.where(wally_id:wally.id,student_id:student_id,realized_at:realized_at).first
       if !old_eval.nil?
         puts "SKIPPING BECAUSE THE EVALUATION ALREADY EXISTS"
-        return
+        return respond_created_evaluation(request_id_to_delete)
       end
 
       wally_evaluation=Evaluation.create(student_id:student_id,user_id:evaluator_id,realized_at:realized_at,wally_id:wally.id)
@@ -98,7 +99,7 @@ class EvaluationsController < ApplicationController
       old_eval=CorsiEvaluation.where(corsi_id:corsi.id,student_id:student_id,realized_at:realized_at).first
       if !old_eval.nil?
         puts "SKIPPING BECAUSE THE EVALUATION ALREADY EXISTS"
-        return
+        return respond_created_evaluation(request_id_to_delete)
       end
       csequences=corsi.csequences
       #in this case the response is a list of hashes, each element contains
@@ -133,7 +134,7 @@ class EvaluationsController < ApplicationController
       old_eval=Evaluation.find_by(fonotest_id:test.id,student_id:student_id,realized_at:realized_at)
       if !old_eval.nil?
         puts "SKIPPING BECAUSE THE EVALUATION ALREADY EXISTS"
-        return
+        return respond_created_evaluation(request_id_to_delete)
       end
       responses=params[:responses]
       scores=params[:scores]
@@ -164,7 +165,7 @@ class EvaluationsController < ApplicationController
       old_evaluation=Evaluation.find_by(hnfset_id:test_id,realized_at:realized_at)
       if !old_evaluation.nil?
         puts "EVALUATION ALREADY EXISTS"
-        return
+        return respond_created_evaluation(request_id_to_delete)
       end
       hnfset=Hnfset.find_by(id:test_id)
       results_array=params[:results_array]
@@ -185,18 +186,20 @@ class EvaluationsController < ApplicationController
 
       hnf_evaluation.update(total_score:total_score)
     end
-
     render json:{request_id_to_delete:params[:request_id_to_delete],headers:{:status=>200}},:status=>:ok
 
-    def respond_with_success_to_erase(request_id_to_erase)
-      render json:{request_id_to_delete:request_id_to_erase,headers:{:status=>201}},:status=>:accepted
-      return
-    end
 
 
 
 
   end
+
+  def respond_created_evaluation(request_id_to_erase)
+    puts "HOLA"
+    render json:{request_id_to_delete:request_id_to_erase,headers:{:status=>201}},:status=>:created
+    return
+  end
+
 
 
   def get_hnf_csv

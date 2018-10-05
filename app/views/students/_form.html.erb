@@ -37,6 +37,10 @@
     <%=form.select(:course_id, courses) %>
 
   </div>
+  <div class="field">
+    <%= form.label :active %>
+    <%= form.select(:active, [["Activo",true],["Inactivo",false]]) %>
+  </div>
 
   <div class="actions">
     <%= form.submit %>

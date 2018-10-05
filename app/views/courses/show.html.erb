@@ -7,8 +7,8 @@
   <div class="field"><%=submit_tag :Importar%></div>
 <% end -%>
 
-<%@course.students.each do |student| %>
-<p><%=student.name%>
+<%@course.students.order(:last_name).each do |student| %>
+<p><%=student.last_name + student.name%> | <%=if student.active? then "Activo" else "Inactivo" end %>
   <%=link_to "Editar", edit_student_path(student)%>
   <p>
 <%end%>
