@@ -1,9 +1,8 @@
 class Inserter
   def initialize
-
   end
-  def insert(row)
 
+  def insert(row)
   end
 end
 
