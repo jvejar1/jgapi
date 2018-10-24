@@ -1,14 +1,15 @@
-<h2>Log in</h2>
-
+<h1 class="h1">Log in</h1>
+<hr>
+<div class="login-div">
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  <div class="form-group">
+    <%#= f.label :email %>
+    <%= f.email_field :email, class:"text_input",autofocus: true, autocomplete: "email" ,style:'white-space:pre;',placeholder:'Email @miuandes.cl',class:'form-control'%>
   </div>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+  <div class="form-group">
+    <%#= f.label :password %>
+    <%= f.password_field :password, class:"text_input", autocomplete: "current-password",placeholder:'Contraseña',class:"form-control"%>
   </div>
 
   <% if devise_mapping.rememberable? -%>
@@ -19,8 +20,39 @@
   <% end -%>
 
   <div class="actions">
-    <%= f.submit "Log in" %>
+    <%= f.submit "Log in" , class:'submit'%>
   </div>
 <% end %>
 
 <%= render "users/shared/links" %>
+</div>
+<style>
+  .login-div{
+
+    padding: 1% 0 0 2%;
+    margin: 0 0 0 0%;
+  /text-align: center;
+    width: 40%;
+  /border: 1px solid rgba(0, 0, 0, 0.31);
+  /box-shadow: 3px 3px rgba(1, 0, 0, 0.23);
+    border-radius: 3px;
+
+  }
+
+  .submit{
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 20px;
+    padding: auto;
+    width: 100px;
+    height: 35px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+</style>

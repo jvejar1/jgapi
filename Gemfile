@@ -5,6 +5,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'bootstrap', '~> 4.1.3'
+gem 'jquery-rails'
 gem 'pg'
 gem 'capistrano', '~> 3.7', '>= 3.7.1'
 gem 'capistrano-rails'
