@@ -1,16 +1,70 @@
-<p>Existe un total de <%=@evaluations_count%> evaluaciones en el sistema</p>
+
+<h1>Evaluaciones</h1>
 <hr>
-<h2>ACES (<%=@ace_evaluations_count%>)</h2>
-<input type="button" onclick="location.href='<%=get_aces_csv_url%>'" value="Descargar CSV" />
+<p>Existe un total de <%=@evaluations_count%> evaluaciones en el sistema</p>
 
-<h2>WALLY (<%=@wally_evaluations_count%>) </h2>
-<input type="button" onclick="location.href='<%=get_wally_csv_url%>'" value="Descargar CSV" />
 
-<h2>CUBOS DE CORSI (<%=@corsi_evaluations_count%>)</h2>
-<input type="button" onclick="location.href='<%=get_corsi_csv_url%>'" value="Descargar CSV" />
+<div class="row">
+<div class="col-sm-6 ml-sm-4">
 
-<h2>CORAZONES & FLORES (<%=@hnf_evaluations_count%>)</h2>
-<input type="button" onclick="location.href='<%=get_hnf_csv_url%>'" value="Descargar CSV" />
+<div class="row" style="border: solid #730E15 1px;padding-top:1%">
 
-<h2>TEST FONOLOGICO (<%=@fonotest_evaluations_count%>)</h2>
-<input type="button" onclick="location.href='<%=get_fonotest_csv_url%>'" value="Descargar CSV" />
+  <div class="col-sm-9 ">
+<h4>Aces (<%=@ace_evaluations_count%>)</h4>
+</div>
+<div class="col-md-1" style="margin-right: 0">
+  <input type="button" class="btn btn-info btn-sm" onclick="location.href='<%=get_aces_csv_url%>'" value="Descargar CSV" />
+</div>
+</div>
+
+</br>
+  <div class="row" style="border: solid #730E15 1px;padding-top:1%">
+
+    <div class="col-sm-9 ">
+      <h4>Wally (<%=@wally_evaluations_count%>)</h4>
+    </div>
+    <div class="col-md-1" style="margin-right: 0">
+      <input type="button" class="btn btn-dark btn-sm" onclick="location.href='<%=get_wally_csv_url%>'" value="Descargar CSV" />
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row" style="border: solid #730E15 1px;padding-top:1%">
+
+    <div class="col-sm-9 ">
+      <h4>Corsi (<%=@corsi_evaluations_count%>)</h4>
+    </div>
+    <div class="col-md-1" style="margin-right: 0">
+      <input type="button" class="btn btn-info btn-sm" onclick="location.href='<%=get_corsi_csv_url%>'" value="Descargar CSV" />
+    </div>
+  </div>
+
+  </br>
+  <div class="row" style="border: solid #730E15 1px;padding-top:1%">
+
+    <div class="col-sm-9 ">
+      <h4>C&Flores (<%=@hnf_evaluations_count%>)</h4>
+    </div>
+    <div class="col-md-1" style="margin-right: 0">
+      <input type="button" class="btn btn-dark btn-sm" onclick="location.href='<%=get_hnf_csv_url%>'" value="Descargar CSV" />
+    </div>
+  </div>
+  </br>
+  <div class="row" style="border: solid #730E15 1px;padding-top:1%">
+
+    <div class="col-sm-9 ">
+      <h4>Fonológico (<%=@fonotest_evaluations_count%>)</h4>
+    </div>
+    <div class="col-md-1" style="margin-right: 0">
+      <input type="button" class="btn  btn-info btn-sm" onclick="location.href='<%=get_fonotest_csv_url%>'" value="Descargar CSV" />
+    </div>
+  </div>
+  <br>
+
+
+
+</div>
+
+
+</div>
