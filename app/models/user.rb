@@ -4,13 +4,15 @@ class User < ApplicationRecord
   has_secure_token :auth_token
   before_create :set_access_token
  def self.roles
-   {1=>User.ADMIN,2=>User.EVALUATOR}
+   {1=>User.ADMIN,2=>User.EVALUATOR,3=>User.DATA_INTERPRETER}
  end
+  def self.DATA_INTERPRETER
+    "Data Interpreter"
+  end
   def self.ADMIN
     "Admin"
   end
   def self.EVALUATOR
-
     "Evaluator"
   end
 
@@ -25,6 +27,15 @@ class User < ApplicationRecord
       return false
     end
   end
+
+  def can_download_content?
+    if User.roles[self.role]==User.ADMIN or User.roles[self.role]==User.DATA_INTERPRETER
+      return true
+    else
+      return false
+    end
+  end
+
 
   def can_admin_schools?
     if User.roles[self.role]==User.ADMIN

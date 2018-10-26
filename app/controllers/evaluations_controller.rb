@@ -9,6 +9,12 @@ class EvaluationsController < ApplicationController
   #TODO: respond to erase
 
   def index
+
+    if !current_user.can_download_content?
+      session.clear()
+      flash[:notice]="Usuario sin permisos para acceder"
+      redirect_to root_path, flash: {notice: "Usuario sin permisos para acceder"}
+    end
     @evaluations_count=Evaluation.count+CorsiEvaluation.count
     @ace_evaluations_count=Evaluation.where(ace_id:!nil).count
     @wally_evaluations_count=Evaluation.where(wally_id:!nil).count
@@ -185,6 +191,7 @@ class EvaluationsController < ApplicationController
       end
 
       hnf_evaluation.update(total_score:total_score)
+
     end
     render json:{request_id_to_delete:params[:request_id_to_delete],headers:{:status=>200}},:status=>:ok
 

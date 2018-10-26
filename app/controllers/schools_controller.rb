@@ -55,8 +55,6 @@ class SchoolsController < ApplicationController
     render :json => {schools:@schools}
   end
 
-
-
   def students #by school_id
     school=School.find(params[:id])
     @students=school.students.where(active:true)

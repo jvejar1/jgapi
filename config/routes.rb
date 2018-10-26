@@ -8,8 +8,7 @@ Rails.application.routes.draw do
   }
   resources :users
 
-  resources :csequences
-  resources :corsis
+
   get '/hnf/get_current_data', to:"hnftests#get_current_data"
   get '/hnf/get_current_data', to:"hnftests#get_current_data"
 
@@ -43,20 +42,11 @@ Rails.application.routes.draw do
 
   get '/evaluations/get_fonotest_csv', to:"evaluations#get_fonotest_csv", as: 'get_fonotest_csv'
 
-  resources :wsituations
-  resources :wreaction_questions
-  resources :wreactions
-  resources :wfeeling_questions
-  resources :wfeelings
-  resources :wallies
-  resources :pictures
+
   get '/get_all', to:"aces#get_all"
   get 'aces/download/:id', to:"aces#download"
   get '/aces/get_current_test_data', to:"aces#get_current_test_data"
   get '/aces/get_current_version', to:"aces#get_current_version"
-  resources :afeelings
-  resources :acases
-  resources :aces
 
   root to:"evaluations#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
