@@ -333,7 +333,7 @@ class EvaluationsController < ApplicationController
           end
 
         end
-        row.insert(4,total_score)
+        row.insert(5,total_score)
         csv<<row
       end
       # ...
