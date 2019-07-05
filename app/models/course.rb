@@ -12,6 +12,10 @@ class Course < ApplicationRecord
                              3=>"C",
                              4=>"D"}
 
+  def get_full_name()
+    return @@course_levels_by_number[self.level] + @@course_letter_by_number[self.letter]
+  end
+
   def validate_level_and_letter
     if !@@course_levels_by_number.keys.include?(self.level)
       self.errors.add(:base,"Nivel inválido")
