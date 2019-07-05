@@ -275,6 +275,8 @@ class EvaluationsController < ApplicationController
     return rows
   end
 
+
+
   def get_aces_csv
     current_ace=Ace.find_by(current:true)
     acases=current_ace.acases
@@ -308,9 +310,7 @@ class EvaluationsController < ApplicationController
       evaluations.each do |evaluation|
         row=[]
         row<<evaluation.user.email
-
         #dates
-
         row<<evaluation.realized_at.to_date
         row<<evaluation.created_at.to_date
         #get and puts student info
@@ -331,14 +331,11 @@ class EvaluationsController < ApplicationController
             row<<"N/A"
             row<<"N/A"
           end
-
         end
         row.insert(5,total_score)
         csv<<row
       end
-      # ...
     end
-
     send_data csv_string, filename: "aces.csv"
 
   end
