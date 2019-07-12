@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181005000242) do
+ActiveRecord::Schema.define(version: 20190712025226) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -258,6 +258,15 @@ ActiveRecord::Schema.define(version: 20181005000242) do
     t.index ["audio_id"], name: "index_items_on_audio_id"
   end
 
+  create_table "moments", force: :cascade do |t|
+    t.date "from"
+    t.date "until"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "study_id"
+    t.index ["study_id"], name: "index_moments_on_study_id"
+  end
+
   create_table "pictures", force: :cascade do |t|
     t.string "image_file_name"
     t.string "image_content_type"
@@ -275,6 +284,7 @@ ActiveRecord::Schema.define(version: 20181005000242) do
     t.string "phone_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "group"
     t.index ["commune_id"], name: "index_schools_on_commune_id"
   end
 
@@ -288,6 +298,16 @@ ActiveRecord::Schema.define(version: 20181005000242) do
     t.index ["wsituation_id"], name: "index_situation_sets_on_wsituation_id"
   end
 
+  create_table "student_courses", force: :cascade do |t|
+    t.bigint "student_id"
+    t.bigint "course_id"
+    t.date "entry"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_student_courses_on_course_id"
+    t.index ["student_id"], name: "index_student_courses_on_student_id"
+  end
+
   create_table "students", force: :cascade do |t|
     t.string "name"
     t.string "last_name"
@@ -298,6 +318,21 @@ ActiveRecord::Schema.define(version: 20181005000242) do
     t.bigint "course_id"
     t.boolean "active", default: true
     t.index ["course_id"], name: "index_students_on_course_id"
+  end
+
+  create_table "studies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "study_courses", force: :cascade do |t|
+    t.bigint "study_id"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_study_courses_on_course_id"
+    t.index ["study_id"], name: "index_study_courses_on_study_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -399,10 +434,15 @@ ActiveRecord::Schema.define(version: 20181005000242) do
   add_foreign_key "item_answers", "evaluations"
   add_foreign_key "item_answers", "items"
   add_foreign_key "items", "audios"
+  add_foreign_key "moments", "studies"
   add_foreign_key "schools", "communes"
   add_foreign_key "situation_sets", "wallies"
   add_foreign_key "situation_sets", "wsituations"
+  add_foreign_key "student_courses", "courses"
+  add_foreign_key "student_courses", "students"
   add_foreign_key "students", "courses"
+  add_foreign_key "study_courses", "courses"
+  add_foreign_key "study_courses", "studies"
   add_foreign_key "wfeelings", "pictures"
   add_foreign_key "wreactions", "pictures"
   add_foreign_key "wreactions", "wsituations"
