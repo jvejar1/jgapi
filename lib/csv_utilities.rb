@@ -1,3 +1,5 @@
+require 'csv'
+
 def get_evaluation(evaluations, moment, student)
   #we need the type of evaluation
   evaluations.where(created_at: moment.from..moment.until, student:student).first
@@ -29,16 +31,6 @@ def get_results(test, evaluation)
 end
 
 
-require 'csv'
-
-def generate_csv(rows, filename)
-  CSV.open(filename, "w") do |csv|
-    rows.each do |row|
-      csv << row
-    end
-  end
-end
-
 def get_realization_flag(evaluation)
   if evaluation.nil?
     0
@@ -55,6 +47,21 @@ def get_group(study, course)
   return StudyCourse.where(study:study, course:course).first.group
 end
 
+def generate_csv_string(csv_lines)
+  csv_string=CSV.generate do |csv|
+    csv_lines.each do |csv_line|
+      csv << csv_line
+    end
+  end
+  csv_string
+end
+
+
+def generate_file(test:, study:, evaluation_class:, schools:, moments:)
+  csv_lines = generate_csv_lines(test: test, study: study, evaluation_class: evaluation_class, schools: schools,moments: moments)
+  generate_csv_string(csv_lines)
+end
+
 
 def generate_csv_lines(test:, study:, evaluation_class:, schools:, moments:)
   csv_lines = []
@@ -62,7 +69,7 @@ def generate_csv_lines(test:, study:, evaluation_class:, schools:, moments:)
   csv_lines << generate_csv_headers(test, study, moments)
   baseline = study.get_baseline_moment
   courses = get_courses(schools, study)
-  students = courses.collect{|course| course.get_students(baseline.from.year)}.flatten[0..10000]
+  students = courses.collect{|course| course.get_students(baseline.from.year)}.flatten
   evaluations = test.evaluations
 
   students.each do |student|
@@ -75,7 +82,7 @@ def generate_csv_lines(test:, study:, evaluation_class:, schools:, moments:)
       #get the evaluation associated to this moment, for this student, and puts his info in the csv
       evaluation = get_evaluation(evaluations, moment, student)
       row << get_realization_flag(evaluation)
-      row<< get_course(student, moment.from).to_string
+      row << get_course(student, moment.from).to_string
       row.concat( evaluation_class.get_info(evaluation))
       row.concat(get_results(test,evaluation))
     end

@@ -1,0 +1,360 @@
+
+
+<h1>Evaluaciones</h1>
+<hr>
+<p>Existe un total de <%=@evaluations_count%> evaluaciones en el sistema</p>
+
+
+
+  <div class="row" >
+    <div class="col-sm-3">
+  <select onchange="selected_study()" name="study" id="study_select" class ="browser-default custom-select">
+    <%@studies.each do |study| %>
+      <option value=<%=study.id%>><%=study.name %> </option>
+    <% end %>
+  </select>
+    </div>
+
+    <div class="col-sm-4" >
+      <div class="multiselect" >
+        <div class="selectBox" onclick="showCheckboxes('school_checkboxes')">
+          <select class="browser-default custom-select">
+            <option>Colegios</option>
+          </select>
+          <div class="overSelect"></div>
+        </div>
+        <div class="checkboxes pre-scrollable" id="school_checkboxes" style="border-radius: 3px; display: none; width:83%">
+
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="col-sm-2" style="margin-left: 0%">
+    <div class="multiselect">
+      <div class="selectBox" onclick="showCheckboxes('moment_checkboxes')">
+        <select class="browser-default custom-select">
+          <option>Evaluación</option>
+        </select >
+        <div class="overSelect"></div>
+      </div>
+      <div class="checkboxes" id="moment_checkboxes" style="border-radius: 3px; width:75%">
+        <label for="one">
+          <input type="checkbox" id="one" value=1 />First checkbox</label>
+        <label for="two">
+          <input type="checkbox" id="two" value = 2 />Second checkbox</label>
+        <label for="three">
+          <input type="checkbox" id="three" value =3 />Third checkbox</label>
+      </div>
+    </div>
+
+    </div>
+  </div>
+
+
+
+  <div class="row" style=" margin-top: 2%; padding-left: 2%" >
+
+    <div class="col-sm-6" style="z-index: -1;position:absolute;">
+
+      <div class="row" style="border: solid #730E15 1px;padding-top:1%">
+
+        <div class="col-sm-9 ">
+          <h4 style="z-index: -1;">Aces (<%=@ace_evaluations_count%>)</h4>
+        </div>
+        <div class="col-md-1" style="margin-right: 0">
+          <input type="button" class="btn btn-info btn-sm" onclick="get_csv('aces')" value="Descargar CSV" />
+        </div>
+      </div>
+
+      </br>
+      <div class="row" style="border: solid #730E15 1px;padding-top:1%">
+
+        <div class="col-sm-9 ">
+          <h4>Wally (<%=@wally_evaluations_count%>)</h4>
+        </div>
+        <div class="col-md-1" style="margin-right: 0">
+          <input type="button" class="btn btn-dark btn-sm" onclick="get_csv('wally')" value="Descargar CSV" />
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row" style="border: solid #730E15 1px;padding-top:1%">
+
+        <div class="col-sm-9 ">
+          <h4>Corsi (<%=@corsi_evaluations_count%>)</h4>
+        </div>
+        <div class="col-md-1" style="margin-right: 0">
+          <input type="button" class="btn btn-info btn-sm" onclick="get_csv('corsi')" value="Descargar CSV" />
+        </div>
+      </div>
+
+      </br>
+      <div class="row" style="border: solid #730E15 1px;padding-top:1%">
+
+        <div class="col-sm-9 ">
+          <h4>C&Flores (<%=@hnf_evaluations_count%>)</h4>
+        </div>
+        <div class="col-md-1" style="margin-right: 0">
+          <input type="button" class="btn btn-dark btn-sm" onclick="get_csv('hnf')" value="Descargar CSV" />
+        </div>
+      </div>
+      </br>
+      <div class="row" style="border: solid #730E15 1px;padding-top:1%">
+
+        <div class="col-sm-9 ">
+          <h4>Fonológico (<%=@fonotest_evaluations_count%>)</h4>
+        </div>
+        <div class="col-md-1" style="margin-right: 0">
+          <input type="button" class="btn  btn-info btn-sm" onclick="get_csv('fonotest')" value="Descargar CSV" />
+        </div>
+      </div>
+      <br>
+
+
+    </div>
+
+
+  </div>
+
+
+
+<script>
+
+    $(document).ready(function() {
+        $('#study_select').trigger('change');
+    });
+
+
+    function selected_study(){
+      var selected_study_id = get_selected_study_id();
+
+      $.ajax({
+          url: '/get_study_info',
+          type: 'GET',
+          contentType: "application/json",
+          dataType: 'json',
+          data: {
+              study: selected_study_id
+          },
+          success: function(data) {
+              var moment_ids_names = data.moments.map(function (moment){
+                  return [moment.id, moment.name];
+              })
+
+              moment_ids_names.unshift([0, 'Todas las evaluaciones']);
+
+              var school_ids_names = data.schools.map(function (school){
+                  return [school.id, school.name];
+              })
+
+              school_ids_names.unshift([0, 'Todos los colegios']);
+
+              var school_checkboxes_container = document.getElementById("school_checkboxes")
+              refreshCheckBoxes(school_checkboxes_container, school_ids_names);
+
+              var moment_checkboxes_container = document.getElementById("moment_checkboxes");
+              refreshCheckBoxes(moment_checkboxes_container, moment_ids_names);
+
+          }
+      });
+
+
+
+
+
+  }
+  function refreshCheckBoxes(container, values_names){
+      delete_container_childrens(container);
+      add_checkboxes_to_container(container, values_names)
+  }
+
+  function delete_container_childrens(container){
+      while (container.firstChild) {
+          container.removeChild(container.firstChild);
+      };
+
+  }
+
+  function add_checkboxes_to_container(container, ids_names){
+
+      ids_names.forEach(function (id_name){
+          var resource_id =id_name[0];
+          var resource_name = id_name[1];
+          var checkbox = document.createElement('input');
+          checkbox.type = "checkbox";
+          checkbox.id = resource_name+resource_id;
+          checkbox.value = resource_id;
+          $(checkbox).prop('checked', true);
+          debugger;
+          var label = document.createElement("Label");
+
+          label.htmlFor = resource_name + resource_id;
+          label.appendChild(checkbox)
+
+          label.innerHTML+=' '+resource_name;
+
+          container.appendChild(label);
+          var hzRule = document.createElement('br');// make
+          container.appendChild(hzRule);
+      })
+
+
+
+      var options = container.getElementsByTagName('input');
+      for(var i = 0 ; i< options.length; i++){
+          options[i].checked = true;
+
+      }
+      var all_option = container.getElementsByTagName('input')[0];
+
+      all_option.addEventListener('change',loadXMLDoc );
+
+
+
+  }
+
+    function loadXMLDoc(e){
+
+        container = e.target.parentElement.parentElement;
+        checkboxes = container.getElementsByTagName('input');
+        debugger;
+        if( e.target.checked){
+
+            for (var i=0 ; i<checkboxes.length; i++){
+                checkboxes[i].checked =true;
+
+            }
+
+        }
+        else{
+
+
+            for (var i=0 ; i<checkboxes.length; i++){
+                checkboxes[i].checked =false;
+
+
+            }
+
+
+
+        }
+    }
+
+
+
+
+
+
+  function generate_download_url(test_name, study_id, school_ids, moment_ids){
+      var url = "/download_csv/"+test_name+"?study="+study_id+"&schools=["+school_ids+"]&moments=["+moment_ids+"]"
+      return url;
+  }
+
+  function get_csv(test_name){
+      var selected_study_id = get_selected_study_id();
+      var selected_school_ids = get_selected_school_ids();
+      var selected_moment_ids = getSelectedMomentIds();
+      window.location = generate_download_url(test_name,selected_study_id,selected_school_ids,selected_moment_ids)
+  }
+
+  function getSelectedMomentIds(){
+
+      var checkboxes = document.getElementById('moment_checkboxes').getElementsByTagName('input');
+      var selected_ids = []
+      for (var i = 0; i< checkboxes.length; i++){
+          var checkbox = checkboxes[i];
+          if (checkbox.checked){
+              selected_ids.push(checkbox.value);
+          }
+      }
+      return selected_ids;
+
+  }
+
+
+  function get_selected_study_id(){
+      var study_select = document.getElementById('study_select');
+      var selected_study_id = study_select.options[study_select.selectedIndex].value;
+      return selected_study_id;
+  }
+
+  function get_selected_school_ids(){
+      var schools_checkboxes = document.getElementById('school_checkboxes').getElementsByTagName('input');
+      var selected_school_ids = []
+      for (var i = 0; i< schools_checkboxes.length; i++){
+          var checkbox = schools_checkboxes[i];
+          if (checkbox.checked){
+              selected_school_ids.push(checkbox.value);
+          }
+      }
+      return selected_school_ids;
+  }
+    $(function() {
+        $("body").click(function(e) {
+
+            if (e.target.id != "school_checkboxes" && expanded['school_checkboxes']) {
+
+            } else {
+
+            }
+        });
+    })
+
+  var expanded = {
+      'school_checkboxes': false,
+      'moment_checkboxes': false
+      // etc.
+  };
+  function showCheckboxes(container_id) {
+      var checkboxes = document.getElementById(container_id);
+      if (!expanded[container_id]) {
+          checkboxes.style.display = "block";
+
+      } else {
+          checkboxes.style.display = "none";
+
+      }
+      expanded[container_id]= !expanded[container_id];
+  }
+
+</script>
+<style>
+
+  .multiselect {
+    width: 90%;
+  }
+
+  .selectBox select {
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .checkboxes {
+    display: none;
+    border: 1px #dadada solid;
+    background-color: #ffffff;
+    padding-left: 2%;
+    padding-right: 2%;
+    position: absolute;
+  }
+
+  #checkboxes label {
+    display: block;
+  }
+
+  #checkboxes label:hover {
+    background-color: #1e90ff;
+  }
+
+</style>
