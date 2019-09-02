@@ -16,4 +16,5 @@ class School < ApplicationRecord
 
 
 
+
 end
