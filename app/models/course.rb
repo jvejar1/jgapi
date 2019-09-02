@@ -1,5 +1,6 @@
 class Course < ApplicationRecord
   has_many :students, dependent: :destroy
+  has_many :student_courses
   belongs_to :school
   validates :school_id, uniqueness: { scope: [:level, :letter], message:"Curso existente en el colegio"}
   validate :validate_level_and_letter
@@ -12,6 +13,12 @@ class Course < ApplicationRecord
                              3=>"C",
                              4=>"D"}
 
+  def get_students(date_from, date_until)
+    self.student_courses.where('entry >= ? AND entry<= ?',date_from, date_until).collect{|sc| sc.student}
+  end
+  def get_students(year)
+    self.student_courses.where('extract (year from entry) = ?',year).collect{|sc| sc.student}
+  end
   def get_full_name()
     return @@course_levels_by_number[self.level] + @@course_letter_by_number[self.letter]
   end
