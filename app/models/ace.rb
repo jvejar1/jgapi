@@ -17,4 +17,7 @@ class Ace < ApplicationRecord
     4
   end
 
+  def get_evaluations
+    self.evaluations
+  end
 end

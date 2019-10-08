@@ -71,6 +71,12 @@ class SchoolsController < ApplicationController
       student_json[:course_letter]=course[:letter]
       student_json[:server_id]=student.id
       student_json[:school_name]=school.name
+      student_json[:aces_count] = student.get_evaluations_number(Ace.first)
+      student_json[:wally_count] = student.get_evaluations_number(Wally.first)
+      student_json[:corsis_count] = student.get_evaluations_number(Corsi.first)
+      student_json[:hnf_count] = student.get_evaluations_number(Hnfset.first)
+      student_json[:fonotest_count] = student.get_evaluations_number(Fonotest.first)
+
       student_json.delete("id")
       student_json.delete("course_id")
       student_json.delete("created_at")

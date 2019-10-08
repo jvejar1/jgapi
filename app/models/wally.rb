@@ -38,4 +38,8 @@ class Wally < ApplicationRecord
          ["Sentimiento"+ self.ANGRY.to_s,"ENOJADO","",""+ self.DESREGULADA.to_s,"DESREGULADA"],
          ["Sentimiento"+ self.ONLY_GOOD.to_s,"SOLO BIEN","",""+ self.EVASIVA.to_s,"EVASIVA"]]
   end
+
+  def get_evaluations
+    self.evaluations
+  end
   end

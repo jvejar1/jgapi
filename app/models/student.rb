@@ -9,6 +9,10 @@ class Student < ApplicationRecord
     self.last_name=self.last_name.upcase
   end
 
+  def get_evaluations_number(test)
+    test.get_evaluations.where(student:self).count
+  end
+
   def validate_rut
 
     #
