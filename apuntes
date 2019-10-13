@@ -1,0 +1,48 @@
+el grupo puede ser control,intervencion o nulo.
+
+el grupo es para un conjunto de cursos, dentro de un estudio
+
+Agregar colegio, grupo despues de nombre. Curso al inicio del momento (temporal)
+
+ACT:
+mostrar 0 o 1 en la columna del momento en caso de haber hecho o no la evaluacion.
+
+
+buscar fecha de evaluacion por la fecha en la que llegan al servidor.
+
+Eliminar las evaluaciones que se encuentran entre los peridos y las evaluadas por admin.
+
+
+generar estudio ACPS
+
+generar resultados para aces y wally
+
+ACT:
+
+name: selb
+visualizacion de alumnos
+agregar filtro de curso, luego de seleccionar un colegio.
+al desplegar todos, ordenar por colegio, curso, y luego por orden alfabetico.
+
+Al select cole, mostrar todos los cursos
+
+al seleccionar un test, preguntar si esta seguro de hacer test para 'alumno'..
+Agregar nombre del alumno evaluado en el test.
+
+desplegar numero de pruebas realizadas, por cada prueba, por cada alumno
+
+visualizacion menu evaluaciones
+
+id_study para cada alumno, son solo numeros. actualizar el id y rut para cada alumno.
+
+ACT: 
+visualizacion checkboxes colegios y evaluaciones
+
+generar plantilla tipo para constanza.
+
+¿Seguro que quieres evaluar a 'nombre - curso'?
+visualizacion del nombre en los test aun no.
+no deben desplegarse todos los alumnos de todos los colegios al iniciar.
+
+
+

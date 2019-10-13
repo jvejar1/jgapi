@@ -39,7 +39,39 @@ class Wally < ApplicationRecord
          ["Sentimiento"+ self.ONLY_GOOD.to_s,"SOLO BIEN","",""+ self.EVASIVA.to_s,"EVASIVA"]]
   end
 
+
   def get_evaluations
     self.evaluations
   end
+
+  def get_void_results
+    ['']*get_headers(nil).count
   end
+
+  def get_selections_and_scores(evaluation)
+    results = []
+
+    wsituations = self.get_wsituations
+    wsituations.each do |situation|
+      answer = evaluation.wsituation_answers.where(wsituation_id: situation.id).first
+      results << answer.wfeeling_answer
+      results << answer.wreaction_answer
+    end
+
+    results
+  end
+
+  def get_wsituations
+    self.wsituations.order("created_at ASC")
+  end
+
+  def get_headers(moment_index)
+    headers = []
+    self.get_wsituations.each_with_index do |wsituation, index|
+      headers << 'wally_emotion_'+ (index+1).to_s+'_'+moment_index.to_s
+      headers << 'wally_behavior_'+ (index+1).to_s+'_'+moment_index.to_s
+    end
+    return headers
+  end
+
+end

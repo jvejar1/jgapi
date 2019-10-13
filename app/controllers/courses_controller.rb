@@ -1,4 +1,5 @@
 class CoursesController < ApplicationController
+  require 'date'
   require 'csv'
   require 'csv_processor'
   require 'student_inserter'
@@ -15,9 +16,12 @@ class CoursesController < ApplicationController
       head(:forbidden)
     end
   end
-  def show
 
+  def show
+    @students = @course.get_students(DateTime.now.year)
+    @students_count =  @students.count
   end
+
   def destroy
     @course.destroy
     redirect_to courses_url, notice: "Curso eliminado"
@@ -54,8 +58,7 @@ class CoursesController < ApplicationController
 
     flash[:notice]="Se ingresaron #{student_inserter.get_correct_rows} y "+
     "se rechazaron #{student_inserter.get_rejected_rows} filas"
-    render :show
-
+    redirect_back fallback_location: "/Error_De_Redireccion"
 
   end
 

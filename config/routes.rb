@@ -47,7 +47,14 @@ Rails.application.routes.draw do
   get 'aces/download/:id', to:"aces#download"
   get '/aces/get_current_test_data', to:"aces#get_current_test_data"
   get '/aces/get_current_version', to:"aces#get_current_version"
+  get '/download_csv', to:"download_csv#index", as: 'download_csv'
+  get '/download_csv/aces', to:"download_csv#aces", as: 'download_csv_aces'
+  get '/download_csv/wally', to:"download_csv#wally", as: 'download_csv_wally'
+  get '/download_csv/corsi', to:"download_csv#corsi", as: 'download_csv_corsi'
+  get '/download_csv/hnf', to:"download_csv#hnf", as: 'download_csv_hnf'
+  get '/download_csv/fonotest', to:"download_csv#fonotest", as: 'download_csv_fonotest'
+  get '/get_study_info/', to:"download_csv#get_study_info", as: 'get_study_info'
 
-  root to:"evaluations#index"
+  root to:"download_csv#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from: 2019-05-14
+  until: 2019-05-14
+
+two:
+  from: 2019-05-14
+  until: 2019-05-14

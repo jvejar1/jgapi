@@ -24,4 +24,17 @@ class Student < ApplicationRecord
     end
 
   end
+
+  def self.get_headers
+    return ['id_rut', 'rut','nombre', 'school', 'group']
+  end
+
+  def get_info
+    return ['', self.rut, self.get_full_name]
+  end
+
+  def get_full_name
+    return self.last_name + ' ' + self.name
+  end
+
 end

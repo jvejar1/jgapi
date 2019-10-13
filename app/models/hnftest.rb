@@ -11,7 +11,7 @@ class Hnftest < ApplicationRecord
 
 
   def self.TEST_NAME_BY_NUMBER
-    {Hnftest.HEARTS_TEST_TYPE=>"Corazones",Hnftest.FLOWERS_TEST_TYPE=>"Flores",Hnftest.HEARTS_AND_FLOWERS_TEST_TYPE=>"Corazones y Flores"}
+    {Hnftest.HEARTS_TEST_TYPE=>"hearts",Hnftest.FLOWERS_TEST_TYPE=>"flowers",Hnftest.HEARTS_AND_FLOWERS_TEST_TYPE=>"hearts_and_flowers"}
   end
 
   has_many :hnfset_hnftests
@@ -19,4 +19,8 @@ class Hnftest < ApplicationRecord
   has_many :hnftest_figures
   default_scope { order(hnf_type: :asc) }
  # type_by_id={0=>'Hearts and Flowers',1=>'Hearts',0=>'Flowers'}
+ #
+
+
+
 end
