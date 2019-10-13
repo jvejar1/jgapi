@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
 <p><%=Course.course_level_hash[@course.level]+" "+Course.course_letter_hash[@course.letter] +" "+@course.school.name unless @course.school.nil? %></p>
+<p><%=@students_count %> alumnos</p>
 <%= link_to 'Edit', edit_course_path(@course) %> |
 <%= link_to 'Back', courses_path %>
 <%= form_tag(upload_students_path(@course.id),{ :multipart => true}) do %>
@@ -7,8 +8,8 @@
   <div class="field"><%=submit_tag :Importar%></div>
 <% end -%>
 
-<%@course.students.order(:last_name).each do |student| %>
-<p><%=student.last_name + student.name%> | <%=if student.active? then "Activo" else "Inactivo" end %>
+<%@students.each do |student| %>
+<p><%="id_rut: "+ student.id_rut.to_s+".- "+student.last_name +  " " +student.name%> | <%=if student.active? then "Activo" else "Inactivo" end %>
   <%=link_to "Editar", edit_student_path(student)%>
   <p>
 <%end%>

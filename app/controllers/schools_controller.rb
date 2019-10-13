@@ -56,15 +56,20 @@ class SchoolsController < ApplicationController
   end
 
   def students #by school_id
+    require 'date'
     school=School.find(params[:id])
-    @students=school.students.where(active:true)
     courses_ids = school.courses.collect{|c| c.id}
     courses_by_id=school.courses.index_by(&:id)
+    @students = []
+
+    school.courses.each do |course|
+      @students.concat(course.get_students())
+    end
     puts courses_by_id
     formatted_students=[]
     @students.each do |student|
-
-      course=courses_by_id[student.course_id]
+      course_id = StudentCourse.where("student_id= ? AND EXTRACT (YEAR FROM ENTRY)=?",student.id, DateTime.now.year).first.course_id
+      course=courses_by_id[course_id]
       student_json=student.as_json
       puts student.course_id
       student_json[:course_level]=course[:level]

@@ -1,4 +1,5 @@
 class Course < ApplicationRecord
+  require 'date'
   has_many :students, dependent: :destroy
   has_many :student_courses
   belongs_to :school
@@ -16,7 +17,7 @@ class Course < ApplicationRecord
   def get_students(date_from, date_until)
     self.student_courses.where('entry >= ? AND entry<= ?',date_from, date_until).collect{|sc| sc.student}
   end
-  def get_students(year)
+  def get_students(year=DateTime.now.year)
     self.student_courses.where('extract (year from entry) = ?',year).collect{|sc| sc.student}
   end
   def get_full_name()
