@@ -1,3 +1,4 @@
+puts "migrating students"
 students_2018 = Student.where('created_at <= ?',Date.new(2018,12,31))
 students_2019 = Student.where('created_at >= ?',Date.new(2019,01,01))
 entry_2018 = Date.new(2018,01,01)
