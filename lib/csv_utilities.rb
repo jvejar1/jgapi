@@ -40,7 +40,7 @@ def get_realization_flag(evaluation)
 end
 
 def get_course(student, date)
-  return StudentCourse.where('student_id = ? AND entry <= ?',student,date).first.course
+  return StudentCourse.where('student_id = ? AND EXTRACT(year from entry) = ?',student,date.year).first.course
 end
 
 def get_group(study, course)
