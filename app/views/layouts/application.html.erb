@@ -13,7 +13,7 @@
 
 
   <ul>
-    <li><a class="active" href=<%=evaluations_url%>>Evaluaciones</a></li>
+    <li><a class="active" href=<%=download_csv_url%>>Evaluaciones</a></li>
     <%if current_user
         if current_user.can_admin_users?%>
         <li><%=link_to 'Usuarios',users_url%></li>
