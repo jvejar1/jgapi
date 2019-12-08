@@ -12,7 +12,8 @@ class Course < ApplicationRecord
   @@course_letter_by_number={1=>"A",
                              2=>"B",
                              3=>"C",
-                             4=>"D"}
+                             4=>"D",
+                              5=>"E"}
 
   def get_students(date_from, date_until)
     self.student_courses.where('entry >= ? AND entry<= ?',date_from, date_until).collect{|sc| sc.student}
