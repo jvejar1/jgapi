@@ -11,6 +11,6 @@ courses = Course.where(school_id:schools_ids)
 
 courses.each do |course|
 
-  StudyCourse.create(study_id: t2_study.id, course_id: course.id, group:0)
+  study_course = StudyCourse.create(study_id: t2_study.id, course_id: course.id, group:0)
 
 end

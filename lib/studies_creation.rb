@@ -35,7 +35,7 @@ end
 
 
 
-acps_study = Study.create(name:'ACPS')
+acps_study = Study.create(name:'ICPS')
 #moments
 basal = Moment.create(from: Date.new(2019,4,4), until: Date.new(2019,6,24), study: acps_study)
 
@@ -47,6 +47,7 @@ intervention_school_names =['Colegio Villa Macul',
                             "Saint Maurice's",
                             "Colegio Santa Beatriz"]
 
+
 intervention_courses = get_courses(intervention_school_names)
 intervention_courses.each do |course|
   StudyCourse.create(course:course, study:acps_study, group: Study.INTERVENTION)
@@ -56,7 +57,7 @@ end
 control_school_names = ["Colegio Teniente Dagoberto Godoy",
                         "Escuela Particular Iberoamericana",
                         "Escuela Particular Jose A. Alfonso",
-                        "Fundacion Educacional Presidente Abraham Lincoln"]
+                        "Fundacion Educacional Presidente Abraham Lincoln","Liceo Avenida Recoleta", "Colegio Hernán Olguín Maibee"]
 
 control_courses = get_courses(control_school_names)
 
