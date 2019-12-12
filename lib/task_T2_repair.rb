@@ -1,3 +1,4 @@
+require File.expand_path('../../config/environment', __FILE__)
 t2_study = Study.where(name:"ICPS T2 2019").first
 
 

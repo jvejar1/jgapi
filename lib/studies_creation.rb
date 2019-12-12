@@ -1,3 +1,5 @@
+require File.expand_path('../../config/environment', __FILE__)
+
 def get_courses(schools_names)
   School.where(name:schools_names).collect{|school| school.courses}.flatten
 end
