@@ -22,7 +22,7 @@ class Course < ApplicationRecord
     self.student_courses.where('extract (year from entry) = ?',year).collect{|sc| sc.student}
   end
   def get_full_name()
-    return @@course_levels_by_number[self.level] + @@course_letter_by_number[self.letter]
+    return @@course_levels_by_number[self.level] + ' '+ @@course_letter_by_number[self.letter]
   end
 
   def validate_level_and_letter
@@ -39,7 +39,6 @@ class Course < ApplicationRecord
   def to_string
   #  puts @@course_letter_by_number
     string = "#{self.school.name} - #{Course.course_level_hash[self.level]} #{Course.course_letter_hash[self.letter]}"
-    puts string
     return string
   end
 

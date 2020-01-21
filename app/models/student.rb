@@ -30,7 +30,7 @@ class Student < ApplicationRecord
   end
 
   def get_info
-    return ['', self.rut, self.get_full_name]
+    return [self.id_rut.to_s, self.rut, self.get_full_name]
   end
 
   def get_full_name

@@ -16,12 +16,12 @@
     </div>
 
     <div class="col-sm-3" >
-      <div class="multiselect" >
+      <div class="multiselect" id="school_multiselect">
         <div class="selectBox" onclick="showCheckboxes('school_checkboxes')">
           <select class="browser-default custom-select">
             <option>Colegios</option>
           </select>
-          <div class="overSelect"></div>
+          <div class="overSelect" id="schools_button"></div>
         </div>
         <div class="checkboxes pre-scrollable" id="school_checkboxes" style="border-radius: 3px; display: none; width:80%">
 
@@ -37,7 +37,7 @@
         <select class="browser-default custom-select">
           <option>Evaluación</option>
         </select >
-        <div class="overSelect"></div>
+        <div class="overSelect" id="moments_button"></div>
       </div>
       <div class="checkboxes" id="moment_checkboxes" style="border-radius: 3px; width:75%">
         <label for="one">
@@ -295,11 +295,41 @@
     $(function() {
         $("body").click(function(e) {
 
-            if (e.target.id != "school_checkboxes" && expanded['school_checkboxes']) {
 
-            } else {
 
+
+            var container = $("#school_checkboxes");
+
+
+            if(!container.is(e.target) && container.has(e.target).length === 0){
+
+
+                debugger;
+
+                if(expanded["school_checkboxes"] && e.target.id!="schools_button"){
+                    showCheckboxes("school_checkboxes");
+
+                }
             }
+
+
+            //action for moments multiselect;
+            var container = $("#moment_checkboxes");
+
+
+            if(!container.is(e.target) && container.has(e.target).length === 0){
+
+                debugger;
+
+                if(expanded["moment_checkboxes"]  && e.target.id!="moments_button"){
+                    showCheckboxes("moment_checkboxes");
+
+                }
+                return;
+            }
+
+
+
         });
     })
 
@@ -333,6 +363,7 @@
   }
 
   .overSelect {
+    width: 80%;
     position: absolute;
     left: 0;
     right: 0;

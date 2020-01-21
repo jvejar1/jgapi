@@ -75,7 +75,7 @@ end
 
 study_name = "ICPS T2 2019"
 study =Study.create(name: study_name)
-basal_from = Date.new(2019,01,01)
+basal_from = Date.new(2019,10,01)
 basal_until = Date.new(2019,12,12)
 study_basal = Moment.create(from: basal_from, until:basal_until, study_id:study.id)
 

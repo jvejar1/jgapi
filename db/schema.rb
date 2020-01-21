@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191008183135) do
+ActiveRecord::Schema.define(version: 20200102202603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,15 @@ ActiveRecord::Schema.define(version: 20191008183135) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["csequence_id"], name: "index_csquares_on_csequence_id"
+  end
+
+  create_table "evaluation_migrations", force: :cascade do |t|
+    t.bigint "evaluation_from_id"
+    t.bigint "evaluation_to_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["evaluation_from_id"], name: "index_evaluation_migrations_on_evaluation_from_id"
+    t.index ["evaluation_to_id"], name: "index_evaluation_migrations_on_evaluation_to_id"
   end
 
   create_table "evaluations", force: :cascade do |t|
@@ -308,6 +317,17 @@ ActiveRecord::Schema.define(version: 20191008183135) do
     t.index ["student_id"], name: "index_student_courses_on_student_id"
   end
 
+  create_table "student_name_changes", force: :cascade do |t|
+    t.bigint "student_id"
+    t.string "old_name"
+    t.string "new_name"
+    t.string "old_last_name"
+    t.string "new_last_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_id"], name: "index_student_name_changes_on_student_id"
+  end
+
   create_table "students", force: :cascade do |t|
     t.string "name"
     t.string "last_name"
@@ -420,6 +440,8 @@ ActiveRecord::Schema.define(version: 20191008183135) do
   add_foreign_key "csequence_answers", "csequences"
   add_foreign_key "csequence_answers", "evaluations"
   add_foreign_key "csquares", "csequences"
+  add_foreign_key "evaluation_migrations", "evaluations", column: "evaluation_from_id"
+  add_foreign_key "evaluation_migrations", "evaluations", column: "evaluation_to_id"
   add_foreign_key "evaluations", "aces"
   add_foreign_key "evaluations", "fonotests"
   add_foreign_key "evaluations", "hnfsets"
@@ -442,6 +464,7 @@ ActiveRecord::Schema.define(version: 20191008183135) do
   add_foreign_key "situation_sets", "wsituations"
   add_foreign_key "student_courses", "courses"
   add_foreign_key "student_courses", "students"
+  add_foreign_key "student_name_changes", "students"
   add_foreign_key "students", "courses"
   add_foreign_key "study_courses", "courses"
   add_foreign_key "study_courses", "studies"
