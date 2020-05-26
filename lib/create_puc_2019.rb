@@ -1,5 +1,6 @@
 #puc 2019
 #
+require File.expand_path('../../config/environment', __FILE__)
 name= "PUC 2019"
 puc = Study.where(name:name).first
 exists = not(puc.nil?)
