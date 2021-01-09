@@ -3,7 +3,9 @@
 <p><%=@students_count %> alumnos</p>
 <%= link_to 'Edit', edit_course_path(@course) %> |
 <%= link_to 'Back', courses_path %>
+<hr></hr>
 <%= form_tag(upload_students_path(@course.id),{ :multipart => true}) do %>
+  <div> <p> Ingresar archivo csv con columnas obligatorias:  Nombre, Apellido, Rut, Id (Con mayúsculas)</p></div>
   <div class="field"><%=file_field_tag :csv_file%></div>
   <div class="field"><%=submit_tag :Importar%></div>
 <% end -%>
