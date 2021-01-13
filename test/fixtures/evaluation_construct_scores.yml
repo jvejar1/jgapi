@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  evaluation: one
+  construct: one
+  score: 1
+
+two:
+  evaluation: two
+  construct: two
+  score: 1

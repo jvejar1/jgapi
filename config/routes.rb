@@ -23,12 +23,13 @@ Rails.application.routes.draw do
     resources :courses
   end
   resources :courses
-  get '/audios/download/:id', to:"audios#download"
+  get '/audios/download/:id', to:"audios#download", as: 'download_audio'
   post '/evaluations', to:"evaluations#create", as:'create_evaluation'
   post '/courses/:id/csv', to:"courses#upload_students", as: 'upload_students'
   get '/corsi/get_current_data', to:"corsis#get_current_data"
   get '/pictures/download/:id/:style', to:"pictures#download"
-  get '/pictures/download/:id', to:"pictures#download"
+
+  get '/pictures/download/:id', to:"pictures#download", as: 'download_picture'
 
   get '/wally/get_all_of_current', to:"wallies#get_all_of_current"
 

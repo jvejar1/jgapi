@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item_answer: one
+  answer_text: MyText
+  latency_seconds: 1
+
+two:
+  item_answer: two
+  answer_text: MyText
+  latency_seconds: 1

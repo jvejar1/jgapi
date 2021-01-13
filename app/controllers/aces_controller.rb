@@ -16,6 +16,40 @@ class AcesController < ApplicationController
     aces=aces.as_json
     aces[:acases]=acases_ar
     json_response={fonotest:get_fonotest_current_data,hnf:get_hnf_current_data,corsi:get_corsi_current_data,ace:aces,wally:get_all_of_current_wally}
+
+    json_response = {}
+    instruments = []
+    Instrument.all.each do | instrument|
+
+      items = []
+      instrument.items.each do | item|
+        picture_url = nil
+        audio_url = nil
+        if item.picture
+          picture_url = url_for download_picture_url(item.picture.id)
+        end
+
+        if item.audio
+          audio_url = url_for download_audio_url(item.audio.id)
+          item[:audioUrl] = audio_url
+        end
+
+        item = item.as_json
+        item[:pictureUrl] = picture_url
+        item[:audioUrl] = audio_url
+
+        items << item
+      end
+
+      instrument = instrument.as_json
+      instrument[:items] = items
+      instruments << instrument
+
+    end
+
+    json_response[:instruments]= instruments
+
+    puts json_response
     render json: json_response.as_json
 
   end

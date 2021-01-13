@@ -39,3 +39,5 @@ OR
     
 4. sudo service nginx restart
 # jgapi
+
+The items of sequence type as ÂÂ'cubos de corsi'' and 'fonotest' has to be saved with the alternatives as the units so the child form the sequence selecting one alternative at time. The alternatives are given in the expected order, so the app can determine when the/she make a mistake or answers correctly. For fonotest, we can separate the words and numbers with the value field of alternatives.

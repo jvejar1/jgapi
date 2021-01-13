@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item: one
+  choice_text: MyString
+  choice_value: 
+  parent_choice: one
+  is_right: false
+  picture: one
+
+two:
+  item: two
+  choice_text: MyString
+  choice_value: 
+  parent_choice: two
+  is_right: false
+  picture: two

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  instruction: MyString
+  personalisation_of_instrument_id: one
+  for_sex: 1
+
+two:
+  name: MyString
+  instruction: MyString
+  personalisation_of_instrument_id: two
+  for_sex: 1

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200102202603) do
+ActiveRecord::Schema.define(version: 20210112223700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,10 +71,52 @@ ActiveRecord::Schema.define(version: 20200102202603) do
     t.datetime "audio_updated_at"
   end
 
+  create_table "calculation_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "choice_answers", force: :cascade do |t|
+    t.bigint "item_id"
+    t.bigint "choice_id"
+    t.integer "selection_order"
+    t.integer "latency_seconds"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["choice_id"], name: "index_choice_answers_on_choice_id"
+    t.index ["item_id"], name: "index_choice_answers_on_item_id"
+  end
+
+  create_table "choices", force: :cascade do |t|
+    t.bigint "item_id"
+    t.string "choice_text"
+    t.integer "choice_value"
+    t.bigint "parent_choice_id"
+    t.boolean "is_right"
+    t.bigint "picture_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_choices_on_item_id"
+    t.index ["parent_choice_id"], name: "index_choices_on_parent_choice_id"
+    t.index ["picture_id"], name: "index_choices_on_picture_id"
+  end
+
   create_table "communes", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "constructs", force: :cascade do |t|
+    t.string "name"
+    t.bigint "calculation_type_id"
+    t.bigint "instrument_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["calculation_type_id"], name: "index_constructs_on_calculation_type_id"
+    t.index ["instrument_id"], name: "index_constructs_on_instrument_id"
   end
 
   create_table "corsi_csequences", force: :cascade do |t|
@@ -117,6 +159,7 @@ ActiveRecord::Schema.define(version: 20200102202603) do
     t.bigint "school_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "year"
     t.index ["school_id"], name: "index_courses_on_school_id"
   end
 
@@ -151,6 +194,16 @@ ActiveRecord::Schema.define(version: 20200102202603) do
     t.index ["csequence_id"], name: "index_csquares_on_csequence_id"
   end
 
+  create_table "evaluation_construct_scores", force: :cascade do |t|
+    t.bigint "evaluation_id"
+    t.bigint "construct_id"
+    t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["construct_id"], name: "index_evaluation_construct_scores_on_construct_id"
+    t.index ["evaluation_id"], name: "index_evaluation_construct_scores_on_evaluation_id"
+  end
+
   create_table "evaluation_migrations", force: :cascade do |t|
     t.bigint "evaluation_from_id"
     t.bigint "evaluation_to_id"
@@ -171,9 +224,15 @@ ActiveRecord::Schema.define(version: 20200102202603) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "total_score"
+    t.bigint "instrument_id"
+    t.bigint "moment_id"
+    t.boolean "pass_assent"
+    t.boolean "pass_instruction"
     t.index ["ace_id"], name: "index_evaluations_on_ace_id"
     t.index ["fonotest_id"], name: "index_evaluations_on_fonotest_id"
     t.index ["hnfset_id"], name: "index_evaluations_on_hnfset_id"
+    t.index ["instrument_id"], name: "index_evaluations_on_instrument_id"
+    t.index ["moment_id"], name: "index_evaluations_on_moment_id"
     t.index ["student_id"], name: "index_evaluations_on_student_id"
     t.index ["user_id"], name: "index_evaluations_on_user_id"
     t.index ["wally_id"], name: "index_evaluations_on_wally_id"
@@ -247,6 +306,16 @@ ActiveRecord::Schema.define(version: 20200102202603) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "instruments", force: :cascade do |t|
+    t.string "name"
+    t.string "instruction"
+    t.bigint "personalisation_of_instrument_id"
+    t.integer "for_sex"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["personalisation_of_instrument_id"], name: "index_instruments_on_personalisation_of_instrument_id"
+  end
+
   create_table "item_answers", force: :cascade do |t|
     t.bigint "evaluation_id"
     t.bigint "item_id"
@@ -258,13 +327,37 @@ ActiveRecord::Schema.define(version: 20200102202603) do
     t.index ["item_id"], name: "index_item_answers_on_item_id"
   end
 
+  create_table "item_constructs", force: :cascade do |t|
+    t.bigint "item_id"
+    t.bigint "construct_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["construct_id"], name: "index_item_constructs_on_construct_id"
+    t.index ["item_id"], name: "index_item_constructs_on_item_id"
+  end
+
+  create_table "item_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "items", force: :cascade do |t|
     t.bigint "audio_id"
     t.string "description"
     t.string "correct_sequence"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "instrument_id"
+    t.string "title"
+    t.integer "order"
+    t.bigint "picture_id"
+    t.boolean "is_for_practice"
+    t.integer "item_type_id"
     t.index ["audio_id"], name: "index_items_on_audio_id"
+    t.index ["instrument_id"], name: "index_items_on_instrument_id"
+    t.index ["picture_id"], name: "index_items_on_picture_id"
   end
 
   create_table "moments", force: :cascade do |t|
@@ -274,6 +367,15 @@ ActiveRecord::Schema.define(version: 20200102202603) do
     t.datetime "updated_at", null: false
     t.bigint "study_id"
     t.index ["study_id"], name: "index_moments_on_study_id"
+  end
+
+  create_table "open_answers", force: :cascade do |t|
+    t.bigint "item_answer_id"
+    t.text "answer_text"
+    t.integer "latency_seconds"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_answer_id"], name: "index_open_answers_on_item_answer_id"
   end
 
   create_table "pictures", force: :cascade do |t|
@@ -338,6 +440,7 @@ ActiveRecord::Schema.define(version: 20200102202603) do
     t.bigint "course_id"
     t.boolean "active", default: true
     t.bigint "id_rut"
+    t.integer "sex"
     t.index ["course_id"], name: "index_students_on_course_id"
   end
 
@@ -355,6 +458,15 @@ ActiveRecord::Schema.define(version: 20200102202603) do
     t.integer "group"
     t.index ["course_id"], name: "index_study_courses_on_course_id"
     t.index ["study_id"], name: "index_study_courses_on_study_id"
+  end
+
+  create_table "user_studies", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "study_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["study_id"], name: "index_user_studies_on_study_id"
+    t.index ["user_id"], name: "index_user_studies_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -430,6 +542,13 @@ ActiveRecord::Schema.define(version: 20200102202603) do
   add_foreign_key "acases", "pictures"
   add_foreign_key "ace_acases", "acases"
   add_foreign_key "ace_acases", "aces"
+  add_foreign_key "choice_answers", "choices"
+  add_foreign_key "choice_answers", "items"
+  add_foreign_key "choices", "choices", column: "parent_choice_id"
+  add_foreign_key "choices", "items"
+  add_foreign_key "choices", "pictures"
+  add_foreign_key "constructs", "calculation_types"
+  add_foreign_key "constructs", "instruments"
   add_foreign_key "corsi_csequences", "corsis"
   add_foreign_key "corsi_csequences", "csequences"
   add_foreign_key "corsi_evaluations", "corsis"
@@ -440,11 +559,15 @@ ActiveRecord::Schema.define(version: 20200102202603) do
   add_foreign_key "csequence_answers", "csequences"
   add_foreign_key "csequence_answers", "evaluations"
   add_foreign_key "csquares", "csequences"
+  add_foreign_key "evaluation_construct_scores", "constructs"
+  add_foreign_key "evaluation_construct_scores", "evaluations"
   add_foreign_key "evaluation_migrations", "evaluations", column: "evaluation_from_id"
   add_foreign_key "evaluation_migrations", "evaluations", column: "evaluation_to_id"
   add_foreign_key "evaluations", "aces"
   add_foreign_key "evaluations", "fonotests"
   add_foreign_key "evaluations", "hnfsets"
+  add_foreign_key "evaluations", "instruments"
+  add_foreign_key "evaluations", "moments"
   add_foreign_key "evaluations", "students"
   add_foreign_key "evaluations", "users"
   add_foreign_key "evaluations", "wallies"
@@ -455,10 +578,17 @@ ActiveRecord::Schema.define(version: 20200102202603) do
   add_foreign_key "hnfset_hnftests", "hnfsets"
   add_foreign_key "hnfset_hnftests", "hnftests"
   add_foreign_key "hnftest_figures", "hnftests"
+  add_foreign_key "instruments", "instruments", column: "personalisation_of_instrument_id"
   add_foreign_key "item_answers", "evaluations"
   add_foreign_key "item_answers", "items"
+  add_foreign_key "item_constructs", "constructs"
+  add_foreign_key "item_constructs", "items"
   add_foreign_key "items", "audios"
+  add_foreign_key "items", "instruments"
+  add_foreign_key "items", "item_types"
+  add_foreign_key "items", "pictures"
   add_foreign_key "moments", "studies"
+  add_foreign_key "open_answers", "item_answers"
   add_foreign_key "schools", "communes"
   add_foreign_key "situation_sets", "wallies"
   add_foreign_key "situation_sets", "wsituations"
@@ -468,6 +598,8 @@ ActiveRecord::Schema.define(version: 20200102202603) do
   add_foreign_key "students", "courses"
   add_foreign_key "study_courses", "courses"
   add_foreign_key "study_courses", "studies"
+  add_foreign_key "user_studies", "studies"
+  add_foreign_key "user_studies", "users"
   add_foreign_key "wfeelings", "pictures"
   add_foreign_key "wreactions", "pictures"
   add_foreign_key "wreactions", "wsituations"

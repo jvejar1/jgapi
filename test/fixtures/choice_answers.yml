@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item: one
+  choice: one
+  selection_order: 1
+  latency_seconds: 1
+
+two:
+  item: two
+  choice: two
+  selection_order: 1
+  latency_seconds: 1
