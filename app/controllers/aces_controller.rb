@@ -1,6 +1,7 @@
 class AcesController < ApplicationController
   before_action :set_ace, only: [:show, :edit, :update, :destroy]
-
+  require "#{Rails.root}/lib/hash_converter"
+  include HashConverter
   skip_before_action :authenticate_user!
   # GET /aces
   # GET /aces.json
@@ -20,7 +21,10 @@ class AcesController < ApplicationController
     json_response = {}
     instruments = []
     Instrument.all.each do | instrument|
-
+      
+      if instrument.id != Instrument.last.id
+        next
+      end
       items = []
       instrument.items.each do | item|
         picture_url = nil
@@ -35,9 +39,11 @@ class AcesController < ApplicationController
         end
 
         item = item.as_json
-        item[:pictureUrl] = picture_url
-        item[:audioUrl] = audio_url
+        item["pictureUrl"] = picture_url
+        item["audioUrl"] = audio_url
 
+        puts item
+        item = HashConverter.to_camel_case(item)
         items << item
       end
 

@@ -370,12 +370,14 @@ ActiveRecord::Schema.define(version: 20210112223700) do
   end
 
   create_table "open_answers", force: :cascade do |t|
-    t.bigint "item_answer_id"
+    t.bigint "item_id"
+    t.bigint "evaluation_id"
     t.text "answer_text"
     t.integer "latency_seconds"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["item_answer_id"], name: "index_open_answers_on_item_answer_id"
+    t.index ["evaluation_id"], name: "index_open_answers_on_evaluation_id"
+    t.index ["item_id"], name: "index_open_answers_on_item_id"
   end
 
   create_table "pictures", force: :cascade do |t|
@@ -588,7 +590,8 @@ ActiveRecord::Schema.define(version: 20210112223700) do
   add_foreign_key "items", "item_types"
   add_foreign_key "items", "pictures"
   add_foreign_key "moments", "studies"
-  add_foreign_key "open_answers", "item_answers"
+  add_foreign_key "open_answers", "evaluations"
+  add_foreign_key "open_answers", "items"
   add_foreign_key "schools", "communes"
   add_foreign_key "situation_sets", "wallies"
   add_foreign_key "situation_sets", "wsituations"

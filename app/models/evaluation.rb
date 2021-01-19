@@ -1,4 +1,5 @@
 class Evaluation < ApplicationRecord
+  has_many :open_answers
   belongs_to :user
   belongs_to :student
   belongs_to :wally

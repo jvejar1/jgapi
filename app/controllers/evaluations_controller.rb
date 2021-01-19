@@ -1,6 +1,7 @@
 class EvaluationsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
-
+  require "#{Rails.root}/lib/hash_converter"
+  include HashConverter
   skip_before_action :authenticate_user!, only: :create
   before_action :authenticate_token, only: :create
   require 'csv'
@@ -23,9 +24,23 @@ class EvaluationsController < ApplicationController
     @hnf_evaluations_count=Evaluation.where(hnfset_id:!nil).count
 
   end
-
+  require 'json'
   def create
 
+    evaluation_json = params[:evaluation]
+    evaluation_json = JSON.parse(evaluation_json)
+
+    if evaluation_json
+      evaluation = Evaluation.new instrument_id: evaluation_json["instrumentId"], student_id: evaluation_json["studentId"], realized_at: evaluation_json["timestamp"]
+      evaluation.save
+      _answers = evaluation_json["itemAnswerList"]
+      _answers.each do |answer|
+        open_answer = OpenAnswer.new(item_id: answer["itemId"], answer_text: answer["answer"], latency_seconds: answer["latencySeconds"], evaluation_id: evaluation.id)
+        open_answer.save
+      end
+      render json:{request_id_to_delete:params[:request_id_to_delete],headers:{:status=>200}},:status=>:ok
+      return
+    end
 
     test_name=params[:test_name]
     responses=params[:responses]
@@ -192,7 +207,21 @@ class EvaluationsController < ApplicationController
 
       hnf_evaluation.update(total_score:total_score)
 
-    end
+    else
+
+
+
+      params[:student_id]
+
+      evaluation = Evaluation.new
+      json =  JSON.parse(params.to_hash)
+      puts json
+      evaluation.student
+      puts responses
+      render {}
+      end
+
+
     render json:{request_id_to_delete:params[:request_id_to_delete],headers:{:status=>200}},:status=>:ok
 
 

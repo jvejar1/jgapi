@@ -1,3 +1,3 @@
 class OpenAnswer < ApplicationRecord
-  belongs_to :item_answer
+  belongs_to :item
 end
