@@ -20,7 +20,7 @@ class Users::SessionsController < Devise::SessionsController
          if(!user)
            render :json => {},status: :unauthorized
          elsif user.valid_password?(password)
-           render :json =>{Authorization:user.auth_token,status: 200}, status: :ok
+           render :json =>{Authorization:user.auth_token,user_id:user.id,status: 200}, status: :ok
          else
            render :json =>{}, status: :unauthorized
          end

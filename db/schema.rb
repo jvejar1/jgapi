@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210112223700) do
+ActiveRecord::Schema.define(version: 20210122043144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,14 +79,14 @@ ActiveRecord::Schema.define(version: 20210112223700) do
   end
 
   create_table "choice_answers", force: :cascade do |t|
-    t.bigint "item_id"
+    t.bigint "evaluation_id"
     t.bigint "choice_id"
     t.integer "selection_order"
     t.integer "latency_seconds"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["choice_id"], name: "index_choice_answers_on_choice_id"
-    t.index ["item_id"], name: "index_choice_answers_on_item_id"
+    t.index ["evaluation_id"], name: "index_choice_answers_on_evaluation_id"
   end
 
   create_table "choices", force: :cascade do |t|
@@ -450,6 +450,7 @@ ActiveRecord::Schema.define(version: 20210112223700) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "year"
   end
 
   create_table "study_courses", force: :cascade do |t|
@@ -460,6 +461,15 @@ ActiveRecord::Schema.define(version: 20210112223700) do
     t.integer "group"
     t.index ["course_id"], name: "index_study_courses_on_course_id"
     t.index ["study_id"], name: "index_study_courses_on_study_id"
+  end
+
+  create_table "study_instruments", force: :cascade do |t|
+    t.bigint "study_id"
+    t.bigint "instrument_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["instrument_id"], name: "index_study_instruments_on_instrument_id"
+    t.index ["study_id"], name: "index_study_instruments_on_study_id"
   end
 
   create_table "user_studies", force: :cascade do |t|
@@ -545,7 +555,7 @@ ActiveRecord::Schema.define(version: 20210112223700) do
   add_foreign_key "ace_acases", "acases"
   add_foreign_key "ace_acases", "aces"
   add_foreign_key "choice_answers", "choices"
-  add_foreign_key "choice_answers", "items"
+  add_foreign_key "choice_answers", "evaluations"
   add_foreign_key "choices", "choices", column: "parent_choice_id"
   add_foreign_key "choices", "items"
   add_foreign_key "choices", "pictures"
@@ -601,6 +611,8 @@ ActiveRecord::Schema.define(version: 20210112223700) do
   add_foreign_key "students", "courses"
   add_foreign_key "study_courses", "courses"
   add_foreign_key "study_courses", "studies"
+  add_foreign_key "study_instruments", "instruments"
+  add_foreign_key "study_instruments", "studies"
   add_foreign_key "user_studies", "studies"
   add_foreign_key "user_studies", "users"
   add_foreign_key "wfeelings", "pictures"

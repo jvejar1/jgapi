@@ -6,30 +6,27 @@ class AcesController < ApplicationController
   # GET /aces
   # GET /aces.json
 
-
   def get_all
-
-
+    user_id = params[:user_id]
     #TODO: get attributes
-
     aces=Ace.find_by(current:true)
     acases_ar=aces.acases
     aces=aces.as_json
     aces[:acases]=acases_ar
     json_response={fonotest:get_fonotest_current_data,hnf:get_hnf_current_data,corsi:get_corsi_current_data,ace:aces,wally:get_all_of_current_wally}
 
-    json_response = {}
-    instruments = []
-    Instrument.all.each do | instrument|
-      
-      if instrument.id != Instrument.last.id
-        next
-      end
+    result_instruments = []
+    user = User.find(user_id)
+    instruments = user.studies.where(year: Date.today.year).map{|study| study.instruments}.flatten
+
+    instruments.each do | instrument|
       items = []
       instrument.items.each do | item|
         picture_url = nil
         audio_url = nil
+        picture_id = nil
         if item.picture
+          picture_id = item.picture.id
           picture_url = url_for download_picture_url(item.picture.id)
         end
 
@@ -40,22 +37,22 @@ class AcesController < ApplicationController
 
         item = item.as_json
         item["pictureUrl"] = picture_url
+        item["pictureId"] = picture_id
+
         item["audioUrl"] = audio_url
 
-        puts item
         item = HashConverter.to_camel_case(item)
         items << item
       end
 
       instrument = instrument.as_json
       instrument[:items] = items
-      instruments << instrument
+      result_instruments << instrument
 
     end
 
-    json_response[:instruments]= instruments
+    json_response[:instruments]= result_instruments
 
-    puts json_response
     render json: json_response.as_json
 
   end

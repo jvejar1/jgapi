@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :user_studies
+  has_many :studies, through: :user_studies
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_secure_token :auth_token

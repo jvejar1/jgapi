@@ -1,4 +1,8 @@
 class Study < ApplicationRecord
+  has_many :user_studies
+  has_many :users, through: :user_studies
+  has_many :study_instruments
+  has_many :instruments, through: :study_instruments
   has_many :moments
   has_many :study_courses
   has_many :courses, through: :study_courses

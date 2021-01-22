@@ -1,0 +1,5456 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.4
+-- Dumped by pg_dump version 12.4
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: acase_answers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.acase_answers (
+    id bigint NOT NULL,
+    evaluation_id bigint,
+    acase_id bigint,
+    score integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    selected_feeling integer
+);
+
+
+ALTER TABLE public.acase_answers OWNER TO postgres;
+
+--
+-- Name: acase_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.acase_answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.acase_answers_id_seq OWNER TO postgres;
+
+--
+-- Name: acase_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.acase_answers_id_seq OWNED BY public.acase_answers.id;
+
+
+--
+-- Name: acase_correct_feelings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.acase_correct_feelings (
+    id bigint NOT NULL,
+    acase_id bigint,
+    correct_feeling integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.acase_correct_feelings OWNER TO postgres;
+
+--
+-- Name: acase_correct_feelings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.acase_correct_feelings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.acase_correct_feelings_id_seq OWNER TO postgres;
+
+--
+-- Name: acase_correct_feelings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.acase_correct_feelings_id_seq OWNED BY public.acase_correct_feelings.id;
+
+
+--
+-- Name: acases; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.acases (
+    id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    sex character varying(1),
+    description character varying,
+    correct_feeling integer,
+    distractor boolean,
+    picture_id bigint
+);
+
+
+ALTER TABLE public.acases OWNER TO postgres;
+
+--
+-- Name: acases_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.acases_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.acases_id_seq OWNER TO postgres;
+
+--
+-- Name: acases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.acases_id_seq OWNED BY public.acases.id;
+
+
+--
+-- Name: ace_acases; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ace_acases (
+    id bigint NOT NULL,
+    ace_id bigint,
+    acase_id bigint,
+    index integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.ace_acases OWNER TO postgres;
+
+--
+-- Name: ace_acases_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ace_acases_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ace_acases_id_seq OWNER TO postgres;
+
+--
+-- Name: ace_acases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ace_acases_id_seq OWNED BY public.ace_acases.id;
+
+
+--
+-- Name: aces; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.aces (
+    id bigint NOT NULL,
+    version integer,
+    current boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.aces OWNER TO postgres;
+
+--
+-- Name: aces_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.aces_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.aces_id_seq OWNER TO postgres;
+
+--
+-- Name: aces_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.aces_id_seq OWNED BY public.aces.id;
+
+
+--
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.ar_internal_metadata OWNER TO postgres;
+
+--
+-- Name: audios; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.audios (
+    id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    audio_file_name character varying,
+    audio_content_type character varying,
+    audio_file_size integer,
+    audio_updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.audios OWNER TO postgres;
+
+--
+-- Name: audios_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.audios_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.audios_id_seq OWNER TO postgres;
+
+--
+-- Name: audios_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.audios_id_seq OWNED BY public.audios.id;
+
+
+--
+-- Name: calculation_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.calculation_types (
+    id bigint NOT NULL,
+    name character varying,
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.calculation_types OWNER TO postgres;
+
+--
+-- Name: calculation_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.calculation_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.calculation_types_id_seq OWNER TO postgres;
+
+--
+-- Name: calculation_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.calculation_types_id_seq OWNED BY public.calculation_types.id;
+
+
+--
+-- Name: choice_answers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.choice_answers (
+    id bigint NOT NULL,
+    item_id bigint,
+    choice_id bigint,
+    selection_order integer,
+    latency_seconds integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.choice_answers OWNER TO postgres;
+
+--
+-- Name: choice_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.choice_answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.choice_answers_id_seq OWNER TO postgres;
+
+--
+-- Name: choice_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.choice_answers_id_seq OWNED BY public.choice_answers.id;
+
+
+--
+-- Name: choices; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.choices (
+    id bigint NOT NULL,
+    item_id bigint,
+    choice_text character varying,
+    choice_value integer,
+    parent_choice_id bigint,
+    is_right boolean,
+    picture_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.choices OWNER TO postgres;
+
+--
+-- Name: choices_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.choices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.choices_id_seq OWNER TO postgres;
+
+--
+-- Name: choices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.choices_id_seq OWNED BY public.choices.id;
+
+
+--
+-- Name: communes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.communes (
+    id bigint NOT NULL,
+    name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.communes OWNER TO postgres;
+
+--
+-- Name: communes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.communes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.communes_id_seq OWNER TO postgres;
+
+--
+-- Name: communes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.communes_id_seq OWNED BY public.communes.id;
+
+
+--
+-- Name: constructs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.constructs (
+    id bigint NOT NULL,
+    name character varying,
+    calculation_type_id bigint,
+    instrument_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.constructs OWNER TO postgres;
+
+--
+-- Name: constructs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.constructs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.constructs_id_seq OWNER TO postgres;
+
+--
+-- Name: constructs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.constructs_id_seq OWNED BY public.constructs.id;
+
+
+--
+-- Name: corsi_csequences; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.corsi_csequences (
+    id bigint NOT NULL,
+    corsi_id bigint,
+    csequence_id bigint,
+    index integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    example boolean
+);
+
+
+ALTER TABLE public.corsi_csequences OWNER TO postgres;
+
+--
+-- Name: corsi_csequences_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.corsi_csequences_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.corsi_csequences_id_seq OWNER TO postgres;
+
+--
+-- Name: corsi_csequences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.corsi_csequences_id_seq OWNED BY public.corsi_csequences.id;
+
+
+--
+-- Name: corsi_evaluations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.corsi_evaluations (
+    id bigint NOT NULL,
+    corsi_id bigint,
+    student_id bigint,
+    ordered_score integer,
+    reversed_score integer,
+    ordered_practice_tries integer,
+    reversed_practice_tries integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    realized_at timestamp without time zone,
+    user_id bigint
+);
+
+
+ALTER TABLE public.corsi_evaluations OWNER TO postgres;
+
+--
+-- Name: corsi_evaluations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.corsi_evaluations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.corsi_evaluations_id_seq OWNER TO postgres;
+
+--
+-- Name: corsi_evaluations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.corsi_evaluations_id_seq OWNED BY public.corsi_evaluations.id;
+
+
+--
+-- Name: corsis; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.corsis (
+    id bigint NOT NULL,
+    version numeric,
+    current boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.corsis OWNER TO postgres;
+
+--
+-- Name: corsis_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.corsis_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.corsis_id_seq OWNER TO postgres;
+
+--
+-- Name: corsis_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.corsis_id_seq OWNED BY public.corsis.id;
+
+
+--
+-- Name: courses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.courses (
+    id bigint NOT NULL,
+    level integer,
+    letter integer,
+    school_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    year integer
+);
+
+
+ALTER TABLE public.courses OWNER TO postgres;
+
+--
+-- Name: courses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.courses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.courses_id_seq OWNER TO postgres;
+
+--
+-- Name: courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.courses_id_seq OWNED BY public.courses.id;
+
+
+--
+-- Name: csequence_answers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.csequence_answers (
+    id bigint NOT NULL,
+    csequence_id bigint,
+    score integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    evaluation_id bigint,
+    time_in_seconds double precision,
+    answer_string character varying,
+    corsi_evaluation_id bigint
+);
+
+
+ALTER TABLE public.csequence_answers OWNER TO postgres;
+
+--
+-- Name: csequence_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.csequence_answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.csequence_answers_id_seq OWNER TO postgres;
+
+--
+-- Name: csequence_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.csequence_answers_id_seq OWNED BY public.csequence_answers.id;
+
+
+--
+-- Name: csequences; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.csequences (
+    id bigint NOT NULL,
+    ordered boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    time_limit integer,
+    csequence character varying
+);
+
+
+ALTER TABLE public.csequences OWNER TO postgres;
+
+--
+-- Name: csequences_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.csequences_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.csequences_id_seq OWNER TO postgres;
+
+--
+-- Name: csequences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.csequences_id_seq OWNED BY public.csequences.id;
+
+
+--
+-- Name: csquares; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.csquares (
+    id bigint NOT NULL,
+    square integer,
+    csequence_id bigint,
+    index integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.csquares OWNER TO postgres;
+
+--
+-- Name: csquares_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.csquares_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.csquares_id_seq OWNER TO postgres;
+
+--
+-- Name: csquares_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.csquares_id_seq OWNED BY public.csquares.id;
+
+
+--
+-- Name: evaluation_construct_scores; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.evaluation_construct_scores (
+    id bigint NOT NULL,
+    evaluation_id bigint,
+    construct_id bigint,
+    score integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.evaluation_construct_scores OWNER TO postgres;
+
+--
+-- Name: evaluation_construct_scores_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.evaluation_construct_scores_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.evaluation_construct_scores_id_seq OWNER TO postgres;
+
+--
+-- Name: evaluation_construct_scores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.evaluation_construct_scores_id_seq OWNED BY public.evaluation_construct_scores.id;
+
+
+--
+-- Name: evaluation_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.evaluation_migrations (
+    id bigint NOT NULL,
+    evaluation_from_id bigint,
+    evaluation_to_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.evaluation_migrations OWNER TO postgres;
+
+--
+-- Name: evaluation_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.evaluation_migrations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.evaluation_migrations_id_seq OWNER TO postgres;
+
+--
+-- Name: evaluation_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.evaluation_migrations_id_seq OWNED BY public.evaluation_migrations.id;
+
+
+--
+-- Name: evaluations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.evaluations (
+    id bigint NOT NULL,
+    user_id bigint,
+    student_id bigint,
+    wally_id bigint,
+    fonotest_id bigint,
+    hnfset_id bigint,
+    realized_at timestamp without time zone,
+    ace_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    total_score integer,
+    instrument_id bigint,
+    moment_id bigint,
+    pass_assent boolean,
+    pass_instruction boolean
+);
+
+
+ALTER TABLE public.evaluations OWNER TO postgres;
+
+--
+-- Name: evaluations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.evaluations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.evaluations_id_seq OWNER TO postgres;
+
+--
+-- Name: evaluations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.evaluations_id_seq OWNED BY public.evaluations.id;
+
+
+--
+-- Name: fonotest_items; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.fonotest_items (
+    id bigint NOT NULL,
+    fonotest_id bigint,
+    item_id bigint,
+    name character varying,
+    example boolean,
+    index integer,
+    instruction character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.fonotest_items OWNER TO postgres;
+
+--
+-- Name: fonotest_items_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.fonotest_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.fonotest_items_id_seq OWNER TO postgres;
+
+--
+-- Name: fonotest_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.fonotest_items_id_seq OWNED BY public.fonotest_items.id;
+
+
+--
+-- Name: fonotests; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.fonotests (
+    id bigint NOT NULL,
+    version numeric,
+    current boolean,
+    description character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.fonotests OWNER TO postgres;
+
+--
+-- Name: fonotests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.fonotests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.fonotests_id_seq OWNER TO postgres;
+
+--
+-- Name: fonotests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.fonotests_id_seq OWNED BY public.fonotests.id;
+
+
+--
+-- Name: hnf_answers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.hnf_answers (
+    id bigint NOT NULL,
+    evaluation_id bigint,
+    hnftest_id bigint,
+    score integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    time_in_seconds double precision,
+    corrects integer,
+    omitted integer,
+    total_errors integer,
+    practice_tries integer
+);
+
+
+ALTER TABLE public.hnf_answers OWNER TO postgres;
+
+--
+-- Name: hnf_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.hnf_answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hnf_answers_id_seq OWNER TO postgres;
+
+--
+-- Name: hnf_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.hnf_answers_id_seq OWNED BY public.hnf_answers.id;
+
+
+--
+-- Name: hnfset_hnftests; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.hnfset_hnftests (
+    id bigint NOT NULL,
+    hnfset_id bigint,
+    hnftest_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.hnfset_hnftests OWNER TO postgres;
+
+--
+-- Name: hnfset_hnftests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.hnfset_hnftests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hnfset_hnftests_id_seq OWNER TO postgres;
+
+--
+-- Name: hnfset_hnftests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.hnfset_hnftests_id_seq OWNED BY public.hnfset_hnftests.id;
+
+
+--
+-- Name: hnfsets; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.hnfsets (
+    id bigint NOT NULL,
+    current boolean,
+    version numeric,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.hnfsets OWNER TO postgres;
+
+--
+-- Name: hnfsets_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.hnfsets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hnfsets_id_seq OWNER TO postgres;
+
+--
+-- Name: hnfsets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.hnfsets_id_seq OWNED BY public.hnfsets.id;
+
+
+--
+-- Name: hnftest_figures; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.hnftest_figures (
+    id bigint NOT NULL,
+    figure integer,
+    index integer,
+    "position" integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    hnftest_id bigint
+);
+
+
+ALTER TABLE public.hnftest_figures OWNER TO postgres;
+
+--
+-- Name: hnftest_figures_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.hnftest_figures_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hnftest_figures_id_seq OWNER TO postgres;
+
+--
+-- Name: hnftest_figures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.hnftest_figures_id_seq OWNED BY public.hnftest_figures.id;
+
+
+--
+-- Name: hnftests; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.hnftests (
+    id bigint NOT NULL,
+    hnf_type integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.hnftests OWNER TO postgres;
+
+--
+-- Name: hnftests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.hnftests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hnftests_id_seq OWNER TO postgres;
+
+--
+-- Name: hnftests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.hnftests_id_seq OWNED BY public.hnftests.id;
+
+
+--
+-- Name: instruments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.instruments (
+    id bigint NOT NULL,
+    name character varying,
+    instruction character varying,
+    personalisation_of_instrument_id bigint,
+    for_sex integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.instruments OWNER TO postgres;
+
+--
+-- Name: instruments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.instruments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.instruments_id_seq OWNER TO postgres;
+
+--
+-- Name: instruments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.instruments_id_seq OWNED BY public.instruments.id;
+
+
+--
+-- Name: item_answers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.item_answers (
+    id bigint NOT NULL,
+    evaluation_id bigint,
+    item_id bigint,
+    answer_string character varying,
+    score integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.item_answers OWNER TO postgres;
+
+--
+-- Name: item_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.item_answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.item_answers_id_seq OWNER TO postgres;
+
+--
+-- Name: item_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.item_answers_id_seq OWNED BY public.item_answers.id;
+
+
+--
+-- Name: item_constructs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.item_constructs (
+    id bigint NOT NULL,
+    item_id bigint,
+    construct_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.item_constructs OWNER TO postgres;
+
+--
+-- Name: item_constructs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.item_constructs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.item_constructs_id_seq OWNER TO postgres;
+
+--
+-- Name: item_constructs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.item_constructs_id_seq OWNED BY public.item_constructs.id;
+
+
+--
+-- Name: item_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.item_types (
+    id bigint NOT NULL,
+    name character varying,
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.item_types OWNER TO postgres;
+
+--
+-- Name: item_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.item_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.item_types_id_seq OWNER TO postgres;
+
+--
+-- Name: item_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.item_types_id_seq OWNED BY public.item_types.id;
+
+
+--
+-- Name: items; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.items (
+    id bigint NOT NULL,
+    audio_id bigint,
+    description character varying,
+    correct_sequence character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    instrument_id bigint,
+    title character varying,
+    "order" integer,
+    picture_id bigint,
+    is_for_practice boolean,
+    item_type_id integer
+);
+
+
+ALTER TABLE public.items OWNER TO postgres;
+
+--
+-- Name: items_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.items_id_seq OWNER TO postgres;
+
+--
+-- Name: items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.items_id_seq OWNED BY public.items.id;
+
+
+--
+-- Name: moments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.moments (
+    id bigint NOT NULL,
+    "from" date,
+    until date,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    study_id bigint
+);
+
+
+ALTER TABLE public.moments OWNER TO postgres;
+
+--
+-- Name: moments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.moments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.moments_id_seq OWNER TO postgres;
+
+--
+-- Name: moments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.moments_id_seq OWNED BY public.moments.id;
+
+
+--
+-- Name: open_answers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.open_answers (
+    id bigint NOT NULL,
+    item_id bigint,
+    evaluation_id bigint,
+    answer_text text,
+    latency_seconds integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.open_answers OWNER TO postgres;
+
+--
+-- Name: open_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.open_answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.open_answers_id_seq OWNER TO postgres;
+
+--
+-- Name: open_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.open_answers_id_seq OWNED BY public.open_answers.id;
+
+
+--
+-- Name: pictures; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.pictures (
+    id bigint NOT NULL,
+    image_file_name character varying,
+    image_content_type character varying,
+    image_file_size integer,
+    image_updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.pictures OWNER TO postgres;
+
+--
+-- Name: pictures_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.pictures_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pictures_id_seq OWNER TO postgres;
+
+--
+-- Name: pictures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.pictures_id_seq OWNED BY public.pictures.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.schema_migrations (
+    version character varying NOT NULL
+);
+
+
+ALTER TABLE public.schema_migrations OWNER TO postgres;
+
+--
+-- Name: schools; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.schools (
+    id bigint NOT NULL,
+    name character varying,
+    commune_id bigint,
+    street character varying,
+    street_number character varying,
+    phone_number character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    "group" integer
+);
+
+
+ALTER TABLE public.schools OWNER TO postgres;
+
+--
+-- Name: schools_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.schools_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.schools_id_seq OWNER TO postgres;
+
+--
+-- Name: schools_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.schools_id_seq OWNED BY public.schools.id;
+
+
+--
+-- Name: situation_sets; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.situation_sets (
+    id bigint NOT NULL,
+    wally_id bigint,
+    wsituation_id bigint,
+    index integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.situation_sets OWNER TO postgres;
+
+--
+-- Name: situation_sets_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.situation_sets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.situation_sets_id_seq OWNER TO postgres;
+
+--
+-- Name: situation_sets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.situation_sets_id_seq OWNED BY public.situation_sets.id;
+
+
+--
+-- Name: student_courses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.student_courses (
+    id bigint NOT NULL,
+    student_id bigint,
+    course_id bigint,
+    entry date,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.student_courses OWNER TO postgres;
+
+--
+-- Name: student_courses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.student_courses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.student_courses_id_seq OWNER TO postgres;
+
+--
+-- Name: student_courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.student_courses_id_seq OWNED BY public.student_courses.id;
+
+
+--
+-- Name: student_name_changes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.student_name_changes (
+    id bigint NOT NULL,
+    student_id bigint,
+    old_name character varying,
+    new_name character varying,
+    old_last_name character varying,
+    new_last_name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.student_name_changes OWNER TO postgres;
+
+--
+-- Name: student_name_changes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.student_name_changes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.student_name_changes_id_seq OWNER TO postgres;
+
+--
+-- Name: student_name_changes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.student_name_changes_id_seq OWNED BY public.student_name_changes.id;
+
+
+--
+-- Name: students; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.students (
+    id bigint NOT NULL,
+    name character varying,
+    last_name character varying,
+    rut character varying,
+    age integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    course_id bigint,
+    active boolean DEFAULT true,
+    id_rut bigint,
+    sex integer
+);
+
+
+ALTER TABLE public.students OWNER TO postgres;
+
+--
+-- Name: students_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.students_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.students_id_seq OWNER TO postgres;
+
+--
+-- Name: students_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.students_id_seq OWNED BY public.students.id;
+
+
+--
+-- Name: studies; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.studies (
+    id bigint NOT NULL,
+    name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.studies OWNER TO postgres;
+
+--
+-- Name: studies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.studies_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.studies_id_seq OWNER TO postgres;
+
+--
+-- Name: studies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.studies_id_seq OWNED BY public.studies.id;
+
+
+--
+-- Name: study_courses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.study_courses (
+    id bigint NOT NULL,
+    study_id bigint,
+    course_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    "group" integer
+);
+
+
+ALTER TABLE public.study_courses OWNER TO postgres;
+
+--
+-- Name: study_courses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.study_courses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.study_courses_id_seq OWNER TO postgres;
+
+--
+-- Name: study_courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.study_courses_id_seq OWNED BY public.study_courses.id;
+
+
+--
+-- Name: user_studies; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_studies (
+    id bigint NOT NULL,
+    user_id bigint,
+    study_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.user_studies OWNER TO postgres;
+
+--
+-- Name: user_studies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.user_studies_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_studies_id_seq OWNER TO postgres;
+
+--
+-- Name: user_studies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.user_studies_id_seq OWNED BY public.user_studies.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id bigint NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip character varying,
+    last_sign_in_ip character varying,
+    role integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    auth_token character varying
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: wallies; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.wallies (
+    id bigint NOT NULL,
+    version numeric,
+    description text,
+    current boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.wallies OWNER TO postgres;
+
+--
+-- Name: wallies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.wallies_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.wallies_id_seq OWNER TO postgres;
+
+--
+-- Name: wallies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.wallies_id_seq OWNED BY public.wallies.id;
+
+
+--
+-- Name: wfeelings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.wfeelings (
+    id bigint NOT NULL,
+    picture_id bigint,
+    wfeeling integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.wfeelings OWNER TO postgres;
+
+--
+-- Name: wfeelings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.wfeelings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.wfeelings_id_seq OWNER TO postgres;
+
+--
+-- Name: wfeelings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.wfeelings_id_seq OWNED BY public.wfeelings.id;
+
+
+--
+-- Name: wreactions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.wreactions (
+    id bigint NOT NULL,
+    description character varying,
+    wreaction integer,
+    picture_id bigint,
+    wsituation_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.wreactions OWNER TO postgres;
+
+--
+-- Name: wreactions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.wreactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.wreactions_id_seq OWNER TO postgres;
+
+--
+-- Name: wreactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.wreactions_id_seq OWNED BY public.wreactions.id;
+
+
+--
+-- Name: wsituation_answers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.wsituation_answers (
+    id bigint NOT NULL,
+    wfeeling_answer integer,
+    wreaction_answer integer,
+    wsituation_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    evaluation_id bigint
+);
+
+
+ALTER TABLE public.wsituation_answers OWNER TO postgres;
+
+--
+-- Name: wsituation_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.wsituation_answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.wsituation_answers_id_seq OWNER TO postgres;
+
+--
+-- Name: wsituation_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.wsituation_answers_id_seq OWNED BY public.wsituation_answers.id;
+
+
+--
+-- Name: wsituations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.wsituations (
+    id bigint NOT NULL,
+    picture_id bigint,
+    description character varying,
+    name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.wsituations OWNER TO postgres;
+
+--
+-- Name: wsituations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.wsituations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.wsituations_id_seq OWNER TO postgres;
+
+--
+-- Name: wsituations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.wsituations_id_seq OWNED BY public.wsituations.id;
+
+
+--
+-- Name: acase_answers id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.acase_answers ALTER COLUMN id SET DEFAULT nextval('public.acase_answers_id_seq'::regclass);
+
+
+--
+-- Name: acase_correct_feelings id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.acase_correct_feelings ALTER COLUMN id SET DEFAULT nextval('public.acase_correct_feelings_id_seq'::regclass);
+
+
+--
+-- Name: acases id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.acases ALTER COLUMN id SET DEFAULT nextval('public.acases_id_seq'::regclass);
+
+
+--
+-- Name: ace_acases id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ace_acases ALTER COLUMN id SET DEFAULT nextval('public.ace_acases_id_seq'::regclass);
+
+
+--
+-- Name: aces id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.aces ALTER COLUMN id SET DEFAULT nextval('public.aces_id_seq'::regclass);
+
+
+--
+-- Name: audios id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.audios ALTER COLUMN id SET DEFAULT nextval('public.audios_id_seq'::regclass);
+
+
+--
+-- Name: calculation_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.calculation_types ALTER COLUMN id SET DEFAULT nextval('public.calculation_types_id_seq'::regclass);
+
+
+--
+-- Name: choice_answers id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.choice_answers ALTER COLUMN id SET DEFAULT nextval('public.choice_answers_id_seq'::regclass);
+
+
+--
+-- Name: choices id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.choices ALTER COLUMN id SET DEFAULT nextval('public.choices_id_seq'::regclass);
+
+
+--
+-- Name: communes id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.communes ALTER COLUMN id SET DEFAULT nextval('public.communes_id_seq'::regclass);
+
+
+--
+-- Name: constructs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.constructs ALTER COLUMN id SET DEFAULT nextval('public.constructs_id_seq'::regclass);
+
+
+--
+-- Name: corsi_csequences id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.corsi_csequences ALTER COLUMN id SET DEFAULT nextval('public.corsi_csequences_id_seq'::regclass);
+
+
+--
+-- Name: corsi_evaluations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.corsi_evaluations ALTER COLUMN id SET DEFAULT nextval('public.corsi_evaluations_id_seq'::regclass);
+
+
+--
+-- Name: corsis id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.corsis ALTER COLUMN id SET DEFAULT nextval('public.corsis_id_seq'::regclass);
+
+
+--
+-- Name: courses id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.courses ALTER COLUMN id SET DEFAULT nextval('public.courses_id_seq'::regclass);
+
+
+--
+-- Name: csequence_answers id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.csequence_answers ALTER COLUMN id SET DEFAULT nextval('public.csequence_answers_id_seq'::regclass);
+
+
+--
+-- Name: csequences id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.csequences ALTER COLUMN id SET DEFAULT nextval('public.csequences_id_seq'::regclass);
+
+
+--
+-- Name: csquares id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.csquares ALTER COLUMN id SET DEFAULT nextval('public.csquares_id_seq'::regclass);
+
+
+--
+-- Name: evaluation_construct_scores id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluation_construct_scores ALTER COLUMN id SET DEFAULT nextval('public.evaluation_construct_scores_id_seq'::regclass);
+
+
+--
+-- Name: evaluation_migrations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluation_migrations ALTER COLUMN id SET DEFAULT nextval('public.evaluation_migrations_id_seq'::regclass);
+
+
+--
+-- Name: evaluations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluations ALTER COLUMN id SET DEFAULT nextval('public.evaluations_id_seq'::regclass);
+
+
+--
+-- Name: fonotest_items id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fonotest_items ALTER COLUMN id SET DEFAULT nextval('public.fonotest_items_id_seq'::regclass);
+
+
+--
+-- Name: fonotests id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fonotests ALTER COLUMN id SET DEFAULT nextval('public.fonotests_id_seq'::regclass);
+
+
+--
+-- Name: hnf_answers id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnf_answers ALTER COLUMN id SET DEFAULT nextval('public.hnf_answers_id_seq'::regclass);
+
+
+--
+-- Name: hnfset_hnftests id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnfset_hnftests ALTER COLUMN id SET DEFAULT nextval('public.hnfset_hnftests_id_seq'::regclass);
+
+
+--
+-- Name: hnfsets id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnfsets ALTER COLUMN id SET DEFAULT nextval('public.hnfsets_id_seq'::regclass);
+
+
+--
+-- Name: hnftest_figures id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnftest_figures ALTER COLUMN id SET DEFAULT nextval('public.hnftest_figures_id_seq'::regclass);
+
+
+--
+-- Name: hnftests id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnftests ALTER COLUMN id SET DEFAULT nextval('public.hnftests_id_seq'::regclass);
+
+
+--
+-- Name: instruments id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.instruments ALTER COLUMN id SET DEFAULT nextval('public.instruments_id_seq'::regclass);
+
+
+--
+-- Name: item_answers id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_answers ALTER COLUMN id SET DEFAULT nextval('public.item_answers_id_seq'::regclass);
+
+
+--
+-- Name: item_constructs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_constructs ALTER COLUMN id SET DEFAULT nextval('public.item_constructs_id_seq'::regclass);
+
+
+--
+-- Name: item_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_types ALTER COLUMN id SET DEFAULT nextval('public.item_types_id_seq'::regclass);
+
+
+--
+-- Name: items id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.items ALTER COLUMN id SET DEFAULT nextval('public.items_id_seq'::regclass);
+
+
+--
+-- Name: moments id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.moments ALTER COLUMN id SET DEFAULT nextval('public.moments_id_seq'::regclass);
+
+
+--
+-- Name: open_answers id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.open_answers ALTER COLUMN id SET DEFAULT nextval('public.open_answers_id_seq'::regclass);
+
+
+--
+-- Name: pictures id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pictures ALTER COLUMN id SET DEFAULT nextval('public.pictures_id_seq'::regclass);
+
+
+--
+-- Name: schools id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.schools ALTER COLUMN id SET DEFAULT nextval('public.schools_id_seq'::regclass);
+
+
+--
+-- Name: situation_sets id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.situation_sets ALTER COLUMN id SET DEFAULT nextval('public.situation_sets_id_seq'::regclass);
+
+
+--
+-- Name: student_courses id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_courses ALTER COLUMN id SET DEFAULT nextval('public.student_courses_id_seq'::regclass);
+
+
+--
+-- Name: student_name_changes id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_name_changes ALTER COLUMN id SET DEFAULT nextval('public.student_name_changes_id_seq'::regclass);
+
+
+--
+-- Name: students id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.students ALTER COLUMN id SET DEFAULT nextval('public.students_id_seq'::regclass);
+
+
+--
+-- Name: studies id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.studies ALTER COLUMN id SET DEFAULT nextval('public.studies_id_seq'::regclass);
+
+
+--
+-- Name: study_courses id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.study_courses ALTER COLUMN id SET DEFAULT nextval('public.study_courses_id_seq'::regclass);
+
+
+--
+-- Name: user_studies id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_studies ALTER COLUMN id SET DEFAULT nextval('public.user_studies_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Name: wallies id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wallies ALTER COLUMN id SET DEFAULT nextval('public.wallies_id_seq'::regclass);
+
+
+--
+-- Name: wfeelings id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wfeelings ALTER COLUMN id SET DEFAULT nextval('public.wfeelings_id_seq'::regclass);
+
+
+--
+-- Name: wreactions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wreactions ALTER COLUMN id SET DEFAULT nextval('public.wreactions_id_seq'::regclass);
+
+
+--
+-- Name: wsituation_answers id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wsituation_answers ALTER COLUMN id SET DEFAULT nextval('public.wsituation_answers_id_seq'::regclass);
+
+
+--
+-- Name: wsituations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wsituations ALTER COLUMN id SET DEFAULT nextval('public.wsituations_id_seq'::regclass);
+
+
+--
+-- Data for Name: acase_answers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.acase_answers (id, evaluation_id, acase_id, score, created_at, updated_at, selected_feeling) FROM stdin;
+\.
+
+
+--
+-- Data for Name: acase_correct_feelings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.acase_correct_feelings (id, acase_id, correct_feeling, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: acases; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.acases (id, created_at, updated_at, sex, description, correct_feeling, distractor, picture_id) FROM stdin;
+1	2020-05-26 17:53:34.596289	2020-05-26 17:53:34.616566	M	¿Él se siente...?	1	f	1
+2	2020-05-26 17:53:34.90123	2020-05-26 17:53:34.904911	M	¿Él se siente...?	2	f	2
+3	2020-05-26 17:53:36.269556	2020-05-26 17:53:36.274204	F	¿Ella se siente...?	\N	t	3
+4	2020-05-26 17:53:36.548222	2020-05-26 17:53:36.556055	F	¿Ella se siente...?	3	f	4
+5	2020-05-26 17:53:36.823828	2020-05-26 17:53:36.827964	M	¿Él se siente...?	4	f	5
+6	2020-05-26 17:53:37.845781	2020-05-26 17:53:37.850589	F	¿Ella se siente...?	\N	t	6
+7	2020-05-26 17:53:38.053193	2020-05-26 17:53:38.057608	M	¿Él se siente...?	\N	t	7
+8	2020-05-26 17:53:38.280752	2020-05-26 17:53:38.284425	M	¿Él se siente...?	2	f	8
+9	2020-05-26 17:53:38.520637	2020-05-26 17:53:38.5248	M	¿Él se siente...?	3	f	9
+10	2020-05-26 17:53:38.775838	2020-05-26 17:53:38.779624	F	¿Ella se siente...?	4	f	10
+11	2020-05-26 17:53:38.988691	2020-05-26 17:53:38.992511	M	¿Él se siente...?	1	f	11
+12	2020-05-26 17:53:39.247869	2020-05-26 17:53:39.251671	F	¿Ella se siente...?	\N	t	12
+13	2020-05-26 17:53:39.457186	2020-05-26 17:53:39.460852	M	¿Él se siente...?	\N	t	13
+14	2020-05-26 17:53:39.668112	2020-05-26 17:53:39.671906	M	¿Él se siente...?	3	f	14
+15	2020-05-26 17:53:39.871975	2020-05-26 17:53:39.876358	F	¿Ella se siente...?	\N	t	15
+16	2020-05-26 17:53:40.126727	2020-05-26 17:53:40.130973	F	¿Ella se siente...?	\N	t	16
+17	2020-05-26 17:53:40.340928	2020-05-26 17:53:40.344781	F	¿Ella se siente...?	2	f	17
+18	2020-05-26 17:53:41.43864	2020-05-26 17:53:41.443001	F	¿Ella se siente...?	\N	t	18
+19	2020-05-26 17:53:41.658787	2020-05-26 17:53:41.663527	F	¿Ella se siente...?	1	f	19
+20	2020-05-26 17:53:41.910755	2020-05-26 17:53:41.915107	M	¿Él se siente...?	4	f	20
+21	2020-05-26 17:53:42.175312	2020-05-26 17:53:42.179658	M	¿Él se siente...?	\N	t	21
+22	2020-05-26 17:53:42.389736	2020-05-26 17:53:42.393847	M	¿Él se siente...?	1	f	22
+23	2020-05-26 17:53:42.604751	2020-05-26 17:53:42.609423	F	¿Ella se siente...?	3	f	23
+24	2020-05-26 17:53:42.818933	2020-05-26 17:53:42.823088	M	¿Él se siente...?	4	f	24
+25	2020-05-26 17:53:43.035	2020-05-26 17:53:43.03878	M	¿Él se siente...?	2	f	25
+26	2020-05-26 17:53:43.29786	2020-05-26 17:53:43.302433	F	¿Ella se siente...?	\N	t	26
+27	2020-05-26 17:54:06.386722	2020-05-26 17:54:06.408807	M	¿Él se siente...?	1	f	61
+28	2020-05-26 17:54:06.725685	2020-05-26 17:54:06.73011	M	¿Él se siente...?	2	f	62
+29	2020-05-26 17:54:08.096083	2020-05-26 17:54:08.100739	F	¿Ella se siente...?	\N	t	63
+30	2020-05-26 17:54:08.348913	2020-05-26 17:54:08.357018	F	¿Ella se siente...?	3	f	64
+31	2020-05-26 17:54:08.67658	2020-05-26 17:54:08.682188	M	¿Él se siente...?	4	f	65
+32	2020-05-26 17:54:09.818036	2020-05-26 17:54:09.822064	F	¿Ella se siente...?	\N	t	66
+33	2020-05-26 17:54:10.094029	2020-05-26 17:54:10.099005	M	¿Él se siente...?	\N	t	67
+34	2020-05-26 17:54:10.35541	2020-05-26 17:54:10.359518	M	¿Él se siente...?	2	f	68
+35	2020-05-26 17:54:10.747161	2020-05-26 17:54:10.754264	M	¿Él se siente...?	3	f	69
+36	2020-05-26 17:54:11.168254	2020-05-26 17:54:11.17319	F	¿Ella se siente...?	4	f	70
+37	2020-05-26 17:54:11.406571	2020-05-26 17:54:11.410121	M	¿Él se siente...?	1	f	71
+38	2020-05-26 17:54:11.710509	2020-05-26 17:54:11.714827	F	¿Ella se siente...?	\N	t	72
+39	2020-05-26 17:54:11.952281	2020-05-26 17:54:11.956822	M	¿Él se siente...?	\N	t	73
+40	2020-05-26 17:54:12.243081	2020-05-26 17:54:12.246778	M	¿Él se siente...?	3	f	74
+41	2020-05-26 17:54:12.471526	2020-05-26 17:54:12.475179	F	¿Ella se siente...?	\N	t	75
+42	2020-05-26 17:54:12.757071	2020-05-26 17:54:12.764326	F	¿Ella se siente...?	\N	t	76
+43	2020-05-26 17:54:13.00267	2020-05-26 17:54:13.007712	F	¿Ella se siente...?	2	f	77
+44	2020-05-26 17:54:14.124234	2020-05-26 17:54:14.128715	F	¿Ella se siente...?	\N	t	78
+45	2020-05-26 17:54:14.359807	2020-05-26 17:54:14.363279	F	¿Ella se siente...?	1	f	79
+46	2020-05-26 17:54:14.640328	2020-05-26 17:54:14.64577	M	¿Él se siente...?	4	f	80
+47	2020-05-26 17:54:14.919976	2020-05-26 17:54:14.924453	M	¿Él se siente...?	\N	t	81
+48	2020-05-26 17:54:15.154692	2020-05-26 17:54:15.159559	M	¿Él se siente...?	1	f	82
+49	2020-05-26 17:54:15.396321	2020-05-26 17:54:15.402027	F	¿Ella se siente...?	3	f	83
+50	2020-05-26 17:54:15.644911	2020-05-26 17:54:15.651826	M	¿Él se siente...?	4	f	84
+51	2020-05-26 17:54:15.880773	2020-05-26 17:54:15.8848	M	¿Él se siente...?	2	f	85
+52	2020-05-26 17:54:16.161088	2020-05-26 17:54:16.165236	F	¿Ella se siente...?	\N	t	86
+\.
+
+
+--
+-- Data for Name: ace_acases; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ace_acases (id, ace_id, acase_id, index, created_at, updated_at) FROM stdin;
+1	1	1	1	2020-05-26 17:53:34.614098	2020-05-26 17:53:34.614098
+2	1	2	2	2020-05-26 17:53:34.903027	2020-05-26 17:53:34.903027
+3	1	3	3	2020-05-26 17:53:36.271953	2020-05-26 17:53:36.271953
+4	1	4	4	2020-05-26 17:53:36.553724	2020-05-26 17:53:36.553724
+5	1	5	5	2020-05-26 17:53:36.826118	2020-05-26 17:53:36.826118
+6	1	6	6	2020-05-26 17:53:37.848422	2020-05-26 17:53:37.848422
+7	1	7	7	2020-05-26 17:53:38.055267	2020-05-26 17:53:38.055267
+8	1	8	8	2020-05-26 17:53:38.282919	2020-05-26 17:53:38.282919
+9	1	9	9	2020-05-26 17:53:38.522599	2020-05-26 17:53:38.522599
+10	1	10	10	2020-05-26 17:53:38.77794	2020-05-26 17:53:38.77794
+11	1	11	11	2020-05-26 17:53:38.990479	2020-05-26 17:53:38.990479
+12	1	12	12	2020-05-26 17:53:39.249976	2020-05-26 17:53:39.249976
+13	1	13	13	2020-05-26 17:53:39.45912	2020-05-26 17:53:39.45912
+14	1	14	14	2020-05-26 17:53:39.67012	2020-05-26 17:53:39.67012
+15	1	15	15	2020-05-26 17:53:39.874436	2020-05-26 17:53:39.874436
+16	1	16	16	2020-05-26 17:53:40.129154	2020-05-26 17:53:40.129154
+17	1	17	17	2020-05-26 17:53:40.342952	2020-05-26 17:53:40.342952
+18	1	18	18	2020-05-26 17:53:41.441389	2020-05-26 17:53:41.441389
+19	1	19	19	2020-05-26 17:53:41.661181	2020-05-26 17:53:41.661181
+20	1	20	20	2020-05-26 17:53:41.913143	2020-05-26 17:53:41.913143
+21	1	21	21	2020-05-26 17:53:42.177959	2020-05-26 17:53:42.177959
+22	1	22	22	2020-05-26 17:53:42.391928	2020-05-26 17:53:42.391928
+23	1	23	23	2020-05-26 17:53:42.607542	2020-05-26 17:53:42.607542
+24	1	24	24	2020-05-26 17:53:42.820999	2020-05-26 17:53:42.820999
+25	1	25	25	2020-05-26 17:53:43.03694	2020-05-26 17:53:43.03694
+26	1	26	26	2020-05-26 17:53:43.300043	2020-05-26 17:53:43.300043
+27	2	27	1	2020-05-26 17:54:06.406414	2020-05-26 17:54:06.406414
+28	2	28	2	2020-05-26 17:54:06.728376	2020-05-26 17:54:06.728376
+29	2	29	3	2020-05-26 17:54:08.098687	2020-05-26 17:54:08.098687
+30	2	30	4	2020-05-26 17:54:08.354703	2020-05-26 17:54:08.354703
+31	2	31	5	2020-05-26 17:54:08.679946	2020-05-26 17:54:08.679946
+32	2	32	6	2020-05-26 17:54:09.820109	2020-05-26 17:54:09.820109
+33	2	33	7	2020-05-26 17:54:10.09675	2020-05-26 17:54:10.09675
+34	2	34	8	2020-05-26 17:54:10.357736	2020-05-26 17:54:10.357736
+35	2	35	9	2020-05-26 17:54:10.751565	2020-05-26 17:54:10.751565
+36	2	36	10	2020-05-26 17:54:11.171207	2020-05-26 17:54:11.171207
+37	2	37	11	2020-05-26 17:54:11.408362	2020-05-26 17:54:11.408362
+38	2	38	12	2020-05-26 17:54:11.713102	2020-05-26 17:54:11.713102
+39	2	39	13	2020-05-26 17:54:11.954229	2020-05-26 17:54:11.954229
+40	2	40	14	2020-05-26 17:54:12.244855	2020-05-26 17:54:12.244855
+41	2	41	15	2020-05-26 17:54:12.47337	2020-05-26 17:54:12.47337
+42	2	42	16	2020-05-26 17:54:12.759937	2020-05-26 17:54:12.759937
+43	2	43	17	2020-05-26 17:54:13.005298	2020-05-26 17:54:13.005298
+44	2	44	18	2020-05-26 17:54:14.126551	2020-05-26 17:54:14.126551
+45	2	45	19	2020-05-26 17:54:14.361578	2020-05-26 17:54:14.361578
+46	2	46	20	2020-05-26 17:54:14.643087	2020-05-26 17:54:14.643087
+47	2	47	21	2020-05-26 17:54:14.921807	2020-05-26 17:54:14.921807
+48	2	48	22	2020-05-26 17:54:15.157295	2020-05-26 17:54:15.157295
+49	2	49	23	2020-05-26 17:54:15.399145	2020-05-26 17:54:15.399145
+50	2	50	24	2020-05-26 17:54:15.647113	2020-05-26 17:54:15.647113
+51	2	51	25	2020-05-26 17:54:15.882645	2020-05-26 17:54:15.882645
+52	2	52	26	2020-05-26 17:54:16.16347	2020-05-26 17:54:16.16347
+\.
+
+
+--
+-- Data for Name: aces; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.aces (id, version, current, created_at, updated_at) FROM stdin;
+1	1	t	2020-05-26 17:53:31.521485	2020-05-26 17:53:31.521485
+2	1	t	2020-05-26 17:54:06.022261	2020-05-26 17:54:06.022261
+\.
+
+
+--
+-- Data for Name: ar_internal_metadata; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
+environment	development	2020-05-26 17:45:45.453564	2020-05-26 17:45:45.453564
+\.
+
+
+--
+-- Data for Name: audios; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.audios (id, created_at, updated_at, audio_file_name, audio_content_type, audio_file_size, audio_updated_at) FROM stdin;
+1	2020-05-26 17:53:30.386647	2020-05-26 17:53:30.386647	1.mp3	audio/mpeg	102825	2020-05-26 17:53:30.344966
+2	2020-05-26 17:53:30.433334	2020-05-26 17:53:30.433334	2.mp3	audio/mpeg	124909	2020-05-26 17:53:30.407196
+3	2020-05-26 17:53:30.475175	2020-05-26 17:53:30.475175	3.mp3	audio/mpeg	134610	2020-05-26 17:53:30.444094
+4	2020-05-26 17:53:30.513704	2020-05-26 17:53:30.513704	4.mp3	audio/mpeg	114778	2020-05-26 17:53:30.488521
+5	2020-05-26 17:53:30.548763	2020-05-26 17:53:30.548763	5.mp3	audio/mpeg	69108	2020-05-26 17:53:30.524877
+6	2020-05-26 17:53:30.584073	2020-05-26 17:53:30.584073	6.mp3	audio/mpeg	108616	2020-05-26 17:53:30.558362
+7	2020-05-26 17:53:30.621519	2020-05-26 17:53:30.621519	7.mp3	audio/mpeg	111383	2020-05-26 17:53:30.593711
+8	2020-05-26 17:53:30.65735	2020-05-26 17:53:30.65735	8.mp3	audio/mpeg	104129	2020-05-26 17:53:30.631413
+9	2020-05-26 17:53:30.693411	2020-05-26 17:53:30.693411	9.mp3	audio/mpeg	113937	2020-05-26 17:53:30.667755
+10	2020-05-26 17:53:30.727528	2020-05-26 17:53:30.727528	10.mp3	audio/mpeg	121090	2020-05-26 17:53:30.702644
+11	2020-05-26 17:53:30.758053	2020-05-26 17:53:30.758053	11.mp3	audio/mpeg	119048	2020-05-26 17:53:30.735995
+12	2020-05-26 17:53:30.792763	2020-05-26 17:53:30.792763	12.mp3	audio/mpeg	144252	2020-05-26 17:53:30.767757
+13	2020-05-26 17:53:30.830165	2020-05-26 17:53:30.830165	13.mp3	audio/mpeg	145036	2020-05-26 17:53:30.803482
+14	2020-05-26 17:53:30.86209	2020-05-26 17:53:30.86209	14.mp3	audio/mpeg	133663	2020-05-26 17:53:30.839752
+15	2020-05-26 17:53:30.894534	2020-05-26 17:53:30.894534	15.mp3	audio/mpeg	140649	2020-05-26 17:53:30.871205
+16	2020-05-26 17:53:30.931685	2020-05-26 17:53:30.931685	16.mp3	audio/mpeg	151791	2020-05-26 17:53:30.903784
+17	2020-05-26 17:53:30.96606	2020-05-26 17:53:30.96606	17.mp3	audio/mpeg	151872	2020-05-26 17:53:30.941962
+18	2020-05-26 17:53:31.001616	2020-05-26 17:53:31.001616	18.mp3	audio/mpeg	187073	2020-05-26 17:53:30.977037
+19	2020-05-26 17:53:31.033811	2020-05-26 17:53:31.033811	19.mp3	audio/mpeg	186089	2020-05-26 17:53:31.010602
+20	2020-05-26 17:53:31.067532	2020-05-26 17:53:31.067532	20.mp3	audio/mpeg	178677	2020-05-26 17:53:31.043871
+21	2020-05-26 17:53:31.099836	2020-05-26 17:53:31.099836	21.mp3	audio/mpeg	191001	2020-05-26 17:53:31.076829
+22	2020-05-26 17:53:31.137107	2020-05-26 17:53:31.137107	22.mp3	audio/mpeg	228020	2020-05-26 17:53:31.110964
+23	2020-05-26 17:53:31.173485	2020-05-26 17:53:31.173485	23.mp3	audio/mpeg	205648	2020-05-26 17:53:31.14882
+24	2020-05-26 17:54:04.603562	2020-05-26 17:54:04.603562	1.mp3	audio/mpeg	102825	2020-05-26 17:54:04.573886
+25	2020-05-26 17:54:04.651188	2020-05-26 17:54:04.651188	2.mp3	audio/mpeg	124909	2020-05-26 17:54:04.623551
+26	2020-05-26 17:54:04.693355	2020-05-26 17:54:04.693355	3.mp3	audio/mpeg	134610	2020-05-26 17:54:04.663214
+27	2020-05-26 17:54:04.733779	2020-05-26 17:54:04.733779	4.mp3	audio/mpeg	114778	2020-05-26 17:54:04.710669
+28	2020-05-26 17:54:04.766418	2020-05-26 17:54:04.766418	5.mp3	audio/mpeg	69108	2020-05-26 17:54:04.744559
+29	2020-05-26 17:54:04.800003	2020-05-26 17:54:04.800003	6.mp3	audio/mpeg	108616	2020-05-26 17:54:04.776674
+30	2020-05-26 17:54:04.837712	2020-05-26 17:54:04.837712	7.mp3	audio/mpeg	111383	2020-05-26 17:54:04.811659
+31	2020-05-26 17:54:04.877844	2020-05-26 17:54:04.877844	8.mp3	audio/mpeg	104129	2020-05-26 17:54:04.850466
+32	2020-05-26 17:54:04.922379	2020-05-26 17:54:04.922379	9.mp3	audio/mpeg	113937	2020-05-26 17:54:04.888758
+33	2020-05-26 17:54:04.971398	2020-05-26 17:54:04.971398	10.mp3	audio/mpeg	121090	2020-05-26 17:54:04.934235
+34	2020-05-26 17:54:05.007038	2020-05-26 17:54:05.007038	11.mp3	audio/mpeg	119048	2020-05-26 17:54:04.982688
+35	2020-05-26 17:54:05.046587	2020-05-26 17:54:05.046587	12.mp3	audio/mpeg	144252	2020-05-26 17:54:05.018284
+36	2020-05-26 17:54:05.085118	2020-05-26 17:54:05.085118	13.mp3	audio/mpeg	145036	2020-05-26 17:54:05.058019
+37	2020-05-26 17:54:05.121321	2020-05-26 17:54:05.121321	14.mp3	audio/mpeg	133663	2020-05-26 17:54:05.09511
+38	2020-05-26 17:54:05.158573	2020-05-26 17:54:05.158573	15.mp3	audio/mpeg	140649	2020-05-26 17:54:05.13217
+39	2020-05-26 17:54:05.194272	2020-05-26 17:54:05.194272	16.mp3	audio/mpeg	151791	2020-05-26 17:54:05.16944
+40	2020-05-26 17:54:05.237566	2020-05-26 17:54:05.237566	17.mp3	audio/mpeg	151872	2020-05-26 17:54:05.208645
+41	2020-05-26 17:54:05.283195	2020-05-26 17:54:05.283195	18.mp3	audio/mpeg	187073	2020-05-26 17:54:05.25598
+42	2020-05-26 17:54:05.318563	2020-05-26 17:54:05.318563	19.mp3	audio/mpeg	186089	2020-05-26 17:54:05.293207
+43	2020-05-26 17:54:05.358978	2020-05-26 17:54:05.358978	20.mp3	audio/mpeg	178677	2020-05-26 17:54:05.329725
+44	2020-05-26 17:54:05.395327	2020-05-26 17:54:05.395327	21.mp3	audio/mpeg	191001	2020-05-26 17:54:05.370048
+45	2020-05-26 17:54:05.438911	2020-05-26 17:54:05.438911	22.mp3	audio/mpeg	228020	2020-05-26 17:54:05.409558
+46	2020-05-26 17:54:05.503349	2020-05-26 17:54:05.503349	23.mp3	audio/mpeg	205648	2020-05-26 17:54:05.471345
+\.
+
+
+--
+-- Data for Name: calculation_types; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.calculation_types (id, name, description, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: choice_answers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.choice_answers (id, item_id, choice_id, selection_order, latency_seconds, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: choices; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.choices (id, item_id, choice_text, choice_value, parent_choice_id, is_right, picture_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: communes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.communes (id, name, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: constructs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.constructs (id, name, calculation_type_id, instrument_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: corsi_csequences; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.corsi_csequences (id, corsi_id, csequence_id, index, created_at, updated_at, example) FROM stdin;
+1	1	1	1	2020-05-26 17:53:31.415444	2020-05-26 17:53:31.415444	t
+2	1	2	2	2020-05-26 17:53:31.422014	2020-05-26 17:53:31.422014	t
+3	1	3	1	2020-05-26 17:53:31.427984	2020-05-26 17:53:31.427984	t
+4	1	4	2	2020-05-26 17:53:31.429776	2020-05-26 17:53:31.429776	t
+5	1	5	3	2020-05-26 17:53:31.435494	2020-05-26 17:53:31.435494	f
+6	1	6	3	2020-05-26 17:53:31.437632	2020-05-26 17:53:31.437632	f
+7	1	7	4	2020-05-26 17:53:31.442502	2020-05-26 17:53:31.442502	f
+8	1	8	4	2020-05-26 17:53:31.444152	2020-05-26 17:53:31.444152	f
+9	1	9	5	2020-05-26 17:53:31.449917	2020-05-26 17:53:31.449917	f
+10	1	10	5	2020-05-26 17:53:31.451693	2020-05-26 17:53:31.451693	f
+11	1	11	6	2020-05-26 17:53:31.458312	2020-05-26 17:53:31.458312	f
+12	1	12	6	2020-05-26 17:53:31.460546	2020-05-26 17:53:31.460546	f
+13	1	13	7	2020-05-26 17:53:31.465673	2020-05-26 17:53:31.465673	f
+14	1	14	7	2020-05-26 17:53:31.467892	2020-05-26 17:53:31.467892	f
+15	1	15	8	2020-05-26 17:53:31.472686	2020-05-26 17:53:31.472686	f
+16	1	16	8	2020-05-26 17:53:31.474742	2020-05-26 17:53:31.474742	f
+17	1	17	9	2020-05-26 17:53:31.479988	2020-05-26 17:53:31.479988	f
+18	1	18	9	2020-05-26 17:53:31.481752	2020-05-26 17:53:31.481752	f
+19	1	19	10	2020-05-26 17:53:31.487813	2020-05-26 17:53:31.487813	f
+20	1	20	10	2020-05-26 17:53:31.489733	2020-05-26 17:53:31.489733	f
+21	1	21	11	2020-05-26 17:53:31.495154	2020-05-26 17:53:31.495154	f
+22	1	22	11	2020-05-26 17:53:31.496967	2020-05-26 17:53:31.496967	f
+23	2	23	1	2020-05-26 17:54:05.865707	2020-05-26 17:54:05.865707	t
+24	2	24	2	2020-05-26 17:54:05.870814	2020-05-26 17:54:05.870814	t
+25	2	25	1	2020-05-26 17:54:05.879849	2020-05-26 17:54:05.879849	t
+26	2	26	2	2020-05-26 17:54:05.887391	2020-05-26 17:54:05.887391	t
+27	2	27	3	2020-05-26 17:54:05.895097	2020-05-26 17:54:05.895097	f
+28	2	28	3	2020-05-26 17:54:05.898359	2020-05-26 17:54:05.898359	f
+29	2	29	4	2020-05-26 17:54:05.906795	2020-05-26 17:54:05.906795	f
+30	2	30	4	2020-05-26 17:54:05.909589	2020-05-26 17:54:05.909589	f
+31	2	31	5	2020-05-26 17:54:05.916031	2020-05-26 17:54:05.916031	f
+32	2	32	5	2020-05-26 17:54:05.91823	2020-05-26 17:54:05.91823	f
+33	2	33	6	2020-05-26 17:54:05.924726	2020-05-26 17:54:05.924726	f
+34	2	34	6	2020-05-26 17:54:05.927422	2020-05-26 17:54:05.927422	f
+35	2	35	7	2020-05-26 17:54:05.954091	2020-05-26 17:54:05.954091	f
+36	2	36	7	2020-05-26 17:54:05.956771	2020-05-26 17:54:05.956771	f
+37	2	37	8	2020-05-26 17:54:05.964333	2020-05-26 17:54:05.964333	f
+38	2	38	8	2020-05-26 17:54:05.966896	2020-05-26 17:54:05.966896	f
+39	2	39	9	2020-05-26 17:54:05.972168	2020-05-26 17:54:05.972168	f
+40	2	40	9	2020-05-26 17:54:05.974456	2020-05-26 17:54:05.974456	f
+41	2	41	10	2020-05-26 17:54:05.981728	2020-05-26 17:54:05.981728	f
+42	2	42	10	2020-05-26 17:54:05.985278	2020-05-26 17:54:05.985278	f
+43	2	43	11	2020-05-26 17:54:05.99396	2020-05-26 17:54:05.99396	f
+44	2	44	11	2020-05-26 17:54:06.005816	2020-05-26 17:54:06.005816	f
+\.
+
+
+--
+-- Data for Name: corsi_evaluations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.corsi_evaluations (id, corsi_id, student_id, ordered_score, reversed_score, ordered_practice_tries, reversed_practice_tries, created_at, updated_at, realized_at, user_id) FROM stdin;
+1	1	1	5	5	3	2	2020-05-29 19:29:16.802318	2020-05-29 19:29:16.802318	2020-05-29 15:29:15.386	2
+\.
+
+
+--
+-- Data for Name: corsis; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.corsis (id, version, current, created_at, updated_at) FROM stdin;
+1	1.0	t	2020-05-26 17:53:31.382932	2020-05-26 17:53:31.382932
+2	1.0	t	2020-05-26 17:54:05.816465	2020-05-26 17:54:05.816465
+\.
+
+
+--
+-- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.courses (id, level, letter, school_id, created_at, updated_at, year) FROM stdin;
+2	1	1	2	2020-09-22 18:36:56.173229	2020-09-22 18:36:56.173229	\N
+3	1	1	3	2020-09-22 18:37:15.778656	2020-09-22 18:37:15.778656	\N
+4	1	3	1	2021-01-05 00:10:59.479858	2021-01-05 00:10:59.479858	\N
+1	1	1	1	2020-05-26 17:57:24.698343	2021-01-11 23:06:56.760037	\N
+\.
+
+
+--
+-- Data for Name: csequence_answers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.csequence_answers (id, csequence_id, score, created_at, updated_at, evaluation_id, time_in_seconds, answer_string, corsi_evaluation_id) FROM stdin;
+1	1	0	2020-05-29 19:29:16.906775	2020-05-29 19:29:16.906775	\N	\N	4-5	1
+2	2	0	2020-05-29 19:29:16.921267	2020-05-29 19:29:16.921267	\N	\N	7-5	1
+3	5	0	2020-05-29 19:29:16.939135	2020-05-29 19:29:16.939135	\N	\N	3-6-9	1
+4	7	1	2020-05-29 19:29:16.943441	2020-05-29 19:29:16.943441	\N	\N	5-4-3	1
+5	9	1	2020-05-29 19:29:16.946954	2020-05-29 19:29:16.946954	\N	\N	8-7-2-1	1
+6	11	1	2020-05-29 19:29:16.953815	2020-05-29 19:29:16.953815	\N	\N	9-1-4-3	1
+7	13	0	2020-05-29 19:29:16.985795	2020-05-29 19:29:16.985795	\N	\N	3-5-1-7-9	1
+8	15	1	2020-05-29 19:29:16.992634	2020-05-29 19:29:16.992634	\N	\N	10-3-7-5-4	1
+9	17	1	2020-05-29 19:29:16.997147	2020-05-29 19:29:16.997147	\N	\N	8-2-7-6-5-9	1
+10	19	0	2020-05-29 19:29:17.000839	2020-05-29 19:29:17.000839	\N	\N	9-4-1-3-6-5	1
+11	21	0	2020-05-29 19:29:17.003938	2020-05-29 19:29:17.003938	\N	\N	9-2-1-8-7-4-3	1
+12	3	1	2020-05-29 19:29:17.035978	2020-05-29 19:29:17.035978	\N	\N	8-3	1
+13	4	1	2020-05-29 19:29:17.041514	2020-05-29 19:29:17.041514	\N	\N	9-6	1
+14	6	1	2020-05-29 19:29:17.045511	2020-05-29 19:29:17.045511	\N	\N	3-4-5	1
+15	8	1	2020-05-29 19:29:17.049235	2020-05-29 19:29:17.049235	\N	\N	6-7-2	1
+16	10	1	2020-05-29 19:29:17.052665	2020-05-29 19:29:17.052665	\N	\N	3-4-1-9	1
+17	12	0	2020-05-29 19:29:17.085888	2020-05-29 19:29:17.085888	\N	\N	7-5-4-1	1
+18	14	0	2020-05-29 19:29:17.093765	2020-05-29 19:29:17.093765	\N	\N	10-5-9-7-5	1
+19	16	1	2020-05-29 19:29:17.100839	2020-05-29 19:29:17.100839	\N	\N	5-8-2-10-1	1
+20	18	1	2020-05-29 19:29:17.106031	2020-05-29 19:29:17.106031	\N	\N	10-6-3-1-4-7	1
+21	20	0	2020-05-29 19:29:17.1441	2020-05-29 19:29:17.1441	\N	\N	7-7-7-7-7-5	1
+22	22	0	2020-05-29 19:29:17.150016	2020-05-29 19:29:17.150016	\N	\N	1-2-4-3-5-7-6	1
+\.
+
+
+--
+-- Data for Name: csequences; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.csequences (id, ordered, created_at, updated_at, time_limit, csequence) FROM stdin;
+1	t	2020-05-26 17:53:31.396469	2020-05-26 17:53:31.396469	\N	6-9
+2	t	2020-05-26 17:53:31.399848	2020-05-26 17:53:31.399848	\N	3-8
+3	f	2020-05-26 17:53:31.424422	2020-05-26 17:53:31.424422	\N	3-8
+4	f	2020-05-26 17:53:31.426071	2020-05-26 17:53:31.426071	\N	6-9
+5	t	2020-05-26 17:53:31.431639	2020-05-26 17:53:31.431639	\N	2-7-6
+6	f	2020-05-26 17:53:31.433503	2020-05-26 17:53:31.433503	\N	5-4-3
+7	t	2020-05-26 17:53:31.439397	2020-05-26 17:53:31.439397	\N	5-4-3
+8	f	2020-05-26 17:53:31.440915	2020-05-26 17:53:31.440915	\N	2-7-6
+9	t	2020-05-26 17:53:31.446186	2020-05-26 17:53:31.446186	\N	8-7-2-1
+10	f	2020-05-26 17:53:31.447937	2020-05-26 17:53:31.447937	\N	9-1-4-3
+11	t	2020-05-26 17:53:31.453552	2020-05-26 17:53:31.453552	\N	9-1-4-3
+12	f	2020-05-26 17:53:31.455421	2020-05-26 17:53:31.455421	\N	8-7-2-1
+13	t	2020-05-26 17:53:31.462505	2020-05-26 17:53:31.462505	\N	1-10-2-8-5
+14	f	2020-05-26 17:53:31.464104	2020-05-26 17:53:31.464104	\N	10-3-7-5-4
+15	t	2020-05-26 17:53:31.469634	2020-05-26 17:53:31.469634	\N	10-3-7-5-4
+16	f	2020-05-26 17:53:31.471066	2020-05-26 17:53:31.471066	\N	1-10-2-8-5
+17	t	2020-05-26 17:53:31.476878	2020-05-26 17:53:31.476878	\N	8-2-7-6-5-9
+18	f	2020-05-26 17:53:31.478368	2020-05-26 17:53:31.478368	\N	7-4-1-3-6-10
+19	t	2020-05-26 17:53:31.48408	2020-05-26 17:53:31.48408	\N	7-4-1-3-6-10
+20	f	2020-05-26 17:53:31.486177	2020-05-26 17:53:31.486177	\N	8-2-7-6-5-9
+21	t	2020-05-26 17:53:31.491812	2020-05-26 17:53:31.491812	\N	9-2-1-8-5-10-3
+22	f	2020-05-26 17:53:31.49363	2020-05-26 17:53:31.49363	\N	4-1-6-5-4-9-2
+23	t	2020-05-26 17:54:05.83971	2020-05-26 17:54:05.83971	\N	6-9
+24	t	2020-05-26 17:54:05.843075	2020-05-26 17:54:05.843075	\N	3-8
+25	f	2020-05-26 17:54:05.874091	2020-05-26 17:54:05.874091	\N	3-8
+26	f	2020-05-26 17:54:05.876934	2020-05-26 17:54:05.876934	\N	6-9
+27	t	2020-05-26 17:54:05.890023	2020-05-26 17:54:05.890023	\N	2-7-6
+28	f	2020-05-26 17:54:05.892268	2020-05-26 17:54:05.892268	\N	5-4-3
+29	t	2020-05-26 17:54:05.901294	2020-05-26 17:54:05.901294	\N	5-4-3
+30	f	2020-05-26 17:54:05.904156	2020-05-26 17:54:05.904156	\N	2-7-6
+31	t	2020-05-26 17:54:05.912067	2020-05-26 17:54:05.912067	\N	8-7-2-1
+32	f	2020-05-26 17:54:05.914214	2020-05-26 17:54:05.914214	\N	9-1-4-3
+33	t	2020-05-26 17:54:05.919946	2020-05-26 17:54:05.919946	\N	9-1-4-3
+34	f	2020-05-26 17:54:05.922014	2020-05-26 17:54:05.922014	\N	8-7-2-1
+35	t	2020-05-26 17:54:05.930499	2020-05-26 17:54:05.930499	\N	1-10-2-8-5
+36	f	2020-05-26 17:54:05.934894	2020-05-26 17:54:05.934894	\N	10-3-7-5-4
+37	t	2020-05-26 17:54:05.959647	2020-05-26 17:54:05.959647	\N	10-3-7-5-4
+38	f	2020-05-26 17:54:05.962551	2020-05-26 17:54:05.962551	\N	1-10-2-8-5
+39	t	2020-05-26 17:54:05.968637	2020-05-26 17:54:05.968637	\N	8-2-7-6-5-9
+40	f	2020-05-26 17:54:05.969973	2020-05-26 17:54:05.969973	\N	7-4-1-3-6-10
+41	t	2020-05-26 17:54:05.976875	2020-05-26 17:54:05.976875	\N	7-4-1-3-6-10
+42	f	2020-05-26 17:54:05.979389	2020-05-26 17:54:05.979389	\N	8-2-7-6-5-9
+43	t	2020-05-26 17:54:05.987918	2020-05-26 17:54:05.987918	\N	9-2-1-8-5-10-3
+44	f	2020-05-26 17:54:05.990502	2020-05-26 17:54:05.990502	\N	4-1-6-5-4-9-2
+\.
+
+
+--
+-- Data for Name: csquares; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.csquares (id, square, csequence_id, index, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: evaluation_construct_scores; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.evaluation_construct_scores (id, evaluation_id, construct_id, score, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: evaluation_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.evaluation_migrations (id, evaluation_from_id, evaluation_to_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: evaluations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.evaluations (id, user_id, student_id, wally_id, fonotest_id, hnfset_id, realized_at, ace_id, created_at, updated_at, total_score, instrument_id, moment_id, pass_assent, pass_instruction) FROM stdin;
+1	2	1	\N	1	\N	2020-05-29 15:42:41.536	\N	2020-05-29 19:42:42.824689	2020-05-29 19:42:43.051607	2	\N	\N	\N	\N
+2	\N	7	\N	\N	\N	2021-01-18 02:54:13	\N	2021-01-18 06:12:29.139339	2021-01-18 06:12:29.139339	\N	\N	\N	\N	\N
+3	\N	7	\N	\N	\N	2021-01-18 02:59:01	\N	2021-01-18 06:12:29.715768	2021-01-18 06:12:29.715768	\N	\N	\N	\N	\N
+4	\N	7	\N	\N	\N	2021-01-18 02:54:13	\N	2021-01-18 06:13:16.158794	2021-01-18 06:13:16.158794	\N	\N	\N	\N	\N
+5	\N	7	\N	\N	\N	2021-01-18 02:59:01	\N	2021-01-18 06:13:16.512214	2021-01-18 06:13:16.512214	\N	\N	\N	\N	\N
+6	\N	7	\N	\N	\N	2021-01-18 03:19:14	\N	2021-01-18 06:19:29.450649	2021-01-18 06:19:29.450649	\N	\N	\N	\N	\N
+7	\N	7	\N	\N	\N	2021-01-18 03:20:10	\N	2021-01-18 06:20:18.673862	2021-01-18 06:20:18.673862	\N	\N	\N	\N	\N
+8	\N	7	\N	\N	\N	2021-01-18 03:21:55	\N	2021-01-18 06:22:09.660682	2021-01-18 06:22:09.660682	\N	\N	\N	\N	\N
+9	\N	7	\N	\N	\N	2021-01-18 02:37:25	\N	2021-01-18 06:47:25.544696	2021-01-18 06:47:25.544696	\N	1	\N	\N	\N
+10	\N	7	\N	\N	\N	2021-01-18 02:54:25	\N	2021-01-18 06:47:26.116013	2021-01-18 06:47:26.116013	\N	1	\N	\N	\N
+11	\N	7	\N	\N	\N	2021-01-18 03:16:27	\N	2021-01-18 06:47:26.558523	2021-01-18 06:47:26.558523	\N	1	\N	\N	\N
+12	\N	7	\N	\N	\N	2021-01-18 03:47:06	\N	2021-01-18 06:47:26.927878	2021-01-18 06:47:26.927878	\N	1	\N	\N	\N
+13	\N	7	\N	\N	\N	2021-01-18 02:37:25	\N	2021-01-18 18:08:53.294998	2021-01-18 18:08:53.294998	\N	1	\N	\N	\N
+14	\N	7	\N	\N	\N	2021-01-18 02:54:25	\N	2021-01-18 18:08:53.771114	2021-01-18 18:08:53.771114	\N	1	\N	\N	\N
+15	\N	7	\N	\N	\N	2021-01-18 03:16:27	\N	2021-01-18 18:08:54.11672	2021-01-18 18:08:54.11672	\N	1	\N	\N	\N
+16	\N	7	\N	\N	\N	2021-01-18 03:47:56	\N	2021-01-18 18:08:54.435175	2021-01-18 18:08:54.435175	\N	1	\N	\N	\N
+17	\N	7	\N	\N	\N	2021-01-18 13:43:15	\N	2021-01-18 18:08:54.493055	2021-01-18 18:08:54.493055	\N	1	\N	\N	\N
+18	\N	7	\N	\N	\N	2021-01-18 13:44:53	\N	2021-01-18 18:08:54.551967	2021-01-18 18:08:54.551967	\N	1	\N	\N	\N
+19	\N	7	\N	\N	\N	2021-01-18 13:45:28	\N	2021-01-18 18:08:54.619395	2021-01-18 18:08:54.619395	\N	1	\N	\N	\N
+21	\N	7	\N	\N	\N	2021-01-18 15:02:03	\N	2021-01-18 18:08:54.97227	2021-01-18 18:08:54.97227	\N	10	\N	\N	\N
+22	\N	7	\N	\N	\N	2021-01-18 15:06:20	\N	2021-01-18 18:08:55.046844	2021-01-18 18:08:55.046844	\N	10	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: fonotest_items; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.fonotest_items (id, fonotest_id, item_id, name, example, index, instruction, created_at, updated_at) FROM stdin;
+1	1	1	Ejemplo A	t	1	“Voy a decir el nombre de ciertas cosas, como animales o comidas, y algunos números. Una vez que los diga, debes decirme las palabras en el mismo orden en que yo las dije. Después, debes decirme los números en el mismo orden en que yo los dije. Vamos a comenzar con un número y una palabra. Repite primero la palabra, seguida del número” 	2020-05-26 17:53:30.329509	2020-05-26 17:53:30.329509
+2	1	2	Ejemplo B	t	2	“Ahora vas a escuchar las palabras y los números de la grabación. Recuerda que debes decir primero la palabra y luego el número” 	2020-05-26 17:53:30.402658	2020-05-26 17:53:30.402658
+3	1	3	Item 1	f	3		2020-05-26 17:53:30.438994	2020-05-26 17:53:30.438994
+4	1	4	Item 2	f	4		2020-05-26 17:53:30.483632	2020-05-26 17:53:30.483632
+5	1	5	Item 3	f	5		2020-05-26 17:53:30.520091	2020-05-26 17:53:30.520091
+6	1	6	Ejemplo C	t	6	“Ahora vas a escuchar otras palabras y otros números. Siempre dime las palabras en el mismo orden, luego dime los números en el mismo orden. Si la tarea se te hace muy difícil, dime simplemente lo que puedas recordar”	2020-05-26 17:53:30.554149	2020-05-26 17:53:30.554149
+7	1	7	Item 4	f	7		2020-05-26 17:53:30.590703	2020-05-26 17:53:30.590703
+8	1	8	Item 5	f	8		2020-05-26 17:53:30.628345	2020-05-26 17:53:30.628345
+9	1	9	Item 6	f	9		2020-05-26 17:53:30.664175	2020-05-26 17:53:30.664175
+10	1	10	Item 7	f	10		2020-05-26 17:53:30.698864	2020-05-26 17:53:30.698864
+11	1	11	Item 8	f	11		2020-05-26 17:53:30.733091	2020-05-26 17:53:30.733091
+12	1	12	Item 9	f	12		2020-05-26 17:53:30.763695	2020-05-26 17:53:30.763695
+13	1	13	Item 10	f	13		2020-05-26 17:53:30.800284	2020-05-26 17:53:30.800284
+14	1	14	Item 11	f	14		2020-05-26 17:53:30.836179	2020-05-26 17:53:30.836179
+15	1	15	Item 12	f	15		2020-05-26 17:53:30.867935	2020-05-26 17:53:30.867935
+16	1	16	Item 13	f	16		2020-05-26 17:53:30.899913	2020-05-26 17:53:30.899913
+17	1	17	Item 14	f	17		2020-05-26 17:53:30.937637	2020-05-26 17:53:30.937637
+18	1	18	Item 15	f	18		2020-05-26 17:53:30.973002	2020-05-26 17:53:30.973002
+19	1	19	Item 16	f	19		2020-05-26 17:53:31.007406	2020-05-26 17:53:31.007406
+20	1	20	Item 17	f	20		2020-05-26 17:53:31.039502	2020-05-26 17:53:31.039502
+21	1	21	Item 18	f	21		2020-05-26 17:53:31.073477	2020-05-26 17:53:31.073477
+22	1	22	Item 19	f	22		2020-05-26 17:53:31.106162	2020-05-26 17:53:31.106162
+23	1	23	Item 20	f	23		2020-05-26 17:53:31.144075	2020-05-26 17:53:31.144075
+24	1	24	Item 21	f	24		2020-05-26 17:53:31.179217	2020-05-26 17:53:31.179217
+25	2	25	Ejemplo A	t	1	“Voy a decir el nombre de ciertas cosas, como animales o comidas, y algunos números. Una vez que los diga, debes decirme las palabras en el mismo orden en que yo las dije. Después, debes decirme los números en el mismo orden en que yo los dije. Vamos a comenzar con un número y una palabra. Repite primero la palabra, seguida del número” 	2020-05-26 17:54:04.558104	2020-05-26 17:54:04.558104
+26	2	26	Ejemplo B	t	2	“Ahora vas a escuchar las palabras y los números de la grabación. Recuerda que debes decir primero la palabra y luego el número” 	2020-05-26 17:54:04.619175	2020-05-26 17:54:04.619175
+27	2	27	Item 1	f	3		2020-05-26 17:54:04.658235	2020-05-26 17:54:04.658235
+28	2	28	Item 2	f	4		2020-05-26 17:54:04.705806	2020-05-26 17:54:04.705806
+29	2	29	Item 3	f	5		2020-05-26 17:54:04.741055	2020-05-26 17:54:04.741055
+30	2	30	Ejemplo C	t	6	“Ahora vas a escuchar otras palabras y otros números. Siempre dime las palabras en el mismo orden, luego dime los números en el mismo orden. Si la tarea se te hace muy difícil, dime simplemente lo que puedas recordar”	2020-05-26 17:54:04.773599	2020-05-26 17:54:04.773599
+31	2	31	Item 4	f	7		2020-05-26 17:54:04.807673	2020-05-26 17:54:04.807673
+32	2	32	Item 5	f	8		2020-05-26 17:54:04.847331	2020-05-26 17:54:04.847331
+33	2	33	Item 6	f	9		2020-05-26 17:54:04.885586	2020-05-26 17:54:04.885586
+34	2	34	Item 7	f	10		2020-05-26 17:54:04.9302	2020-05-26 17:54:04.9302
+35	2	35	Item 8	f	11		2020-05-26 17:54:04.979382	2020-05-26 17:54:04.979382
+36	2	36	Item 9	f	12		2020-05-26 17:54:05.01446	2020-05-26 17:54:05.01446
+37	2	37	Item 10	f	13		2020-05-26 17:54:05.054323	2020-05-26 17:54:05.054323
+38	2	38	Item 11	f	14		2020-05-26 17:54:05.092263	2020-05-26 17:54:05.092263
+39	2	39	Item 12	f	15		2020-05-26 17:54:05.129248	2020-05-26 17:54:05.129248
+40	2	40	Item 13	f	16		2020-05-26 17:54:05.165717	2020-05-26 17:54:05.165717
+41	2	41	Item 14	f	17		2020-05-26 17:54:05.203858	2020-05-26 17:54:05.203858
+42	2	42	Item 15	f	18		2020-05-26 17:54:05.25282	2020-05-26 17:54:05.25282
+43	2	43	Item 16	f	19		2020-05-26 17:54:05.290288	2020-05-26 17:54:05.290288
+44	2	44	Item 17	f	20		2020-05-26 17:54:05.326438	2020-05-26 17:54:05.326438
+45	2	45	Item 18	f	21		2020-05-26 17:54:05.366763	2020-05-26 17:54:05.366763
+46	2	46	Item 19	f	22		2020-05-26 17:54:05.406106	2020-05-26 17:54:05.406106
+47	2	47	Item 20	f	23		2020-05-26 17:54:05.467105	2020-05-26 17:54:05.467105
+48	2	48	Item 21	f	24		2020-05-26 17:54:05.518749	2020-05-26 17:54:05.518749
+\.
+
+
+--
+-- Data for Name: fonotests; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.fonotests (id, version, current, description, created_at, updated_at) FROM stdin;
+1	0.5	t	\N	2020-05-26 17:53:30.301935	2020-05-26 17:53:30.301935
+2	0.5	t	\N	2020-05-26 17:54:04.528958	2020-05-26 17:54:04.528958
+\.
+
+
+--
+-- Data for Name: hnf_answers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.hnf_answers (id, evaluation_id, hnftest_id, score, created_at, updated_at, time_in_seconds, corrects, omitted, total_errors, practice_tries) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hnfset_hnftests; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.hnfset_hnftests (id, hnfset_id, hnftest_id, created_at, updated_at) FROM stdin;
+1	1	1	2020-05-26 17:53:31.306069	2020-05-26 17:53:31.306069
+2	1	2	2020-05-26 17:53:31.339569	2020-05-26 17:53:31.339569
+3	1	3	2020-05-26 17:53:31.369282	2020-05-26 17:53:31.369282
+4	2	4	2020-05-26 17:54:05.712771	2020-05-26 17:54:05.712771
+5	2	5	2020-05-26 17:54:05.7527	2020-05-26 17:54:05.7527
+6	2	6	2020-05-26 17:54:05.792574	2020-05-26 17:54:05.792574
+\.
+
+
+--
+-- Data for Name: hnfsets; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.hnfsets (id, current, version, created_at, updated_at) FROM stdin;
+1	t	0.5	2020-05-26 17:53:31.194428	2020-05-26 17:53:31.194428
+2	t	0.5	2020-05-26 17:54:05.540313	2020-05-26 17:54:05.540313
+\.
+
+
+--
+-- Data for Name: hnftest_figures; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.hnftest_figures (id, figure, index, "position", created_at, updated_at, hnftest_id) FROM stdin;
+1	1	1	1	2020-05-26 17:53:31.219611	2020-05-26 17:53:31.219611	1
+2	0	2	1	2020-05-26 17:53:31.221961	2020-05-26 17:53:31.221961	1
+3	0	3	1	2020-05-26 17:53:31.223974	2020-05-26 17:53:31.223974	1
+4	0	4	0	2020-05-26 17:53:31.225586	2020-05-26 17:53:31.225586	1
+5	1	5	1	2020-05-26 17:53:31.227367	2020-05-26 17:53:31.227367	1
+6	1	6	0	2020-05-26 17:53:31.229086	2020-05-26 17:53:31.229086	1
+7	1	7	0	2020-05-26 17:53:31.231114	2020-05-26 17:53:31.231114	1
+8	0	8	0	2020-05-26 17:53:31.232957	2020-05-26 17:53:31.232957	1
+9	1	9	1	2020-05-26 17:53:31.234717	2020-05-26 17:53:31.234717	1
+10	1	10	1	2020-05-26 17:53:31.236431	2020-05-26 17:53:31.236431	1
+11	0	11	1	2020-05-26 17:53:31.238164	2020-05-26 17:53:31.238164	1
+12	0	12	0	2020-05-26 17:53:31.239825	2020-05-26 17:53:31.239825	1
+13	0	13	0	2020-05-26 17:53:31.241614	2020-05-26 17:53:31.241614	1
+14	1	14	1	2020-05-26 17:53:31.243463	2020-05-26 17:53:31.243463	1
+15	0	15	1	2020-05-26 17:53:31.245231	2020-05-26 17:53:31.245231	1
+16	1	16	1	2020-05-26 17:53:31.247134	2020-05-26 17:53:31.247134	1
+17	1	17	0	2020-05-26 17:53:31.249175	2020-05-26 17:53:31.249175	1
+18	1	18	0	2020-05-26 17:53:31.250969	2020-05-26 17:53:31.250969	1
+19	0	19	0	2020-05-26 17:53:31.252791	2020-05-26 17:53:31.252791	1
+20	0	20	1	2020-05-26 17:53:31.254699	2020-05-26 17:53:31.254699	1
+21	1	21	0	2020-05-26 17:53:31.256622	2020-05-26 17:53:31.256622	1
+22	0	22	1	2020-05-26 17:53:31.258538	2020-05-26 17:53:31.258538	1
+23	1	23	1	2020-05-26 17:53:31.260668	2020-05-26 17:53:31.260668	1
+24	0	24	0	2020-05-26 17:53:31.26229	2020-05-26 17:53:31.26229	1
+25	0	25	0	2020-05-26 17:53:31.264081	2020-05-26 17:53:31.264081	1
+26	1	26	0	2020-05-26 17:53:31.265752	2020-05-26 17:53:31.265752	1
+27	1	27	1	2020-05-26 17:53:31.267625	2020-05-26 17:53:31.267625	1
+28	0	28	0	2020-05-26 17:53:31.269415	2020-05-26 17:53:31.269415	1
+29	0	29	1	2020-05-26 17:53:31.271194	2020-05-26 17:53:31.271194	1
+30	0	30	1	2020-05-26 17:53:31.272951	2020-05-26 17:53:31.272951	1
+31	1	31	0	2020-05-26 17:53:31.274874	2020-05-26 17:53:31.274874	1
+32	1	32	1	2020-05-26 17:53:31.276754	2020-05-26 17:53:31.276754	1
+33	1	33	1	2020-05-26 17:53:31.278509	2020-05-26 17:53:31.278509	1
+34	0	1	1	2020-05-26 17:53:31.310637	2020-05-26 17:53:31.310637	2
+35	0	2	0	2020-05-26 17:53:31.312279	2020-05-26 17:53:31.312279	2
+36	0	3	0	2020-05-26 17:53:31.313721	2020-05-26 17:53:31.313721	2
+37	0	4	1	2020-05-26 17:53:31.315595	2020-05-26 17:53:31.315595	2
+38	0	5	1	2020-05-26 17:53:31.317577	2020-05-26 17:53:31.317577	2
+39	0	6	0	2020-05-26 17:53:31.31945	2020-05-26 17:53:31.31945	2
+40	0	7	1	2020-05-26 17:53:31.321383	2020-05-26 17:53:31.321383	2
+41	0	8	1	2020-05-26 17:53:31.323788	2020-05-26 17:53:31.323788	2
+42	0	9	0	2020-05-26 17:53:31.326003	2020-05-26 17:53:31.326003	2
+43	0	10	0	2020-05-26 17:53:31.328441	2020-05-26 17:53:31.328441	2
+44	0	11	0	2020-05-26 17:53:31.335136	2020-05-26 17:53:31.335136	2
+45	0	12	1	2020-05-26 17:53:31.336877	2020-05-26 17:53:31.336877	2
+46	1	1	1	2020-05-26 17:53:31.343328	2020-05-26 17:53:31.343328	3
+47	1	2	0	2020-05-26 17:53:31.345035	2020-05-26 17:53:31.345035	3
+48	1	3	0	2020-05-26 17:53:31.346765	2020-05-26 17:53:31.346765	3
+49	1	4	1	2020-05-26 17:53:31.34916	2020-05-26 17:53:31.34916	3
+50	1	5	1	2020-05-26 17:53:31.352297	2020-05-26 17:53:31.352297	3
+51	1	6	0	2020-05-26 17:53:31.3548	2020-05-26 17:53:31.3548	3
+52	1	7	1	2020-05-26 17:53:31.357244	2020-05-26 17:53:31.357244	3
+53	1	8	1	2020-05-26 17:53:31.359138	2020-05-26 17:53:31.359138	3
+54	1	9	0	2020-05-26 17:53:31.36095	2020-05-26 17:53:31.36095	3
+55	1	10	0	2020-05-26 17:53:31.363243	2020-05-26 17:53:31.363243	3
+56	1	11	1	2020-05-26 17:53:31.364951	2020-05-26 17:53:31.364951	3
+57	1	12	0	2020-05-26 17:53:31.366951	2020-05-26 17:53:31.366951	3
+58	1	1	1	2020-05-26 17:54:05.578931	2020-05-26 17:54:05.578931	4
+59	0	2	1	2020-05-26 17:54:05.581801	2020-05-26 17:54:05.581801	4
+60	0	3	1	2020-05-26 17:54:05.584123	2020-05-26 17:54:05.584123	4
+61	0	4	0	2020-05-26 17:54:05.585922	2020-05-26 17:54:05.585922	4
+62	1	5	1	2020-05-26 17:54:05.587752	2020-05-26 17:54:05.587752	4
+63	1	6	0	2020-05-26 17:54:05.59034	2020-05-26 17:54:05.59034	4
+64	1	7	0	2020-05-26 17:54:05.593011	2020-05-26 17:54:05.593011	4
+65	0	8	0	2020-05-26 17:54:05.595265	2020-05-26 17:54:05.595265	4
+66	1	9	1	2020-05-26 17:54:05.597352	2020-05-26 17:54:05.597352	4
+67	1	10	1	2020-05-26 17:54:05.600169	2020-05-26 17:54:05.600169	4
+68	0	11	1	2020-05-26 17:54:05.602344	2020-05-26 17:54:05.602344	4
+69	0	12	0	2020-05-26 17:54:05.605047	2020-05-26 17:54:05.605047	4
+70	0	13	0	2020-05-26 17:54:05.607093	2020-05-26 17:54:05.607093	4
+71	1	14	1	2020-05-26 17:54:05.609153	2020-05-26 17:54:05.609153	4
+72	0	15	1	2020-05-26 17:54:05.611358	2020-05-26 17:54:05.611358	4
+73	1	16	1	2020-05-26 17:54:05.613928	2020-05-26 17:54:05.613928	4
+74	1	17	0	2020-05-26 17:54:05.615531	2020-05-26 17:54:05.615531	4
+75	1	18	0	2020-05-26 17:54:05.617495	2020-05-26 17:54:05.617495	4
+76	0	19	0	2020-05-26 17:54:05.619003	2020-05-26 17:54:05.619003	4
+77	0	20	1	2020-05-26 17:54:05.620602	2020-05-26 17:54:05.620602	4
+78	1	21	0	2020-05-26 17:54:05.622246	2020-05-26 17:54:05.622246	4
+79	0	22	1	2020-05-26 17:54:05.62489	2020-05-26 17:54:05.62489	4
+80	1	23	1	2020-05-26 17:54:05.627002	2020-05-26 17:54:05.627002	4
+81	0	24	0	2020-05-26 17:54:05.6295	2020-05-26 17:54:05.6295	4
+82	0	25	0	2020-05-26 17:54:05.631873	2020-05-26 17:54:05.631873	4
+83	1	26	0	2020-05-26 17:54:05.638935	2020-05-26 17:54:05.638935	4
+84	1	27	1	2020-05-26 17:54:05.642728	2020-05-26 17:54:05.642728	4
+85	0	28	0	2020-05-26 17:54:05.64501	2020-05-26 17:54:05.64501	4
+86	0	29	1	2020-05-26 17:54:05.650358	2020-05-26 17:54:05.650358	4
+87	0	30	1	2020-05-26 17:54:05.652663	2020-05-26 17:54:05.652663	4
+88	1	31	0	2020-05-26 17:54:05.654862	2020-05-26 17:54:05.654862	4
+89	1	32	1	2020-05-26 17:54:05.657302	2020-05-26 17:54:05.657302	4
+90	1	33	1	2020-05-26 17:54:05.659904	2020-05-26 17:54:05.659904	4
+91	0	1	1	2020-05-26 17:54:05.719023	2020-05-26 17:54:05.719023	5
+92	0	2	0	2020-05-26 17:54:05.721343	2020-05-26 17:54:05.721343	5
+93	0	3	0	2020-05-26 17:54:05.723439	2020-05-26 17:54:05.723439	5
+94	0	4	1	2020-05-26 17:54:05.726989	2020-05-26 17:54:05.726989	5
+95	0	5	1	2020-05-26 17:54:05.730005	2020-05-26 17:54:05.730005	5
+96	0	6	0	2020-05-26 17:54:05.732274	2020-05-26 17:54:05.732274	5
+97	0	7	1	2020-05-26 17:54:05.735924	2020-05-26 17:54:05.735924	5
+98	0	8	1	2020-05-26 17:54:05.7385	2020-05-26 17:54:05.7385	5
+99	0	9	0	2020-05-26 17:54:05.740395	2020-05-26 17:54:05.740395	5
+100	0	10	0	2020-05-26 17:54:05.742794	2020-05-26 17:54:05.742794	5
+101	0	11	0	2020-05-26 17:54:05.744783	2020-05-26 17:54:05.744783	5
+102	0	12	1	2020-05-26 17:54:05.748073	2020-05-26 17:54:05.748073	5
+103	1	1	1	2020-05-26 17:54:05.758595	2020-05-26 17:54:05.758595	6
+104	1	2	0	2020-05-26 17:54:05.761176	2020-05-26 17:54:05.761176	6
+105	1	3	0	2020-05-26 17:54:05.763737	2020-05-26 17:54:05.763737	6
+106	1	4	1	2020-05-26 17:54:05.765738	2020-05-26 17:54:05.765738	6
+107	1	5	1	2020-05-26 17:54:05.770265	2020-05-26 17:54:05.770265	6
+108	1	6	0	2020-05-26 17:54:05.772445	2020-05-26 17:54:05.772445	6
+109	1	7	1	2020-05-26 17:54:05.77583	2020-05-26 17:54:05.77583	6
+110	1	8	1	2020-05-26 17:54:05.778103	2020-05-26 17:54:05.778103	6
+111	1	9	0	2020-05-26 17:54:05.780727	2020-05-26 17:54:05.780727	6
+112	1	10	0	2020-05-26 17:54:05.784913	2020-05-26 17:54:05.784913	6
+113	1	11	1	2020-05-26 17:54:05.787249	2020-05-26 17:54:05.787249	6
+114	1	12	0	2020-05-26 17:54:05.78939	2020-05-26 17:54:05.78939	6
+\.
+
+
+--
+-- Data for Name: hnftests; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.hnftests (id, hnf_type, created_at, updated_at) FROM stdin;
+1	2	2020-05-26 17:53:31.207216	2020-05-26 17:53:31.207216
+2	0	2020-05-26 17:53:31.308674	2020-05-26 17:53:31.308674
+3	1	2020-05-26 17:53:31.341596	2020-05-26 17:53:31.341596
+4	2	2020-05-26 17:54:05.562111	2020-05-26 17:54:05.562111
+5	0	2020-05-26 17:54:05.715744	2020-05-26 17:54:05.715744
+6	1	2020-05-26 17:54:05.755553	2020-05-26 17:54:05.755553
+\.
+
+
+--
+-- Data for Name: instruments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.instruments (id, name, instruction, personalisation_of_instrument_id, for_sex, created_at, updated_at) FROM stdin;
+1	Wally Original	\N	\N	\N	2021-01-09 23:12:52.342644	2021-01-18 16:46:12.617565
+3	Wally Original	\N	\N	\N	2021-01-18 17:11:28.854173	2021-01-18 17:11:28.854173
+4	Wally Original	Aquí hay una prueba de detectives para ver qué tan bueno eres como detective para resolver problemas. Aquí tienes tu sombrero de detective, si quieres usarlo (usted deberá hacer la acción de entregarle un sombrero imaginario). 	\N	\N	2021-01-18 17:12:15.479384	2021-01-18 17:12:15.479384
+5	Wally Original	Aquí hay una prueba de detectives para ver qué tan bueno eres como detective para resolver problemas. Aquí tienes tu sombrero de detective, si quieres usarlo (usted deberá hacer la acción de entregarle un sombrero imaginario). 	\N	\N	2021-01-18 17:13:24.368739	2021-01-18 17:13:24.368739
+6	Wally Original	Aquí hay una prueba de detectives para ver qué tan bueno eres como detective para resolver problemas. Aquí tienes tu sombrero de detective, si quieres usarlo (usted deberá hacer la acción de entregarle un sombrero imaginario). 	\N	\N	2021-01-18 17:13:41.997444	2021-01-18 17:13:41.997444
+7	Wally Original	Aquí hay una prueba de detectives para ver qué tan bueno eres como detective para resolver problemas. Aquí tienes tu sombrero de detective, si quieres usarlo (usted deberá hacer la acción de entregarle un sombrero imaginario). 	\N	\N	2021-01-18 17:13:58.590642	2021-01-18 17:13:58.590642
+8	Wally Original	Aquí hay una prueba de detectives para ver qué tan bueno eres como detective para resolver problemas. Aquí tienes tu sombrero de detective, si quieres usarlo (usted deberá hacer la acción de entregarle un sombrero imaginario). 	\N	\N	2021-01-18 17:16:13.90498	2021-01-18 17:16:13.90498
+9	Wally Original	Aquí hay una prueba de detectives para ver qué tan bueno eres como detective para resolver problemas. Aquí tienes tu sombrero de detective, si quieres usarlo (usted deberá hacer la acción de entregarle un sombrero imaginario). 	\N	\N	2021-01-18 17:16:37.055084	2021-01-18 17:16:37.055084
+10	Wally Original	Aquí hay una prueba de detectives para ver qué tan bueno eres como detective para resolver problemas. Aquí tienes tu sombrero de detective, si quieres usarlo (usted deberá hacer la acción de entregarle un sombrero imaginario). 	\N	\N	2021-01-18 17:18:04.657032	2021-01-18 17:18:04.657032
+\.
+
+
+--
+-- Data for Name: item_answers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.item_answers (id, evaluation_id, item_id, answer_string, score, created_at, updated_at) FROM stdin;
+1	1	1	3..perro	0	2020-05-29 19:42:42.937741	2020-05-29 19:42:42.937741
+2	1	2	manzana..9	2	2020-05-29 19:42:42.944562	2020-05-29 19:42:42.944562
+3	1	3	zapato..6	2	2020-05-29 19:42:42.948042	2020-05-29 19:42:42.948042
+4	1	4		0	2020-05-29 19:42:42.951718	2020-05-29 19:42:42.951718
+5	1	5		0	2020-05-29 19:42:42.983095	2020-05-29 19:42:42.983095
+6	1	6		0	2020-05-29 19:42:42.99024	2020-05-29 19:42:42.99024
+7	1	7		0	2020-05-29 19:42:42.995015	2020-05-29 19:42:42.995015
+\.
+
+
+--
+-- Data for Name: item_constructs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.item_constructs (id, item_id, construct_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: item_types; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.item_types (id, name, description, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: items; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.items (id, audio_id, description, correct_sequence, created_at, updated_at, instrument_id, title, "order", picture_id, is_for_practice, item_type_id) FROM stdin;
+1	\N	3..perro	perro seguido por 3	2020-05-26 17:53:30.316594	2020-05-26 17:53:30.316594	\N	\N	\N	\N	\N	\N
+2	1	9..manzana	manzana seguido por 9	2020-05-26 17:53:30.400375	2020-05-26 17:53:30.400375	\N	\N	\N	\N	\N	\N
+3	2	zapato..6	zapato..6	2020-05-26 17:53:30.437122	2020-05-26 17:53:30.437122	\N	\N	\N	\N	\N	\N
+4	3	5..pájaro	pájaro..5	2020-05-26 17:53:30.479859	2020-05-26 17:53:30.479859	\N	\N	\N	\N	\N	\N
+5	4	2..carne	carne..2	2020-05-26 17:53:30.518229	2020-05-26 17:53:30.518229	\N	\N	\N	\N	\N	\N
+6	5	1..gato..leche	gato..leche seguido por 1	2020-05-26 17:53:30.552401	2020-05-26 17:53:30.552401	\N	\N	\N	\N	\N	\N
+7	6	8..suéter..5	suéter..8..5	2020-05-26 17:53:30.588568	2020-05-26 17:53:30.588568	\N	\N	\N	\N	\N	\N
+8	7	sapo..2..cuchara	sapo..cuchara..2	2020-05-26 17:53:30.626587	2020-05-26 17:53:30.626587	\N	\N	\N	\N	\N	\N
+9	8	7..fruta..casa	fruta..casa..7	2020-05-26 17:53:30.661792	2020-05-26 17:53:30.661792	\N	\N	\N	\N	\N	\N
+10	9	3..pan..1..leon	pan..leon..3..1	2020-05-26 17:53:30.697212	2020-05-26 17:53:30.697212	\N	\N	\N	\N	\N	\N
+11	10	peine..5..jugo..9	peine..jugo..5..9	2020-05-26 17:53:30.731259	2020-05-26 17:53:30.731259	\N	\N	\N	\N	\N	\N
+12	11	8..caballo..media..2	caballo..media..8..2	2020-05-26 17:53:30.761981	2020-05-26 17:53:30.761981	\N	\N	\N	\N	\N	\N
+13	12	4..naranja..1..oso..7	naranja..oso..4..1	2020-05-26 17:53:30.798284	2020-05-26 17:53:30.798284	\N	\N	\N	\N	\N	\N
+14	13	cinturón..3..6..mantequilla..8	cinturón..mantequilla..3..6..8	2020-05-26 17:53:30.834126	2020-05-26 17:53:30.834126	\N	\N	\N	\N	\N	\N
+15	14	9..conejo..5..4..vestido	conejo..vestido..9..5..4	2020-05-26 17:53:30.866004	2020-05-26 17:53:30.866004	\N	\N	\N	\N	\N	\N
+16	15	vaca..1..pastel..3..camisa..6	vaca..pastel..camisa..1..3..6	2020-05-26 17:53:30.898335	2020-05-26 17:53:30.898335	\N	\N	\N	\N	\N	\N
+17	16	7..mosca..sopa..2..9..guante	mosca..sopa..guante..7..2..9	2020-05-26 17:53:30.935867	2020-05-26 17:53:30.935867	\N	\N	\N	\N	\N	\N
+18	17	8..pantalón..3..rata..1..huevos	pantalón..rata..huevos..8..3..1	2020-05-26 17:53:30.970981	2020-05-26 17:53:30.970981	\N	\N	\N	\N	\N	\N
+19	18	silla..4..7..ojos..azúcar..6..5	silla..ojos..azúcar..4..7..6..5	2020-05-26 17:53:31.005686	2020-05-26 17:53:31.005686	\N	\N	\N	\N	\N	\N
+20	19	2..araña..9..cama..3..falda..1	araña..cama..falda..2..9..3..1	2020-05-26 17:53:31.037734	2020-05-26 17:53:31.037734	\N	\N	\N	\N	\N	\N
+21	20	dulce..5..8..cortina..puerta..6..botón	dulce..cortina..puerta..botón..5..8..6	2020-05-26 17:53:31.071498	2020-05-26 17:53:31.071498	\N	\N	\N	\N	\N	\N
+22	21	4..sal..lobo..7..estufa..2..9..bota	sal..lobo..estufa..bota..4..7..2..9	2020-05-26 17:53:31.104182	2020-05-26 17:53:31.104182	\N	\N	\N	\N	\N	\N
+23	22	galleta..1..tortuga..5..mesa..6..manopla..3	galleta..tortuga..mesa..manopla..1..5..6..3	2020-05-26 17:53:31.142023	2020-05-26 17:53:31.142023	\N	\N	\N	\N	\N	\N
+24	23	zanahoria..8..reloj..4..9..maíz..pájaro..2	zanahoria..reloj..maíz..pájaro..8..4..9..2	2020-05-26 17:53:31.177344	2020-05-26 17:53:31.177344	\N	\N	\N	\N	\N	\N
+25	\N	3..perro	perro seguido por 3	2020-05-26 17:54:04.544121	2020-05-26 17:54:04.544121	\N	\N	\N	\N	\N	\N
+26	24	9..manzana	manzana seguido por 9	2020-05-26 17:54:04.616485	2020-05-26 17:54:04.616485	\N	\N	\N	\N	\N	\N
+27	25	zapato..6	zapato..6	2020-05-26 17:54:04.65618	2020-05-26 17:54:04.65618	\N	\N	\N	\N	\N	\N
+28	26	5..pájaro	pájaro..5	2020-05-26 17:54:04.703181	2020-05-26 17:54:04.703181	\N	\N	\N	\N	\N	\N
+29	27	2..carne	carne..2	2020-05-26 17:54:04.739492	2020-05-26 17:54:04.739492	\N	\N	\N	\N	\N	\N
+30	28	1..gato..leche	gato..leche seguido por 1	2020-05-26 17:54:04.771755	2020-05-26 17:54:04.771755	\N	\N	\N	\N	\N	\N
+31	29	8..suéter..5	suéter..8..5	2020-05-26 17:54:04.805965	2020-05-26 17:54:04.805965	\N	\N	\N	\N	\N	\N
+32	30	sapo..2..cuchara	sapo..cuchara..2	2020-05-26 17:54:04.845138	2020-05-26 17:54:04.845138	\N	\N	\N	\N	\N	\N
+33	31	7..fruta..casa	fruta..casa..7	2020-05-26 17:54:04.883665	2020-05-26 17:54:04.883665	\N	\N	\N	\N	\N	\N
+34	32	3..pan..1..leon	pan..leon..3..1	2020-05-26 17:54:04.927888	2020-05-26 17:54:04.927888	\N	\N	\N	\N	\N	\N
+35	33	peine..5..jugo..9	peine..jugo..5..9	2020-05-26 17:54:04.977674	2020-05-26 17:54:04.977674	\N	\N	\N	\N	\N	\N
+36	34	8..caballo..media..2	caballo..media..8..2	2020-05-26 17:54:05.012776	2020-05-26 17:54:05.012776	\N	\N	\N	\N	\N	\N
+37	35	4..naranja..1..oso..7	naranja..oso..4..1	2020-05-26 17:54:05.05278	2020-05-26 17:54:05.05278	\N	\N	\N	\N	\N	\N
+38	36	cinturón..3..6..mantequilla..8	cinturón..mantequilla..3..6..8	2020-05-26 17:54:05.090666	2020-05-26 17:54:05.090666	\N	\N	\N	\N	\N	\N
+39	37	9..conejo..5..4..vestido	conejo..vestido..9..5..4	2020-05-26 17:54:05.127456	2020-05-26 17:54:05.127456	\N	\N	\N	\N	\N	\N
+40	38	vaca..1..pastel..3..camisa..6	vaca..pastel..camisa..1..3..6	2020-05-26 17:54:05.164149	2020-05-26 17:54:05.164149	\N	\N	\N	\N	\N	\N
+41	39	7..mosca..sopa..2..9..guante	mosca..sopa..guante..7..2..9	2020-05-26 17:54:05.201789	2020-05-26 17:54:05.201789	\N	\N	\N	\N	\N	\N
+42	40	8..pantalón..3..rata..1..huevos	pantalón..rata..huevos..8..3..1	2020-05-26 17:54:05.251052	2020-05-26 17:54:05.251052	\N	\N	\N	\N	\N	\N
+43	41	silla..4..7..ojos..azúcar..6..5	silla..ojos..azúcar..4..7..6..5	2020-05-26 17:54:05.288706	2020-05-26 17:54:05.288706	\N	\N	\N	\N	\N	\N
+44	42	2..araña..9..cama..3..falda..1	araña..cama..falda..2..9..3..1	2020-05-26 17:54:05.324685	2020-05-26 17:54:05.324685	\N	\N	\N	\N	\N	\N
+45	43	dulce..5..8..cortina..puerta..6..botón	dulce..cortina..puerta..botón..5..8..6	2020-05-26 17:54:05.364452	2020-05-26 17:54:05.364452	\N	\N	\N	\N	\N	\N
+46	44	4..sal..lobo..7..estufa..2..9..bota	sal..lobo..estufa..bota..4..7..2..9	2020-05-26 17:54:05.404297	2020-05-26 17:54:05.404297	\N	\N	\N	\N	\N	\N
+47	45	galleta..1..tortuga..5..mesa..6..manopla..3	galleta..tortuga..mesa..manopla..1..5..6..3	2020-05-26 17:54:05.464937	2020-05-26 17:54:05.464937	\N	\N	\N	\N	\N	\N
+48	46	zanahoria..8..reloj..4..9..maíz..pájaro..2	zanahoria..reloj..maíz..pájaro..8..4..9..2	2020-05-26 17:54:05.515016	2020-05-26 17:54:05.515016	\N	\N	\N	\N	\N	\N
+49	\N	\N	\N	2021-01-12 19:45:16.07599	2021-01-12 20:46:50.36228	1	\N	\N	121	\N	\N
+50	\N	\N	\N	2021-01-12 22:29:07.590172	2021-01-12 22:29:07.590172	1	\N	\N	121	\N	\N
+51	\N	Supongamos que le pides a una amiga que juegue contigo y ella dice que no. ¿Qué harías?	\N	2021-01-18 17:18:05.96627	2021-01-18 17:18:05.96627	10	\N	0	122	\N	\N
+52	\N	Supongamos que rompiste el jarrón favorito de tu mamá/papá. ¿Qué harías?	\N	2021-01-18 17:18:06.432145	2021-01-18 17:18:06.432145	10	\N	1	123	\N	\N
+53	\N	Supongamos que tu hermana comenzó a molestarte y tú comenzaste a molestarla a ella también, luego tu mamá/papá te manda a tu pieza . ¿Qué harías?	\N	2021-01-18 17:18:06.941089	2021-01-18 17:18:06.941089	10	\N	2	124	\N	\N
+54	\N	Supongamos que otro niño en el colegio/jardín te molesta y se burla constantemente de ti. ¿Qué harías?	\N	2021-01-18 17:18:07.389291	2021-01-18 17:18:07.389291	10	\N	3	125	\N	\N
+55	\N	Supongamos que realmente quieres un juguete de la tienda pero tu papá/mamá no te lo quiere comprar. ¿Qué harías?	\N	2021-01-18 17:18:07.823318	2021-01-18 17:18:07.823318	10	\N	4	126	\N	\N
+56	\N	Supongamos que acabas de romper los pantalones nuevos que tu mamá/papá te compró para una situación especial. ¿Qué harías?	\N	2021-01-18 17:18:08.318076	2021-01-18 17:18:08.318076	10	\N	5	127	\N	\N
+57	\N	Supongamos que otra niña te llama bebé porque juegas a las muñecas. ¿Qué harías?	\N	2021-01-18 17:18:08.781244	2021-01-18 17:18:08.781244	10	\N	6	128	\N	\N
+58	\N	Supongamos que estás solo y quieres jugar con otros niños en el patio. ¿Qué harías?	\N	2021-01-18 17:18:09.132012	2021-01-18 17:18:09.132012	10	\N	7	129	\N	\N
+59	\N	Supongamos que el queque que tenías guardado desapareció repentinamente y ves migas/pedazos de queque en la boca de tu hermana. ¿Qué harías?	\N	2021-01-18 17:18:09.469087	2021-01-18 17:18:09.469087	10	\N	8	130	\N	\N
+60	\N	Supongamos que tu hermano destruye tu juguete armable que has estado haciendo durantes dos semana. ¿Qué harías?	\N	2021-01-18 17:18:09.79925	2021-01-18 17:18:09.79925	10	\N	9	131	\N	\N
+61	\N	Supongamos que solo queda un trozo de pizza y tu hermana y tú lo quieren. ¿Qué arías?	\N	2021-01-18 17:18:10.119997	2021-01-18 17:18:10.119997	10	\N	10	132	\N	\N
+62	\N	Supongamos que tu profesor está enojado contigo porque no regresaste del recreo cuando sonó el timbre. ¿Qué harías?	\N	2021-01-18 17:18:10.487415	2021-01-18 17:18:10.487415	10	\N	11	133	\N	\N
+63	\N	Supongamos que un niño mucho menor que tú comienza a pegarte. ¿Qué harías?	\N	2021-01-18 17:18:10.86312	2021-01-18 17:18:10.86312	10	\N	12	134	\N	\N
+64	\N	Supongamos que un niño ha estado jugando durante mucho, mucho tiempo con una bicicleta y tú quieres jugar con ella. ¿Qué harías?	\N	2021-01-18 17:18:11.195972	2021-01-18 17:18:11.195972	10	\N	13	135	\N	\N
+65	\N	Supongamos que quieres conocer a un niño nuevo que acaba de llegar a la casa del vecino. ¿Qué harías?	\N	2021-01-18 17:18:11.537322	2021-01-18 17:18:11.537322	10	\N	14	136	\N	\N
+\.
+
+
+--
+-- Data for Name: moments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.moments (id, "from", until, created_at, updated_at, study_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: open_answers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.open_answers (id, item_id, evaluation_id, answer_text, latency_seconds, created_at, updated_at) FROM stdin;
+4	49	\N	pato	0	2021-01-18 06:46:18.080359	2021-01-18 06:46:18.080359
+5	50	\N		0	2021-01-18 06:46:18.082801	2021-01-18 06:46:18.082801
+9	49	12	uj	0	2021-01-18 06:47:26.932895	2021-01-18 06:47:26.932895
+10	50	12	tyu	0	2021-01-18 06:47:26.935784	2021-01-18 06:47:26.935784
+14	49	16	hhhujjh	2	2021-01-18 18:08:54.437984	2021-01-18 18:08:54.437984
+15	50	16	ghuj	2	2021-01-18 18:08:54.44123	2021-01-18 18:08:54.44123
+16	49	17		0	2021-01-18 18:08:54.496168	2021-01-18 18:08:54.496168
+17	50	17		0	2021-01-18 18:08:54.499331	2021-01-18 18:08:54.499331
+18	49	18		0	2021-01-18 18:08:54.554271	2021-01-18 18:08:54.554271
+19	50	18		0	2021-01-18 18:08:54.556716	2021-01-18 18:08:54.556716
+20	49	19		0	2021-01-18 18:08:54.622515	2021-01-18 18:08:54.622515
+21	50	19		0	2021-01-18 18:08:54.625886	2021-01-18 18:08:54.625886
+22	51	21		0	2021-01-18 18:08:54.975764	2021-01-18 18:08:54.975764
+23	52	21		0	2021-01-18 18:08:54.977805	2021-01-18 18:08:54.977805
+24	53	21		0	2021-01-18 18:08:54.979605	2021-01-18 18:08:54.979605
+25	54	21		0	2021-01-18 18:08:54.981629	2021-01-18 18:08:54.981629
+26	51	22	yggukm	2	2021-01-18 18:08:55.050084	2021-01-18 18:08:55.050084
+27	52	22	bjjkkl	2	2021-01-18 18:08:55.051782	2021-01-18 18:08:55.051782
+28	53	22	ghukjjjkl	1	2021-01-18 18:08:55.053513	2021-01-18 18:08:55.053513
+29	54	22	gyyuu	1	2021-01-18 18:08:55.055378	2021-01-18 18:08:55.055378
+30	55	22	gyuik	1	2021-01-18 18:08:55.058203	2021-01-18 18:08:55.058203
+31	56	22	yxetuh	1	2021-01-18 18:08:55.060007	2021-01-18 18:08:55.060007
+32	57	22	bguik	1	2021-01-18 18:08:55.062083	2021-01-18 18:08:55.062083
+33	58	22	bgkj	1	2021-01-18 18:08:55.063905	2021-01-18 18:08:55.063905
+34	59	22	bhujk	1	2021-01-18 18:08:55.066876	2021-01-18 18:08:55.066876
+35	60	22	bbhjl	0	2021-01-18 18:08:55.068936	2021-01-18 18:08:55.068936
+36	61	22	bbhuk	1	2021-01-18 18:08:55.070496	2021-01-18 18:08:55.070496
+37	62	22	vuij	2	2021-01-18 18:08:55.072083	2021-01-18 18:08:55.072083
+38	63	22	by hi mnn	1	2021-01-18 18:08:55.073677	2021-01-18 18:08:55.073677
+39	64	22	b hi jl	1	2021-01-18 18:08:55.075388	2021-01-18 18:08:55.075388
+40	65	22	b by hjjk	1	2021-01-18 18:08:55.077009	2021-01-18 18:08:55.077009
+\.
+
+
+--
+-- Data for Name: pictures; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.pictures (id, image_file_name, image_content_type, image_file_size, image_updated_at, created_at, updated_at) FROM stdin;
+1	1.jpg	image/jpeg	36756	2020-05-26 17:53:31.540777	2020-05-26 17:53:34.563187	2020-05-26 17:53:34.563187
+2	2.jpg	image/jpeg	25087	2020-05-26 17:53:34.620143	2020-05-26 17:53:34.892929	2020-05-26 17:53:34.892929
+3	3.jpg	image/jpeg	366155	2020-05-26 17:53:34.909999	2020-05-26 17:53:36.25881	2020-05-26 17:53:36.25881
+4	4.jpg	image/jpeg	18977	2020-05-26 17:53:36.278287	2020-05-26 17:53:36.537386	2020-05-26 17:53:36.537386
+5	5.jpg	image/jpeg	30016	2020-05-26 17:53:36.55924	2020-05-26 17:53:36.816418	2020-05-26 17:53:36.816418
+6	6.jpg	image/jpeg	428523	2020-05-26 17:53:36.833117	2020-05-26 17:53:37.837431	2020-05-26 17:53:37.837431
+7	7.jpg	image/jpeg	16500	2020-05-26 17:53:37.854434	2020-05-26 17:53:38.044395	2020-05-26 17:53:38.044395
+8	8.jpg	image/jpeg	14332	2020-05-26 17:53:38.060425	2020-05-26 17:53:38.271904	2020-05-26 17:53:38.271904
+9	9.jpg	image/jpeg	22210	2020-05-26 17:53:38.287264	2020-05-26 17:53:38.513385	2020-05-26 17:53:38.513385
+10	10.jpg	image/jpeg	35593	2020-05-26 17:53:38.528593	2020-05-26 17:53:38.768272	2020-05-26 17:53:38.768272
+11	11.jpg	image/jpeg	22663	2020-05-26 17:53:38.782567	2020-05-26 17:53:38.981875	2020-05-26 17:53:38.981875
+12	12.jpg	image/jpeg	28017	2020-05-26 17:53:38.995733	2020-05-26 17:53:39.239309	2020-05-26 17:53:39.239309
+13	13.jpg	image/jpeg	23937	2020-05-26 17:53:39.254197	2020-05-26 17:53:39.449711	2020-05-26 17:53:39.449711
+14	14.jpg	image/jpeg	24945	2020-05-26 17:53:39.46359	2020-05-26 17:53:39.6602	2020-05-26 17:53:39.6602
+15	15.jpg	image/jpeg	22888	2020-05-26 17:53:39.674831	2020-05-26 17:53:39.864109	2020-05-26 17:53:39.864109
+16	16.jpg	image/jpeg	26397	2020-05-26 17:53:39.879206	2020-05-26 17:53:40.119012	2020-05-26 17:53:40.119012
+17	17.jpg	image/jpeg	25375	2020-05-26 17:53:40.133662	2020-05-26 17:53:40.332287	2020-05-26 17:53:40.332287
+18	18.jpg	image/jpeg	396268	2020-05-26 17:53:40.349698	2020-05-26 17:53:41.429396	2020-05-26 17:53:41.429396
+19	19.jpg	image/jpeg	21941	2020-05-26 17:53:41.445494	2020-05-26 17:53:41.650889	2020-05-26 17:53:41.650889
+20	20.jpg	image/jpeg	39685	2020-05-26 17:53:41.666629	2020-05-26 17:53:41.90273	2020-05-26 17:53:41.90273
+21	21.jpg	image/jpeg	38644	2020-05-26 17:53:41.918123	2020-05-26 17:53:42.164631	2020-05-26 17:53:42.164631
+22	22.jpg	image/jpeg	18362	2020-05-26 17:53:42.184442	2020-05-26 17:53:42.381021	2020-05-26 17:53:42.381021
+23	23.jpg	image/jpeg	20030	2020-05-26 17:53:42.396868	2020-05-26 17:53:42.591202	2020-05-26 17:53:42.591202
+24	24.jpg	image/jpeg	23262	2020-05-26 17:53:42.612507	2020-05-26 17:53:42.810869	2020-05-26 17:53:42.810869
+25	25.jpg	image/jpeg	23460	2020-05-26 17:53:42.825877	2020-05-26 17:53:43.027959	2020-05-26 17:53:43.027959
+26	26.jpg	image/jpeg	37378	2020-05-26 17:53:43.042333	2020-05-26 17:53:43.289439	2020-05-26 17:53:43.289439
+27	enojado.png	image/png	83284	2020-05-26 17:53:43.308463	2020-05-26 17:53:43.835221	2020-05-26 17:53:43.835221
+28	feliz.png	image/png	113210	2020-05-26 17:53:43.844996	2020-05-26 17:53:44.138054	2020-05-26 17:53:44.138054
+29	triste.png	image/png	114171	2020-05-26 17:53:44.146289	2020-05-26 17:53:44.488572	2020-05-26 17:53:44.488572
+30	asustado.png	image/png	97339	2020-05-26 17:53:44.503781	2020-05-26 17:53:44.795739	2020-05-26 17:53:44.795739
+31	situation.png	image/png	100859	2020-05-26 17:53:44.849925	2020-05-26 17:53:45.115165	2020-05-26 17:53:45.115165
+32	prosocial.png	image/png	144067	2020-05-26 17:53:45.145015	2020-05-26 17:53:45.425062	2020-05-26 17:53:45.425062
+33	agresiva.png	image/png	165894	2020-05-26 17:53:45.458842	2020-05-26 17:53:45.767689	2020-05-26 17:53:45.767689
+34	desregulada.png	image/png	111702	2020-05-26 17:53:45.784528	2020-05-26 17:53:46.083211	2020-05-26 17:53:46.083211
+35	evasiva.png	image/png	68639	2020-05-26 17:53:46.103004	2020-05-26 17:53:46.388987	2020-05-26 17:53:46.388987
+36	situation.png	image/png	107498	2020-05-26 17:53:46.427342	2020-05-26 17:53:46.719633	2020-05-26 17:53:46.719633
+37	prosocial.png	image/png	140654	2020-05-26 17:53:46.735704	2020-05-26 17:53:47.037532	2020-05-26 17:53:47.037532
+38	agresiva.png	image/png	132335	2020-05-26 17:53:47.053654	2020-05-26 17:53:47.350638	2020-05-26 17:53:47.350638
+39	desregulada.png	image/png	144617	2020-05-26 17:53:47.36561	2020-05-26 17:53:47.677693	2020-05-26 17:53:47.677693
+40	evasiva.png	image/png	177339	2020-05-26 17:53:47.694258	2020-05-26 17:53:47.998548	2020-05-26 17:53:47.998548
+41	situation.png	image/png	75456	2020-05-26 17:53:48.016926	2020-05-26 17:53:48.29114	2020-05-26 17:53:48.29114
+42	prosocial.png	image/png	99158	2020-05-26 17:53:48.304954	2020-05-26 17:53:48.615912	2020-05-26 17:53:48.615912
+43	agresiva.png	image/png	85032	2020-05-26 17:53:48.63362	2020-05-26 17:53:48.911473	2020-05-26 17:53:48.911473
+44	desregulada.png	image/png	65077	2020-05-26 17:53:48.924417	2020-05-26 17:53:49.20006	2020-05-26 17:53:49.20006
+45	evasiva.png	image/png	50619	2020-05-26 17:53:49.213331	2020-05-26 17:53:49.477091	2020-05-26 17:53:49.477091
+46	situation.png	image/png	65971	2020-05-26 17:53:49.495428	2020-05-26 17:53:49.772092	2020-05-26 17:53:49.772092
+47	prosocial.png	image/png	62588	2020-05-26 17:53:49.785367	2020-05-26 17:53:50.050589	2020-05-26 17:53:50.050589
+48	agresiva.png	image/png	79658	2020-05-26 17:53:50.069439	2020-05-26 17:53:50.343809	2020-05-26 17:53:50.343809
+49	desregulada.png	image/png	60198	2020-05-26 17:53:50.357093	2020-05-26 17:53:50.614855	2020-05-26 17:53:50.614855
+50	evasiva.png	image/png	86084	2020-05-26 17:53:50.62789	2020-05-26 17:53:50.901471	2020-05-26 17:53:50.901471
+51	situation.png	image/png	114696	2020-05-26 17:53:50.917622	2020-05-26 17:53:51.230272	2020-05-26 17:53:51.230272
+52	prosocial.png	image/png	110907	2020-05-26 17:53:51.248453	2020-05-26 17:53:51.559195	2020-05-26 17:53:51.559195
+53	agresiva.png	image/png	121735	2020-05-26 17:53:51.575762	2020-05-26 17:53:51.907103	2020-05-26 17:53:51.907103
+54	desregulada.png	image/png	113152	2020-05-26 17:53:51.924032	2020-05-26 17:53:52.237671	2020-05-26 17:53:52.237671
+55	evasiva.png	image/png	113241	2020-05-26 17:53:52.255433	2020-05-26 17:53:52.645841	2020-05-26 17:53:52.645841
+56	situation.png	image/png	94475	2020-05-26 17:53:52.663557	2020-05-26 17:53:52.97771	2020-05-26 17:53:52.97771
+57	prosocial.png	image/png	108951	2020-05-26 17:53:52.997823	2020-05-26 17:53:53.311495	2020-05-26 17:53:53.311495
+58	agresiva.png	image/png	107754	2020-05-26 17:53:53.329884	2020-05-26 17:53:53.640633	2020-05-26 17:53:53.640633
+59	desregulada.png	image/png	93716	2020-05-26 17:53:53.662007	2020-05-26 17:53:53.983406	2020-05-26 17:53:53.983406
+60	evasiva.png	image/png	85613	2020-05-26 17:53:54.006824	2020-05-26 17:53:54.570935	2020-05-26 17:53:54.570935
+61	1.jpg	image/jpeg	36756	2020-05-26 17:54:06.043608	2020-05-26 17:54:06.359902	2020-05-26 17:54:06.359902
+62	2.jpg	image/jpeg	25087	2020-05-26 17:54:06.413754	2020-05-26 17:54:06.715777	2020-05-26 17:54:06.715777
+63	3.jpg	image/jpeg	366155	2020-05-26 17:54:06.742696	2020-05-26 17:54:08.08415	2020-05-26 17:54:08.08415
+64	4.jpg	image/jpeg	18977	2020-05-26 17:54:08.103823	2020-05-26 17:54:08.339979	2020-05-26 17:54:08.339979
+65	5.jpg	image/jpeg	30016	2020-05-26 17:54:08.360773	2020-05-26 17:54:08.663749	2020-05-26 17:54:08.663749
+66	6.jpg	image/jpeg	428523	2020-05-26 17:54:08.687309	2020-05-26 17:54:09.808975	2020-05-26 17:54:09.808975
+67	7.jpg	image/jpeg	16500	2020-05-26 17:54:09.825112	2020-05-26 17:54:10.079624	2020-05-26 17:54:10.079624
+68	8.jpg	image/jpeg	14332	2020-05-26 17:54:10.102632	2020-05-26 17:54:10.331106	2020-05-26 17:54:10.331106
+69	9.jpg	image/jpeg	22210	2020-05-26 17:54:10.362655	2020-05-26 17:54:10.726147	2020-05-26 17:54:10.726147
+70	10.jpg	image/jpeg	35593	2020-05-26 17:54:10.758276	2020-05-26 17:54:11.155508	2020-05-26 17:54:11.155508
+71	11.jpg	image/jpeg	22663	2020-05-26 17:54:11.17618	2020-05-26 17:54:11.394538	2020-05-26 17:54:11.394538
+72	12.jpg	image/jpeg	28017	2020-05-26 17:54:11.412986	2020-05-26 17:54:11.699942	2020-05-26 17:54:11.699942
+73	13.jpg	image/jpeg	23937	2020-05-26 17:54:11.71788	2020-05-26 17:54:11.941845	2020-05-26 17:54:11.941845
+74	14.jpg	image/jpeg	24945	2020-05-26 17:54:11.960018	2020-05-26 17:54:12.233191	2020-05-26 17:54:12.233191
+75	15.jpg	image/jpeg	22888	2020-05-26 17:54:12.250065	2020-05-26 17:54:12.460783	2020-05-26 17:54:12.460783
+76	16.jpg	image/jpeg	26397	2020-05-26 17:54:12.478977	2020-05-26 17:54:12.746481	2020-05-26 17:54:12.746481
+77	17.jpg	image/jpeg	25375	2020-05-26 17:54:12.768094	2020-05-26 17:54:12.99045	2020-05-26 17:54:12.99045
+78	18.jpg	image/jpeg	396268	2020-05-26 17:54:13.012561	2020-05-26 17:54:14.11169	2020-05-26 17:54:14.11169
+79	19.jpg	image/jpeg	21941	2020-05-26 17:54:14.132653	2020-05-26 17:54:14.348471	2020-05-26 17:54:14.348471
+80	20.jpg	image/jpeg	39685	2020-05-26 17:54:14.367799	2020-05-26 17:54:14.630676	2020-05-26 17:54:14.630676
+81	21.jpg	image/jpeg	38644	2020-05-26 17:54:14.650008	2020-05-26 17:54:14.908547	2020-05-26 17:54:14.908547
+82	22.jpg	image/jpeg	18362	2020-05-26 17:54:14.928304	2020-05-26 17:54:15.143942	2020-05-26 17:54:15.143942
+83	23.jpg	image/jpeg	20030	2020-05-26 17:54:15.163285	2020-05-26 17:54:15.385519	2020-05-26 17:54:15.385519
+84	24.jpg	image/jpeg	23262	2020-05-26 17:54:15.407874	2020-05-26 17:54:15.63215	2020-05-26 17:54:15.63215
+85	25.jpg	image/jpeg	23460	2020-05-26 17:54:15.655607	2020-05-26 17:54:15.869149	2020-05-26 17:54:15.869149
+86	26.jpg	image/jpeg	37378	2020-05-26 17:54:15.887921	2020-05-26 17:54:16.149369	2020-05-26 17:54:16.149369
+87	enojado.png	image/png	83284	2020-05-26 17:54:16.168648	2020-05-26 17:54:16.449039	2020-05-26 17:54:16.449039
+88	feliz.png	image/png	113210	2020-05-26 17:54:16.460809	2020-05-26 17:54:16.790514	2020-05-26 17:54:16.790514
+89	triste.png	image/png	114171	2020-05-26 17:54:16.806389	2020-05-26 17:54:17.140353	2020-05-26 17:54:17.140353
+90	asustado.png	image/png	97339	2020-05-26 17:54:17.161814	2020-05-26 17:54:17.468738	2020-05-26 17:54:17.468738
+91	situation.png	image/png	100859	2020-05-26 17:54:17.524717	2020-05-26 17:54:17.836983	2020-05-26 17:54:17.836983
+92	prosocial.png	image/png	144067	2020-05-26 17:54:17.873927	2020-05-26 17:54:18.194945	2020-05-26 17:54:18.194945
+93	agresiva.png	image/png	165894	2020-05-26 17:54:18.230056	2020-05-26 17:54:18.539753	2020-05-26 17:54:18.539753
+94	desregulada.png	image/png	111702	2020-05-26 17:54:18.560535	2020-05-26 17:54:18.85061	2020-05-26 17:54:18.85061
+95	evasiva.png	image/png	68639	2020-05-26 17:54:18.86551	2020-05-26 17:54:19.156954	2020-05-26 17:54:19.156954
+96	situation.png	image/png	107498	2020-05-26 17:54:19.190287	2020-05-26 17:54:19.493459	2020-05-26 17:54:19.493459
+97	prosocial.png	image/png	140654	2020-05-26 17:54:19.51233	2020-05-26 17:54:19.822984	2020-05-26 17:54:19.822984
+98	agresiva.png	image/png	132335	2020-05-26 17:54:19.844146	2020-05-26 17:54:20.159627	2020-05-26 17:54:20.159627
+99	desregulada.png	image/png	144617	2020-05-26 17:54:20.177413	2020-05-26 17:54:20.510366	2020-05-26 17:54:20.510366
+100	evasiva.png	image/png	177339	2020-05-26 17:54:20.525729	2020-05-26 17:54:20.851001	2020-05-26 17:54:20.851001
+101	situation.png	image/png	75456	2020-05-26 17:54:20.873268	2020-05-26 17:54:21.161075	2020-05-26 17:54:21.161075
+102	prosocial.png	image/png	99158	2020-05-26 17:54:21.175571	2020-05-26 17:54:21.500544	2020-05-26 17:54:21.500544
+103	agresiva.png	image/png	85032	2020-05-26 17:54:21.515744	2020-05-26 17:54:21.805902	2020-05-26 17:54:21.805902
+104	desregulada.png	image/png	65077	2020-05-26 17:54:21.819691	2020-05-26 17:54:22.103816	2020-05-26 17:54:22.103816
+105	evasiva.png	image/png	50619	2020-05-26 17:54:22.116712	2020-05-26 17:54:22.414516	2020-05-26 17:54:22.414516
+106	situation.png	image/png	65971	2020-05-26 17:54:22.431717	2020-05-26 17:54:22.727375	2020-05-26 17:54:22.727375
+107	prosocial.png	image/png	62588	2020-05-26 17:54:22.740152	2020-05-26 17:54:23.021689	2020-05-26 17:54:23.021689
+108	agresiva.png	image/png	79658	2020-05-26 17:54:23.037636	2020-05-26 17:54:23.340475	2020-05-26 17:54:23.340475
+109	desregulada.png	image/png	60198	2020-05-26 17:54:23.364365	2020-05-26 17:54:23.633044	2020-05-26 17:54:23.633044
+110	evasiva.png	image/png	86084	2020-05-26 17:54:23.648122	2020-05-26 17:54:23.940885	2020-05-26 17:54:23.940885
+111	situation.png	image/png	114696	2020-05-26 17:54:23.957938	2020-05-26 17:54:24.284924	2020-05-26 17:54:24.284924
+112	prosocial.png	image/png	110907	2020-05-26 17:54:24.304131	2020-05-26 17:54:24.636115	2020-05-26 17:54:24.636115
+113	agresiva.png	image/png	121735	2020-05-26 17:54:24.656643	2020-05-26 17:54:24.993941	2020-05-26 17:54:24.993941
+114	desregulada.png	image/png	113152	2020-05-26 17:54:25.01397	2020-05-26 17:54:25.334486	2020-05-26 17:54:25.334486
+115	evasiva.png	image/png	113241	2020-05-26 17:54:25.353806	2020-05-26 17:54:25.678526	2020-05-26 17:54:25.678526
+116	situation.png	image/png	94475	2020-05-26 17:54:25.701036	2020-05-26 17:54:26.002153	2020-05-26 17:54:26.002153
+117	prosocial.png	image/png	108951	2020-05-26 17:54:26.018565	2020-05-26 17:54:26.32668	2020-05-26 17:54:26.32668
+118	agresiva.png	image/png	107754	2020-05-26 17:54:26.349618	2020-05-26 17:54:26.66837	2020-05-26 17:54:26.66837
+119	desregulada.png	image/png	93716	2020-05-26 17:54:26.688134	2020-05-26 17:54:26.99531	2020-05-26 17:54:26.99531
+120	evasiva.png	image/png	85613	2020-05-26 17:54:27.019157	2020-05-26 17:54:27.333689	2020-05-26 17:54:27.333689
+121	1.jpg	image/jpeg	36756	2020-05-26 17:53:31.540777	2021-01-12 20:46:13.786349	2021-01-12 20:46:13.786349
+122	1.png	image/png	291569	2021-01-18 17:18:04.706236	2021-01-18 17:18:05.938886	2021-01-18 17:18:05.938886
+123	2.png	image/png	60758	2021-01-18 17:18:05.981661	2021-01-18 17:18:06.402479	2021-01-18 17:18:06.402479
+124	3.jpg	image/jpeg	30438	2021-01-18 17:18:06.436105	2021-01-18 17:18:06.922974	2021-01-18 17:18:06.922974
+125	4.jpg	image/jpeg	61164	2021-01-18 17:18:06.949052	2021-01-18 17:18:07.372076	2021-01-18 17:18:07.372076
+126	5.jpg	image/jpeg	95439	2021-01-18 17:18:07.394465	2021-01-18 17:18:07.796642	2021-01-18 17:18:07.796642
+127	6.png	image/png	152348	2021-01-18 17:18:07.829907	2021-01-18 17:18:08.289041	2021-01-18 17:18:08.289041
+128	7.jpg	image/jpeg	74509	2021-01-18 17:18:08.323836	2021-01-18 17:18:08.759875	2021-01-18 17:18:08.759875
+129	8.jpg	image/jpeg	38007	2021-01-18 17:18:08.787316	2021-01-18 17:18:09.104352	2021-01-18 17:18:09.104352
+130	9.jpg	image/jpeg	26055	2021-01-18 17:18:09.136443	2021-01-18 17:18:09.44849	2021-01-18 17:18:09.44849
+131	10.jpg	image/jpeg	34993	2021-01-18 17:18:09.473401	2021-01-18 17:18:09.788372	2021-01-18 17:18:09.788372
+132	11.jpg	image/jpeg	23468	2021-01-18 17:18:09.804156	2021-01-18 17:18:10.108402	2021-01-18 17:18:10.108402
+133	12.jpg	image/jpeg	40474	2021-01-18 17:18:10.124437	2021-01-18 17:18:10.47302	2021-01-18 17:18:10.47302
+134	13.jpg	image/jpeg	33059	2021-01-18 17:18:10.491507	2021-01-18 17:18:10.846043	2021-01-18 17:18:10.846043
+135	14.jpg	image/jpeg	40739	2021-01-18 17:18:10.86863	2021-01-18 17:18:11.181581	2021-01-18 17:18:11.181581
+136	15.jpg	image/jpeg	35705	2021-01-18 17:18:11.201389	2021-01-18 17:18:11.51577	2021-01-18 17:18:11.51577
+\.
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.schema_migrations (version) FROM stdin;
+20200102202603
+20190712025226
+20180501011721
+20180512193428
+20180710065745
+20190515005309
+20190712023555
+20180623221824
+20180709030404
+20180708204039
+20180623045332
+20180710001452
+20200102194142
+20180529224117
+20180624071849
+20180710001402
+20180609042000
+20180623230438
+20180517220823
+20180507175200
+20180709030418
+20180501000214
+20180731025227
+20180501000043
+20180507175230
+20180623221526
+20180520201132
+20180517221826
+20180710003513
+20180527060720
+20180512193608
+20181005000242
+20180517223045
+20190712024734
+20180520200249
+20180708200546
+20190717174825
+20180521173310
+20180521024214
+20180529214251
+20180529214315
+20180622031001
+20190515010030
+20180507175229
+20180710054059
+20180620000000
+20190712024629
+20180710001829
+20180529223800
+20180507175320
+20180521173451
+20180609043627
+20180704055155
+20180612040411
+20180708200620
+20180623204145
+20180501000213
+20191008183135
+20180609043858
+20180620000001
+20180708203828
+20180515012918
+20210109023730
+20210111203359
+20210111203407
+20210111203432
+20210111204802
+20210111204834
+20210111204944
+20210111204948
+20210111204953
+20210111205012
+20210111205029
+20210111205052
+20210111230446
+20210112214638
+20210112223700
+\.
+
+
+--
+-- Data for Name: schools; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.schools (id, name, commune_id, street, street_number, phone_number, created_at, updated_at, "group") FROM stdin;
+1	Colegio Prueba	\N	\N	\N	\N	2020-05-26 17:57:16.45958	2020-05-26 17:57:16.45958	\N
+2	Abecedario	\N	\N	\N	\N	2020-09-22 18:36:45.974883	2020-09-22 18:36:45.974883	\N
+3	Colegio prueba 2	\N	\N	\N	\N	2020-09-22 18:37:10.30101	2020-09-22 18:37:10.30101	\N
+\.
+
+
+--
+-- Data for Name: situation_sets; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.situation_sets (id, wally_id, wsituation_id, index, created_at, updated_at) FROM stdin;
+1	1	1	1	2020-05-26 17:53:46.421776	2020-05-26 17:53:46.421776
+2	1	2	2	2020-05-26 17:53:48.013202	2020-05-26 17:53:48.013202
+3	1	3	3	2020-05-26 17:53:49.49042	2020-05-26 17:53:49.49042
+4	1	4	4	2020-05-26 17:53:50.913061	2020-05-26 17:53:50.913061
+5	1	5	5	2020-05-26 17:53:52.658646	2020-05-26 17:53:52.658646
+6	1	6	6	2020-05-26 17:53:54.586402	2020-05-26 17:53:54.586402
+7	2	7	1	2020-05-26 17:54:19.184817	2020-05-26 17:54:19.184817
+8	2	8	2	2020-05-26 17:54:20.869562	2020-05-26 17:54:20.869562
+9	2	9	3	2020-05-26 17:54:22.427645	2020-05-26 17:54:22.427645
+10	2	10	4	2020-05-26 17:54:23.953829	2020-05-26 17:54:23.953829
+11	2	11	5	2020-05-26 17:54:25.696063	2020-05-26 17:54:25.696063
+12	2	12	6	2020-05-26 17:54:27.350457	2020-05-26 17:54:27.350457
+\.
+
+
+--
+-- Data for Name: student_courses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.student_courses (id, student_id, course_id, entry, created_at, updated_at) FROM stdin;
+1	1	1	2020-01-01	2020-05-26 18:03:31.421171	2020-05-26 18:03:31.421171
+2	3	1	2020-07-09	2020-07-10 01:19:49.097012	2020-07-10 01:19:49.097012
+3	4	1	2020-07-09	2020-07-10 01:19:49.108811	2020-07-10 01:19:49.108811
+4	5	2	2020-09-22	2020-09-22 18:40:18.681823	2020-09-22 18:40:18.681823
+5	6	4	2021-01-04	2021-01-05 00:36:12.548246	2021-01-05 00:36:12.548246
+6	7	4	2021-01-04	2021-01-05 00:36:12.565776	2021-01-05 00:36:12.565776
+\.
+
+
+--
+-- Data for Name: student_name_changes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.student_name_changes (id, student_id, old_name, new_name, old_last_name, new_last_name, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.students (id, name, last_name, rut, age, created_at, updated_at, course_id, active, id_rut, sex) FROM stdin;
+1	JUAN	VEJAR	19	24	2020-05-26 17:58:06.119106	2020-05-26 17:58:06.119106	1	t	\N	\N
+2	TOMAS	BARRA	18	25	2020-05-26 18:02:08.958223	2020-05-26 18:02:08.958223	1	t	\N	\N
+3	JUAN ESTEBAN	VEJAR	1111111	\N	2020-07-10 01:19:49.073677	2020-07-10 01:19:49.073677	\N	t	100	\N
+4	CAMILO IGNACIO	 VALENCIA	222222	\N	2020-07-10 01:19:49.103746	2020-07-10 01:19:49.103746	\N	t	200	\N
+5	JUAN	VEJAR	1	\N	2020-09-22 18:40:18.647415	2020-09-22 18:40:18.647415	\N	t	1	\N
+6	CAMILO	VALENCIA	11111100011	\N	2021-01-05 00:36:12.51847	2021-01-05 00:36:12.51847	\N	t	0	\N
+7	JOAQUIN	SEPULVEDA	112234440	\N	2021-01-05 00:36:12.553001	2021-01-05 00:36:12.553001	\N	t	0	\N
+\.
+
+
+--
+-- Data for Name: studies; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.studies (id, name, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: study_courses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.study_courses (id, study_id, course_id, created_at, updated_at, "group") FROM stdin;
+\.
+
+
+--
+-- Data for Name: user_studies; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.user_studies (id, user_id, study_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, role, created_at, updated_at, auth_token) FROM stdin;
+2	jvejar1@miuandes.cl	$2a$11$Cp/vnqIjqHwCUQXaxr8XcuaPaIizRgwiMimrJEEXFrsUJ7UHwSLe6	\N	\N	\N	0	\N	\N	\N	\N	2	2020-05-26 17:57:07.428661	2020-05-26 17:57:07.428661	496ef3e62a05674ed9be
+1	admin.uandes@uandes.cl	$2a$11$BrYEB9FAbtLOoQuZhbP8mOzk/dzDYCPzSZvbHOvJdAZQv5C/TXPwS	\N	\N	\N	7	2021-01-18 16:43:46.377489	2021-01-05 00:10:46.227695	143.255.105.61	::1	1	2020-05-26 17:53:30.285598	2021-01-18 16:43:46.37842	ee9ea1e66cc4be9a0634
+\.
+
+
+--
+-- Data for Name: wallies; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.wallies (id, version, description, current, created_at, updated_at) FROM stdin;
+1	\N	\N	t	2020-05-26 17:53:44.844681	2020-05-26 17:53:44.844681
+2	\N	\N	t	2020-05-26 17:54:17.520716	2020-05-26 17:54:17.520716
+\.
+
+
+--
+-- Data for Name: wfeelings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.wfeelings (id, picture_id, wfeeling, created_at, updated_at) FROM stdin;
+1	27	3	2020-05-26 17:53:44.815971	2020-05-26 17:53:44.815971
+2	28	1	2020-05-26 17:53:44.818578	2020-05-26 17:53:44.818578
+3	29	2	2020-05-26 17:53:44.821265	2020-05-26 17:53:44.821265
+4	30	4	2020-05-26 17:53:44.823466	2020-05-26 17:53:44.823466
+5	87	3	2020-05-26 17:54:17.499567	2020-05-26 17:54:17.499567
+6	88	1	2020-05-26 17:54:17.502112	2020-05-26 17:54:17.502112
+7	89	2	2020-05-26 17:54:17.50395	2020-05-26 17:54:17.50395
+8	90	4	2020-05-26 17:54:17.505349	2020-05-26 17:54:17.505349
+\.
+
+
+--
+-- Data for Name: wreactions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.wreactions (id, description, wreaction, picture_id, wsituation_id, created_at, updated_at) FROM stdin;
+1	¿Pedirle a Bruno que construya otra torre contigo?	1	32	1	2020-05-26 17:53:45.451274	2020-05-26 17:53:45.451274
+2	¿Pegarle a Bruno o gritarle?	2	33	1	2020-05-26 17:53:45.780562	2020-05-26 17:53:45.780562
+3	¿Llorar?	3	34	1	2020-05-26 17:53:46.098606	2020-05-26 17:53:46.098606
+4	¿Ir a buscar otra cosa para jugar?	4	35	1	2020-05-26 17:53:46.4055	2020-05-26 17:53:46.4055
+5	Decirle que hacer eso no es algo bueno?	1	37	2	2020-05-26 17:53:47.049313	2020-05-26 17:53:47.049313
+6	¿Pegarle a Bruno o gritarle?	2	38	2	2020-05-26 17:53:47.360846	2020-05-26 17:53:47.360846
+7	¿Llorar?	3	39	2	2020-05-26 17:53:47.691329	2020-05-26 17:53:47.691329
+8	¿Ir a buscar otra cosa para jugar?	4	40	2	2020-05-26 17:53:48.010851	2020-05-26 17:53:48.010851
+9	¿Pedirle a Bruno que juegue contigo?	1	42	3	2020-05-26 17:53:48.630002	2020-05-26 17:53:48.630002
+10	¿Quitarle la pelota de vuelta o gritarle?	2	43	3	2020-05-26 17:53:48.92145	2020-05-26 17:53:48.92145
+11	¿Llorar?	3	44	3	2020-05-26 17:53:49.209511	2020-05-26 17:53:49.209511
+12	¿Ir a buscar otra cosa para jugar?	4	45	3	2020-05-26 17:53:49.487445	2020-05-26 17:53:49.487445
+13	¿Preguntar si también puedes jugar con Tomás?	1	47	4	2020-05-26 17:53:50.06551	2020-05-26 17:53:50.06551
+14	¿Empujar a Bruno y decirle: “tú no eres mi amigo”?	2	48	4	2020-05-26 17:53:50.353739	2020-05-26 17:53:50.353739
+15	¿Llorar?	3	49	4	2020-05-26 17:53:50.624752	2020-05-26 17:53:50.624752
+16	¿Ir a jugar con otra persona?	4	50	4	2020-05-26 17:53:50.910762	2020-05-26 17:53:50.910762
+17	¿Decirle a Bruno: “No importa, a mí me gusta mi dibujo”?	1	52	5	2020-05-26 17:53:51.571871	2020-05-26 17:53:51.571871
+18	¿Pegarle a Bruno o gritarle?	2	53	5	2020-05-26 17:53:51.920153	2020-05-26 17:53:51.920153
+19	¿Llorar?	3	54	5	2020-05-26 17:53:52.251776	2020-05-26 17:53:52.251776
+20	Dejar de dibujar y buscar otra cosa para hacer?	4	55	5	2020-05-26 17:53:52.656444	2020-05-26 17:53:52.656444
+21	¿Traer un juguete para que Bruno duerma con él?	1	57	6	2020-05-26 17:53:53.325957	2020-05-26 17:53:53.325957
+22	¿Decirle a Bruno: “¡No, tú eres una guagua!” o pegarle?	2	58	6	2020-05-26 17:53:53.658009	2020-05-26 17:53:53.658009
+23	¿Llorar?	3	59	6	2020-05-26 17:53:54.002694	2020-05-26 17:53:54.002694
+24	¿Ignorar a Bruno?	4	60	6	2020-05-26 17:53:54.583773	2020-05-26 17:53:54.583773
+25	¿Pedirle a Bruno que construya otra torre contigo?	1	92	7	2020-05-26 17:54:18.225729	2020-05-26 17:54:18.225729
+26	¿Pegarle a Bruno o gritarle?	2	93	7	2020-05-26 17:54:18.555092	2020-05-26 17:54:18.555092
+27	¿Llorar?	3	94	7	2020-05-26 17:54:18.862644	2020-05-26 17:54:18.862644
+28	¿Ir a buscar otra cosa para jugar?	4	95	7	2020-05-26 17:54:19.168171	2020-05-26 17:54:19.168171
+29	Decirle que hacer eso no es algo bueno?	1	97	8	2020-05-26 17:54:19.839786	2020-05-26 17:54:19.839786
+30	¿Pegarle a Bruno o gritarle?	2	98	8	2020-05-26 17:54:20.172795	2020-05-26 17:54:20.172795
+31	¿Llorar?	3	99	8	2020-05-26 17:54:20.521919	2020-05-26 17:54:20.521919
+32	¿Ir a buscar otra cosa para jugar?	4	100	8	2020-05-26 17:54:20.866413	2020-05-26 17:54:20.866413
+33	¿Pedirle a Bruno que juegue contigo?	1	102	9	2020-05-26 17:54:21.513123	2020-05-26 17:54:21.513123
+34	¿Quitarle la pelota de vuelta o gritarle?	2	103	9	2020-05-26 17:54:21.816444	2020-05-26 17:54:21.816444
+35	¿Llorar?	3	104	9	2020-05-26 17:54:22.113966	2020-05-26 17:54:22.113966
+36	¿Ir a buscar otra cosa para jugar?	4	105	9	2020-05-26 17:54:22.424959	2020-05-26 17:54:22.424959
+37	¿Preguntar si también puedes jugar con Tomás?	1	107	10	2020-05-26 17:54:23.031997	2020-05-26 17:54:23.031997
+38	¿Empujar a Bruno y decirle: “tú no eres mi amigo”?	2	108	10	2020-05-26 17:54:23.360904	2020-05-26 17:54:23.360904
+39	¿Llorar?	3	109	10	2020-05-26 17:54:23.644725	2020-05-26 17:54:23.644725
+40	¿Ir a jugar con otra persona?	4	110	10	2020-05-26 17:54:23.951782	2020-05-26 17:54:23.951782
+41	¿Decirle a Bruno: “No importa, a mí me gusta mi dibujo”?	1	112	11	2020-05-26 17:54:24.652916	2020-05-26 17:54:24.652916
+42	¿Pegarle a Bruno o gritarle?	2	113	11	2020-05-26 17:54:25.010789	2020-05-26 17:54:25.010789
+43	¿Llorar?	3	114	11	2020-05-26 17:54:25.350027	2020-05-26 17:54:25.350027
+44	Dejar de dibujar y buscar otra cosa para hacer?	4	115	11	2020-05-26 17:54:25.693223	2020-05-26 17:54:25.693223
+45	¿Traer un juguete para que Bruno duerma con él?	1	117	12	2020-05-26 17:54:26.342831	2020-05-26 17:54:26.342831
+46	¿Decirle a Bruno: “¡No, tú eres una guagua!” o pegarle?	2	118	12	2020-05-26 17:54:26.68416	2020-05-26 17:54:26.68416
+47	¿Llorar?	3	119	12	2020-05-26 17:54:27.015851	2020-05-26 17:54:27.015851
+48	¿Ignorar a Bruno?	4	120	12	2020-05-26 17:54:27.347292	2020-05-26 17:54:27.347292
+\.
+
+
+--
+-- Data for Name: wsituation_answers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.wsituation_answers (id, wfeeling_answer, wreaction_answer, wsituation_id, created_at, updated_at, evaluation_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: wsituations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.wsituations (id, picture_id, description, name, created_at, updated_at) FROM stdin;
+1	31	María/Juan estaba construyendo una torre muy alta con bloques. Bruno lo derribó.	Bloques	2020-05-26 17:53:45.139895	2020-05-26 17:53:45.139895
+2	36	María/Juan se está divirtiendo jugando en el patio cuando Bruno le pega.	Caja de Arena	2020-05-26 17:53:46.73149	2020-05-26 17:53:46.73149
+3	41	María/Juan estaba pegándole a una pelota de fútbol. Llegó Bruno y le quitó la pelota.	Fútbol	2020-05-26 17:53:48.300526	2020-05-26 17:53:48.300526
+4	46	María/Juan le pidió a Bruno que jugara con él/ella. Pero Bruno dijo que no quería jugar con María/Juan. Él/Ella va a jugar con Tomás.	Preguntar si quiere jugar	2020-05-26 17:53:49.781908	2020-05-26 17:53:49.781908
+5	51	María/Juan hizo un dibujo de un perro. Bruno lo miró y dijo: “No parece un perro. ¡Parece un monstruo feo!”, y comenzó a reírse.	Dibujo de perro	2020-05-26 17:53:51.243376	2020-05-26 17:53:51.243376
+6	56	María/Juan trajo un/a muñeco/a a la escuela para la hora de la siesta. Bruno le dijo: “¡Eres una guagua!”	Muñeco/a de siesta	2020-05-26 17:53:52.993436	2020-05-26 17:53:52.993436
+7	91	María/Juan estaba construyendo una torre muy alta con bloques. Bruno lo derribó.	Bloques	2020-05-26 17:54:17.869234	2020-05-26 17:54:17.869234
+8	96	María/Juan se está divirtiendo jugando en el patio cuando Bruno le pega.	Caja de Arena	2020-05-26 17:54:19.506905	2020-05-26 17:54:19.506905
+9	101	María/Juan estaba pegándole a una pelota de fútbol. Llegó Bruno y le quitó la pelota.	Fútbol	2020-05-26 17:54:21.17212	2020-05-26 17:54:21.17212
+10	106	María/Juan le pidió a Bruno que jugara con él/ella. Pero Bruno dijo que no quería jugar con María/Juan. Él/Ella va a jugar con Tomás.	Preguntar si quiere jugar	2020-05-26 17:54:22.736775	2020-05-26 17:54:22.736775
+11	111	María/Juan hizo un dibujo de un perro. Bruno lo miró y dijo: “No parece un perro. ¡Parece un monstruo feo!”, y comenzó a reírse.	Dibujo de perro	2020-05-26 17:54:24.299585	2020-05-26 17:54:24.299585
+12	116	María/Juan trajo un/a muñeco/a a la escuela para la hora de la siesta. Bruno le dijo: “¡Eres una guagua!”	Muñeco/a de siesta	2020-05-26 17:54:26.014888	2020-05-26 17:54:26.014888
+\.
+
+
+--
+-- Name: acase_answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.acase_answers_id_seq', 1, false);
+
+
+--
+-- Name: acase_correct_feelings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.acase_correct_feelings_id_seq', 1, false);
+
+
+--
+-- Name: acases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.acases_id_seq', 52, true);
+
+
+--
+-- Name: ace_acases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.ace_acases_id_seq', 52, true);
+
+
+--
+-- Name: aces_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.aces_id_seq', 2, true);
+
+
+--
+-- Name: audios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.audios_id_seq', 46, true);
+
+
+--
+-- Name: calculation_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.calculation_types_id_seq', 1, false);
+
+
+--
+-- Name: choice_answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.choice_answers_id_seq', 1, false);
+
+
+--
+-- Name: choices_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.choices_id_seq', 2, true);
+
+
+--
+-- Name: communes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.communes_id_seq', 1, false);
+
+
+--
+-- Name: constructs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.constructs_id_seq', 1, false);
+
+
+--
+-- Name: corsi_csequences_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.corsi_csequences_id_seq', 44, true);
+
+
+--
+-- Name: corsi_evaluations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.corsi_evaluations_id_seq', 1, true);
+
+
+--
+-- Name: corsis_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.corsis_id_seq', 2, true);
+
+
+--
+-- Name: courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.courses_id_seq', 4, true);
+
+
+--
+-- Name: csequence_answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.csequence_answers_id_seq', 22, true);
+
+
+--
+-- Name: csequences_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.csequences_id_seq', 44, true);
+
+
+--
+-- Name: csquares_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.csquares_id_seq', 1, false);
+
+
+--
+-- Name: evaluation_construct_scores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.evaluation_construct_scores_id_seq', 1, false);
+
+
+--
+-- Name: evaluation_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.evaluation_migrations_id_seq', 1, false);
+
+
+--
+-- Name: evaluations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.evaluations_id_seq', 22, true);
+
+
+--
+-- Name: fonotest_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.fonotest_items_id_seq', 48, true);
+
+
+--
+-- Name: fonotests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.fonotests_id_seq', 2, true);
+
+
+--
+-- Name: hnf_answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.hnf_answers_id_seq', 1, false);
+
+
+--
+-- Name: hnfset_hnftests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.hnfset_hnftests_id_seq', 6, true);
+
+
+--
+-- Name: hnfsets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.hnfsets_id_seq', 2, true);
+
+
+--
+-- Name: hnftest_figures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.hnftest_figures_id_seq', 114, true);
+
+
+--
+-- Name: hnftests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.hnftests_id_seq', 6, true);
+
+
+--
+-- Name: instruments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.instruments_id_seq', 10, true);
+
+
+--
+-- Name: item_answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.item_answers_id_seq', 7, true);
+
+
+--
+-- Name: item_constructs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.item_constructs_id_seq', 1, false);
+
+
+--
+-- Name: item_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.item_types_id_seq', 1, false);
+
+
+--
+-- Name: items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.items_id_seq', 65, true);
+
+
+--
+-- Name: moments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.moments_id_seq', 1, false);
+
+
+--
+-- Name: open_answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.open_answers_id_seq', 40, true);
+
+
+--
+-- Name: pictures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.pictures_id_seq', 136, true);
+
+
+--
+-- Name: schools_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.schools_id_seq', 3, true);
+
+
+--
+-- Name: situation_sets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.situation_sets_id_seq', 12, true);
+
+
+--
+-- Name: student_courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.student_courses_id_seq', 6, true);
+
+
+--
+-- Name: student_name_changes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.student_name_changes_id_seq', 1, false);
+
+
+--
+-- Name: students_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.students_id_seq', 7, true);
+
+
+--
+-- Name: studies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.studies_id_seq', 1, false);
+
+
+--
+-- Name: study_courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.study_courses_id_seq', 1, false);
+
+
+--
+-- Name: user_studies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.user_studies_id_seq', 1, false);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 2, true);
+
+
+--
+-- Name: wallies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.wallies_id_seq', 2, true);
+
+
+--
+-- Name: wfeelings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.wfeelings_id_seq', 8, true);
+
+
+--
+-- Name: wreactions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.wreactions_id_seq', 48, true);
+
+
+--
+-- Name: wsituation_answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.wsituation_answers_id_seq', 1, false);
+
+
+--
+-- Name: wsituations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.wsituations_id_seq', 12, true);
+
+
+--
+-- Name: acase_answers acase_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.acase_answers
+    ADD CONSTRAINT acase_answers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: acase_correct_feelings acase_correct_feelings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.acase_correct_feelings
+    ADD CONSTRAINT acase_correct_feelings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: acases acases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.acases
+    ADD CONSTRAINT acases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ace_acases ace_acases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ace_acases
+    ADD CONSTRAINT ace_acases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: aces aces_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.aces
+    ADD CONSTRAINT aces_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: audios audios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.audios
+    ADD CONSTRAINT audios_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: calculation_types calculation_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.calculation_types
+    ADD CONSTRAINT calculation_types_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: choice_answers choice_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.choice_answers
+    ADD CONSTRAINT choice_answers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: choices choices_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.choices
+    ADD CONSTRAINT choices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: communes communes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.communes
+    ADD CONSTRAINT communes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: constructs constructs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.constructs
+    ADD CONSTRAINT constructs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: corsi_csequences corsi_csequences_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.corsi_csequences
+    ADD CONSTRAINT corsi_csequences_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: corsi_evaluations corsi_evaluations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.corsi_evaluations
+    ADD CONSTRAINT corsi_evaluations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: corsis corsis_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.corsis
+    ADD CONSTRAINT corsis_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: courses courses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.courses
+    ADD CONSTRAINT courses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: csequence_answers csequence_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.csequence_answers
+    ADD CONSTRAINT csequence_answers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: csequences csequences_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.csequences
+    ADD CONSTRAINT csequences_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: csquares csquares_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.csquares
+    ADD CONSTRAINT csquares_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: evaluation_construct_scores evaluation_construct_scores_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluation_construct_scores
+    ADD CONSTRAINT evaluation_construct_scores_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: evaluation_migrations evaluation_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluation_migrations
+    ADD CONSTRAINT evaluation_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: evaluations evaluations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluations
+    ADD CONSTRAINT evaluations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fonotest_items fonotest_items_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fonotest_items
+    ADD CONSTRAINT fonotest_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fonotests fonotests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fonotests
+    ADD CONSTRAINT fonotests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hnf_answers hnf_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnf_answers
+    ADD CONSTRAINT hnf_answers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hnfset_hnftests hnfset_hnftests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnfset_hnftests
+    ADD CONSTRAINT hnfset_hnftests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hnfsets hnfsets_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnfsets
+    ADD CONSTRAINT hnfsets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hnftest_figures hnftest_figures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnftest_figures
+    ADD CONSTRAINT hnftest_figures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hnftests hnftests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnftests
+    ADD CONSTRAINT hnftests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instruments instruments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.instruments
+    ADD CONSTRAINT instruments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: item_answers item_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_answers
+    ADD CONSTRAINT item_answers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: item_constructs item_constructs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_constructs
+    ADD CONSTRAINT item_constructs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: item_types item_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_types
+    ADD CONSTRAINT item_types_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: items items_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.items
+    ADD CONSTRAINT items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: moments moments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.moments
+    ADD CONSTRAINT moments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: open_answers open_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.open_answers
+    ADD CONSTRAINT open_answers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pictures pictures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pictures
+    ADD CONSTRAINT pictures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: schools schools_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.schools
+    ADD CONSTRAINT schools_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: situation_sets situation_sets_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.situation_sets
+    ADD CONSTRAINT situation_sets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: student_courses student_courses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_courses
+    ADD CONSTRAINT student_courses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: student_name_changes student_name_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_name_changes
+    ADD CONSTRAINT student_name_changes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: students students_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT students_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: studies studies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.studies
+    ADD CONSTRAINT studies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: study_courses study_courses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.study_courses
+    ADD CONSTRAINT study_courses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_studies user_studies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_studies
+    ADD CONSTRAINT user_studies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: wallies wallies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wallies
+    ADD CONSTRAINT wallies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: wfeelings wfeelings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wfeelings
+    ADD CONSTRAINT wfeelings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: wreactions wreactions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wreactions
+    ADD CONSTRAINT wreactions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: wsituation_answers wsituation_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wsituation_answers
+    ADD CONSTRAINT wsituation_answers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: wsituations wsituations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wsituations
+    ADD CONSTRAINT wsituations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_acase_answers_on_acase_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_acase_answers_on_acase_id ON public.acase_answers USING btree (acase_id);
+
+
+--
+-- Name: index_acase_answers_on_evaluation_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_acase_answers_on_evaluation_id ON public.acase_answers USING btree (evaluation_id);
+
+
+--
+-- Name: index_acase_correct_feelings_on_acase_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_acase_correct_feelings_on_acase_id ON public.acase_correct_feelings USING btree (acase_id);
+
+
+--
+-- Name: index_acases_on_picture_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_acases_on_picture_id ON public.acases USING btree (picture_id);
+
+
+--
+-- Name: index_ace_acases_on_acase_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_ace_acases_on_acase_id ON public.ace_acases USING btree (acase_id);
+
+
+--
+-- Name: index_ace_acases_on_ace_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_ace_acases_on_ace_id ON public.ace_acases USING btree (ace_id);
+
+
+--
+-- Name: index_choice_answers_on_choice_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_choice_answers_on_choice_id ON public.choice_answers USING btree (choice_id);
+
+
+--
+-- Name: index_choice_answers_on_item_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_choice_answers_on_item_id ON public.choice_answers USING btree (item_id);
+
+
+--
+-- Name: index_choices_on_item_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_choices_on_item_id ON public.choices USING btree (item_id);
+
+
+--
+-- Name: index_choices_on_parent_choice_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_choices_on_parent_choice_id ON public.choices USING btree (parent_choice_id);
+
+
+--
+-- Name: index_choices_on_picture_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_choices_on_picture_id ON public.choices USING btree (picture_id);
+
+
+--
+-- Name: index_constructs_on_calculation_type_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_constructs_on_calculation_type_id ON public.constructs USING btree (calculation_type_id);
+
+
+--
+-- Name: index_constructs_on_instrument_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_constructs_on_instrument_id ON public.constructs USING btree (instrument_id);
+
+
+--
+-- Name: index_corsi_csequences_on_corsi_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_corsi_csequences_on_corsi_id ON public.corsi_csequences USING btree (corsi_id);
+
+
+--
+-- Name: index_corsi_csequences_on_csequence_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_corsi_csequences_on_csequence_id ON public.corsi_csequences USING btree (csequence_id);
+
+
+--
+-- Name: index_corsi_evaluations_on_corsi_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_corsi_evaluations_on_corsi_id ON public.corsi_evaluations USING btree (corsi_id);
+
+
+--
+-- Name: index_corsi_evaluations_on_student_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_corsi_evaluations_on_student_id ON public.corsi_evaluations USING btree (student_id);
+
+
+--
+-- Name: index_corsi_evaluations_on_user_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_corsi_evaluations_on_user_id ON public.corsi_evaluations USING btree (user_id);
+
+
+--
+-- Name: index_courses_on_school_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_courses_on_school_id ON public.courses USING btree (school_id);
+
+
+--
+-- Name: index_csequence_answers_on_corsi_evaluation_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_csequence_answers_on_corsi_evaluation_id ON public.csequence_answers USING btree (corsi_evaluation_id);
+
+
+--
+-- Name: index_csequence_answers_on_csequence_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_csequence_answers_on_csequence_id ON public.csequence_answers USING btree (csequence_id);
+
+
+--
+-- Name: index_csequence_answers_on_evaluation_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_csequence_answers_on_evaluation_id ON public.csequence_answers USING btree (evaluation_id);
+
+
+--
+-- Name: index_csquares_on_csequence_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_csquares_on_csequence_id ON public.csquares USING btree (csequence_id);
+
+
+--
+-- Name: index_evaluation_construct_scores_on_construct_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_evaluation_construct_scores_on_construct_id ON public.evaluation_construct_scores USING btree (construct_id);
+
+
+--
+-- Name: index_evaluation_construct_scores_on_evaluation_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_evaluation_construct_scores_on_evaluation_id ON public.evaluation_construct_scores USING btree (evaluation_id);
+
+
+--
+-- Name: index_evaluation_migrations_on_evaluation_from_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_evaluation_migrations_on_evaluation_from_id ON public.evaluation_migrations USING btree (evaluation_from_id);
+
+
+--
+-- Name: index_evaluation_migrations_on_evaluation_to_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_evaluation_migrations_on_evaluation_to_id ON public.evaluation_migrations USING btree (evaluation_to_id);
+
+
+--
+-- Name: index_evaluations_on_ace_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_evaluations_on_ace_id ON public.evaluations USING btree (ace_id);
+
+
+--
+-- Name: index_evaluations_on_fonotest_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_evaluations_on_fonotest_id ON public.evaluations USING btree (fonotest_id);
+
+
+--
+-- Name: index_evaluations_on_hnfset_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_evaluations_on_hnfset_id ON public.evaluations USING btree (hnfset_id);
+
+
+--
+-- Name: index_evaluations_on_instrument_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_evaluations_on_instrument_id ON public.evaluations USING btree (instrument_id);
+
+
+--
+-- Name: index_evaluations_on_moment_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_evaluations_on_moment_id ON public.evaluations USING btree (moment_id);
+
+
+--
+-- Name: index_evaluations_on_student_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_evaluations_on_student_id ON public.evaluations USING btree (student_id);
+
+
+--
+-- Name: index_evaluations_on_user_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_evaluations_on_user_id ON public.evaluations USING btree (user_id);
+
+
+--
+-- Name: index_evaluations_on_wally_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_evaluations_on_wally_id ON public.evaluations USING btree (wally_id);
+
+
+--
+-- Name: index_fonotest_items_on_fonotest_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_fonotest_items_on_fonotest_id ON public.fonotest_items USING btree (fonotest_id);
+
+
+--
+-- Name: index_fonotest_items_on_item_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_fonotest_items_on_item_id ON public.fonotest_items USING btree (item_id);
+
+
+--
+-- Name: index_hnf_answers_on_evaluation_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_hnf_answers_on_evaluation_id ON public.hnf_answers USING btree (evaluation_id);
+
+
+--
+-- Name: index_hnf_answers_on_hnftest_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_hnf_answers_on_hnftest_id ON public.hnf_answers USING btree (hnftest_id);
+
+
+--
+-- Name: index_hnfset_hnftests_on_hnfset_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_hnfset_hnftests_on_hnfset_id ON public.hnfset_hnftests USING btree (hnfset_id);
+
+
+--
+-- Name: index_hnfset_hnftests_on_hnftest_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_hnfset_hnftests_on_hnftest_id ON public.hnfset_hnftests USING btree (hnftest_id);
+
+
+--
+-- Name: index_hnftest_figures_on_hnftest_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_hnftest_figures_on_hnftest_id ON public.hnftest_figures USING btree (hnftest_id);
+
+
+--
+-- Name: index_instruments_on_personalisation_of_instrument_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_instruments_on_personalisation_of_instrument_id ON public.instruments USING btree (personalisation_of_instrument_id);
+
+
+--
+-- Name: index_item_answers_on_evaluation_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_item_answers_on_evaluation_id ON public.item_answers USING btree (evaluation_id);
+
+
+--
+-- Name: index_item_answers_on_item_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_item_answers_on_item_id ON public.item_answers USING btree (item_id);
+
+
+--
+-- Name: index_item_constructs_on_construct_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_item_constructs_on_construct_id ON public.item_constructs USING btree (construct_id);
+
+
+--
+-- Name: index_item_constructs_on_item_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_item_constructs_on_item_id ON public.item_constructs USING btree (item_id);
+
+
+--
+-- Name: index_items_on_audio_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_items_on_audio_id ON public.items USING btree (audio_id);
+
+
+--
+-- Name: index_items_on_instrument_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_items_on_instrument_id ON public.items USING btree (instrument_id);
+
+
+--
+-- Name: index_items_on_picture_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_items_on_picture_id ON public.items USING btree (picture_id);
+
+
+--
+-- Name: index_moments_on_study_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_moments_on_study_id ON public.moments USING btree (study_id);
+
+
+--
+-- Name: index_open_answers_on_evaluation_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_open_answers_on_evaluation_id ON public.open_answers USING btree (evaluation_id);
+
+
+--
+-- Name: index_open_answers_on_item_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_open_answers_on_item_id ON public.open_answers USING btree (item_id);
+
+
+--
+-- Name: index_schools_on_commune_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_schools_on_commune_id ON public.schools USING btree (commune_id);
+
+
+--
+-- Name: index_situation_sets_on_wally_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_situation_sets_on_wally_id ON public.situation_sets USING btree (wally_id);
+
+
+--
+-- Name: index_situation_sets_on_wsituation_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_situation_sets_on_wsituation_id ON public.situation_sets USING btree (wsituation_id);
+
+
+--
+-- Name: index_student_courses_on_course_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_student_courses_on_course_id ON public.student_courses USING btree (course_id);
+
+
+--
+-- Name: index_student_courses_on_student_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_student_courses_on_student_id ON public.student_courses USING btree (student_id);
+
+
+--
+-- Name: index_student_name_changes_on_student_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_student_name_changes_on_student_id ON public.student_name_changes USING btree (student_id);
+
+
+--
+-- Name: index_students_on_course_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_students_on_course_id ON public.students USING btree (course_id);
+
+
+--
+-- Name: index_study_courses_on_course_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_study_courses_on_course_id ON public.study_courses USING btree (course_id);
+
+
+--
+-- Name: index_study_courses_on_study_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_study_courses_on_study_id ON public.study_courses USING btree (study_id);
+
+
+--
+-- Name: index_user_studies_on_study_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_user_studies_on_study_id ON public.user_studies USING btree (study_id);
+
+
+--
+-- Name: index_user_studies_on_user_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_user_studies_on_user_id ON public.user_studies USING btree (user_id);
+
+
+--
+-- Name: index_users_on_auth_token; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX index_users_on_auth_token ON public.users USING btree (auth_token);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
+
+
+--
+-- Name: index_wfeelings_on_picture_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_wfeelings_on_picture_id ON public.wfeelings USING btree (picture_id);
+
+
+--
+-- Name: index_wreactions_on_picture_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_wreactions_on_picture_id ON public.wreactions USING btree (picture_id);
+
+
+--
+-- Name: index_wreactions_on_wsituation_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_wreactions_on_wsituation_id ON public.wreactions USING btree (wsituation_id);
+
+
+--
+-- Name: index_wsituation_answers_on_evaluation_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_wsituation_answers_on_evaluation_id ON public.wsituation_answers USING btree (evaluation_id);
+
+
+--
+-- Name: index_wsituation_answers_on_wsituation_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_wsituation_answers_on_wsituation_id ON public.wsituation_answers USING btree (wsituation_id);
+
+
+--
+-- Name: index_wsituations_on_picture_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_wsituations_on_picture_id ON public.wsituations USING btree (picture_id);
+
+
+--
+-- Name: choice_answers fk_rails_010ceea4da; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.choice_answers
+    ADD CONSTRAINT fk_rails_010ceea4da FOREIGN KEY (item_id) REFERENCES public.items(id);
+
+
+--
+-- Name: acases fk_rails_01bb4c53a4; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.acases
+    ADD CONSTRAINT fk_rails_01bb4c53a4 FOREIGN KEY (picture_id) REFERENCES public.pictures(id);
+
+
+--
+-- Name: item_constructs fk_rails_04758e5181; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_constructs
+    ADD CONSTRAINT fk_rails_04758e5181 FOREIGN KEY (item_id) REFERENCES public.items(id);
+
+
+--
+-- Name: hnftest_figures fk_rails_0834a08825; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnftest_figures
+    ADD CONSTRAINT fk_rails_0834a08825 FOREIGN KEY (hnftest_id) REFERENCES public.hnftests(id);
+
+
+--
+-- Name: instruments fk_rails_08a6120ff4; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.instruments
+    ADD CONSTRAINT fk_rails_08a6120ff4 FOREIGN KEY (personalisation_of_instrument_id) REFERENCES public.instruments(id);
+
+
+--
+-- Name: hnf_answers fk_rails_0e5ec7d00a; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnf_answers
+    ADD CONSTRAINT fk_rails_0e5ec7d00a FOREIGN KEY (hnftest_id) REFERENCES public.hnftests(id);
+
+
+--
+-- Name: wsituation_answers fk_rails_10c352cbbe; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wsituation_answers
+    ADD CONSTRAINT fk_rails_10c352cbbe FOREIGN KEY (wsituation_id) REFERENCES public.wsituations(id);
+
+
+--
+-- Name: evaluations fk_rails_112c4a47ec; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluations
+    ADD CONSTRAINT fk_rails_112c4a47ec FOREIGN KEY (student_id) REFERENCES public.students(id);
+
+
+--
+-- Name: item_answers fk_rails_232d0f8bfa; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_answers
+    ADD CONSTRAINT fk_rails_232d0f8bfa FOREIGN KEY (evaluation_id) REFERENCES public.evaluations(id);
+
+
+--
+-- Name: csequence_answers fk_rails_26a10f2ceb; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.csequence_answers
+    ADD CONSTRAINT fk_rails_26a10f2ceb FOREIGN KEY (evaluation_id) REFERENCES public.evaluations(id);
+
+
+--
+-- Name: hnfset_hnftests fk_rails_2c75688dac; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnfset_hnftests
+    ADD CONSTRAINT fk_rails_2c75688dac FOREIGN KEY (hnftest_id) REFERENCES public.hnftests(id);
+
+
+--
+-- Name: csquares fk_rails_32a16e92a1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.csquares
+    ADD CONSTRAINT fk_rails_32a16e92a1 FOREIGN KEY (csequence_id) REFERENCES public.csequences(id);
+
+
+--
+-- Name: items fk_rails_33741e0708; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.items
+    ADD CONSTRAINT fk_rails_33741e0708 FOREIGN KEY (picture_id) REFERENCES public.pictures(id);
+
+
+--
+-- Name: study_courses fk_rails_419aa89e34; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.study_courses
+    ADD CONSTRAINT fk_rails_419aa89e34 FOREIGN KEY (study_id) REFERENCES public.studies(id);
+
+
+--
+-- Name: item_constructs fk_rails_421f93b8ea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_constructs
+    ADD CONSTRAINT fk_rails_421f93b8ea FOREIGN KEY (construct_id) REFERENCES public.constructs(id);
+
+
+--
+-- Name: fonotest_items fk_rails_429c1d53cd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fonotest_items
+    ADD CONSTRAINT fk_rails_429c1d53cd FOREIGN KEY (item_id) REFERENCES public.items(id);
+
+
+--
+-- Name: constructs fk_rails_449799e489; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.constructs
+    ADD CONSTRAINT fk_rails_449799e489 FOREIGN KEY (instrument_id) REFERENCES public.instruments(id);
+
+
+--
+-- Name: wreactions fk_rails_4bc68ea8c2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wreactions
+    ADD CONSTRAINT fk_rails_4bc68ea8c2 FOREIGN KEY (picture_id) REFERENCES public.pictures(id);
+
+
+--
+-- Name: evaluations fk_rails_4d9a2281ee; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluations
+    ADD CONSTRAINT fk_rails_4d9a2281ee FOREIGN KEY (ace_id) REFERENCES public.aces(id);
+
+
+--
+-- Name: user_studies fk_rails_596729179f; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_studies
+    ADD CONSTRAINT fk_rails_596729179f FOREIGN KEY (study_id) REFERENCES public.studies(id);
+
+
+--
+-- Name: choices fk_rails_5acd1c5c8e; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.choices
+    ADD CONSTRAINT fk_rails_5acd1c5c8e FOREIGN KEY (item_id) REFERENCES public.items(id);
+
+
+--
+-- Name: evaluation_migrations fk_rails_5b2bed2740; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluation_migrations
+    ADD CONSTRAINT fk_rails_5b2bed2740 FOREIGN KEY (evaluation_from_id) REFERENCES public.evaluations(id);
+
+
+--
+-- Name: acase_correct_feelings fk_rails_5c1ed47b99; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.acase_correct_feelings
+    ADD CONSTRAINT fk_rails_5c1ed47b99 FOREIGN KEY (acase_id) REFERENCES public.acases(id);
+
+
+--
+-- Name: acase_answers fk_rails_62c63df6a4; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.acase_answers
+    ADD CONSTRAINT fk_rails_62c63df6a4 FOREIGN KEY (acase_id) REFERENCES public.acases(id);
+
+
+--
+-- Name: situation_sets fk_rails_689614d247; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.situation_sets
+    ADD CONSTRAINT fk_rails_689614d247 FOREIGN KEY (wally_id) REFERENCES public.wallies(id);
+
+
+--
+-- Name: csequence_answers fk_rails_68a34e4336; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.csequence_answers
+    ADD CONSTRAINT fk_rails_68a34e4336 FOREIGN KEY (csequence_id) REFERENCES public.csequences(id);
+
+
+--
+-- Name: hnfset_hnftests fk_rails_6a771ef3d2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnfset_hnftests
+    ADD CONSTRAINT fk_rails_6a771ef3d2 FOREIGN KEY (hnfset_id) REFERENCES public.hnfsets(id);
+
+
+--
+-- Name: items fk_rails_6bed0f90a5; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.items
+    ADD CONSTRAINT fk_rails_6bed0f90a5 FOREIGN KEY (item_type_id) REFERENCES public.item_types(id);
+
+
+--
+-- Name: acase_answers fk_rails_6e1f1afe72; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.acase_answers
+    ADD CONSTRAINT fk_rails_6e1f1afe72 FOREIGN KEY (evaluation_id) REFERENCES public.evaluations(id);
+
+
+--
+-- Name: study_courses fk_rails_6ee95af867; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.study_courses
+    ADD CONSTRAINT fk_rails_6ee95af867 FOREIGN KEY (course_id) REFERENCES public.courses(id);
+
+
+--
+-- Name: evaluation_construct_scores fk_rails_72b3af769c; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluation_construct_scores
+    ADD CONSTRAINT fk_rails_72b3af769c FOREIGN KEY (construct_id) REFERENCES public.constructs(id);
+
+
+--
+-- Name: evaluations fk_rails_7656587ae4; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluations
+    ADD CONSTRAINT fk_rails_7656587ae4 FOREIGN KEY (instrument_id) REFERENCES public.instruments(id);
+
+
+--
+-- Name: ace_acases fk_rails_774cf595b5; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ace_acases
+    ADD CONSTRAINT fk_rails_774cf595b5 FOREIGN KEY (ace_id) REFERENCES public.aces(id);
+
+
+--
+-- Name: wreactions fk_rails_782caf7e46; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wreactions
+    ADD CONSTRAINT fk_rails_782caf7e46 FOREIGN KEY (wsituation_id) REFERENCES public.wsituations(id);
+
+
+--
+-- Name: corsi_evaluations fk_rails_7a0a8c2e99; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.corsi_evaluations
+    ADD CONSTRAINT fk_rails_7a0a8c2e99 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: choices fk_rails_7e078c3e02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.choices
+    ADD CONSTRAINT fk_rails_7e078c3e02 FOREIGN KEY (parent_choice_id) REFERENCES public.choices(id);
+
+
+--
+-- Name: corsi_csequences fk_rails_812dc45286; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.corsi_csequences
+    ADD CONSTRAINT fk_rails_812dc45286 FOREIGN KEY (csequence_id) REFERENCES public.csequences(id);
+
+
+--
+-- Name: open_answers fk_rails_8d048a107c; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.open_answers
+    ADD CONSTRAINT fk_rails_8d048a107c FOREIGN KEY (item_id) REFERENCES public.items(id);
+
+
+--
+-- Name: item_answers fk_rails_8d9565ebeb; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_answers
+    ADD CONSTRAINT fk_rails_8d9565ebeb FOREIGN KEY (item_id) REFERENCES public.items(id);
+
+
+--
+-- Name: evaluation_migrations fk_rails_92e22de52e; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluation_migrations
+    ADD CONSTRAINT fk_rails_92e22de52e FOREIGN KEY (evaluation_to_id) REFERENCES public.evaluations(id);
+
+
+--
+-- Name: students fk_rails_a258d82422; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT fk_rails_a258d82422 FOREIGN KEY (course_id) REFERENCES public.courses(id);
+
+
+--
+-- Name: evaluations fk_rails_a84a2d843f; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluations
+    ADD CONSTRAINT fk_rails_a84a2d843f FOREIGN KEY (wally_id) REFERENCES public.wallies(id);
+
+
+--
+-- Name: student_courses fk_rails_aab11897f1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_courses
+    ADD CONSTRAINT fk_rails_aab11897f1 FOREIGN KEY (student_id) REFERENCES public.students(id);
+
+
+--
+-- Name: courses fk_rails_adf7d91583; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.courses
+    ADD CONSTRAINT fk_rails_adf7d91583 FOREIGN KEY (school_id) REFERENCES public.schools(id);
+
+
+--
+-- Name: evaluation_construct_scores fk_rails_b05bbaa8ee; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluation_construct_scores
+    ADD CONSTRAINT fk_rails_b05bbaa8ee FOREIGN KEY (evaluation_id) REFERENCES public.evaluations(id);
+
+
+--
+-- Name: fonotest_items fk_rails_b0f8ace0a7; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fonotest_items
+    ADD CONSTRAINT fk_rails_b0f8ace0a7 FOREIGN KEY (fonotest_id) REFERENCES public.fonotests(id);
+
+
+--
+-- Name: ace_acases fk_rails_b35a1fff12; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ace_acases
+    ADD CONSTRAINT fk_rails_b35a1fff12 FOREIGN KEY (acase_id) REFERENCES public.acases(id);
+
+
+--
+-- Name: corsi_evaluations fk_rails_b4fe11b596; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.corsi_evaluations
+    ADD CONSTRAINT fk_rails_b4fe11b596 FOREIGN KEY (corsi_id) REFERENCES public.corsis(id);
+
+
+--
+-- Name: corsi_evaluations fk_rails_bf14e076b0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.corsi_evaluations
+    ADD CONSTRAINT fk_rails_bf14e076b0 FOREIGN KEY (student_id) REFERENCES public.students(id);
+
+
+--
+-- Name: wsituations fk_rails_c2bad28da4; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wsituations
+    ADD CONSTRAINT fk_rails_c2bad28da4 FOREIGN KEY (picture_id) REFERENCES public.pictures(id);
+
+
+--
+-- Name: moments fk_rails_c45c5a9e3d; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.moments
+    ADD CONSTRAINT fk_rails_c45c5a9e3d FOREIGN KEY (study_id) REFERENCES public.studies(id);
+
+
+--
+-- Name: items fk_rails_c52dbbe86f; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.items
+    ADD CONSTRAINT fk_rails_c52dbbe86f FOREIGN KEY (audio_id) REFERENCES public.audios(id);
+
+
+--
+-- Name: constructs fk_rails_c6d4cb8ac6; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.constructs
+    ADD CONSTRAINT fk_rails_c6d4cb8ac6 FOREIGN KEY (calculation_type_id) REFERENCES public.calculation_types(id);
+
+
+--
+-- Name: items fk_rails_c79e942fb4; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.items
+    ADD CONSTRAINT fk_rails_c79e942fb4 FOREIGN KEY (instrument_id) REFERENCES public.instruments(id);
+
+
+--
+-- Name: choices fk_rails_cc887e9f70; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.choices
+    ADD CONSTRAINT fk_rails_cc887e9f70 FOREIGN KEY (picture_id) REFERENCES public.pictures(id);
+
+
+--
+-- Name: choice_answers fk_rails_cd29bf1258; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.choice_answers
+    ADD CONSTRAINT fk_rails_cd29bf1258 FOREIGN KEY (choice_id) REFERENCES public.choices(id);
+
+
+--
+-- Name: hnf_answers fk_rails_cfbac7378c; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hnf_answers
+    ADD CONSTRAINT fk_rails_cfbac7378c FOREIGN KEY (evaluation_id) REFERENCES public.evaluations(id);
+
+
+--
+-- Name: wfeelings fk_rails_d12988796d; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wfeelings
+    ADD CONSTRAINT fk_rails_d12988796d FOREIGN KEY (picture_id) REFERENCES public.pictures(id);
+
+
+--
+-- Name: user_studies fk_rails_d8b33fa5f1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_studies
+    ADD CONSTRAINT fk_rails_d8b33fa5f1 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: evaluations fk_rails_daacebb6c7; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluations
+    ADD CONSTRAINT fk_rails_daacebb6c7 FOREIGN KEY (hnfset_id) REFERENCES public.hnfsets(id);
+
+
+--
+-- Name: corsi_csequences fk_rails_e37e22f6dd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.corsi_csequences
+    ADD CONSTRAINT fk_rails_e37e22f6dd FOREIGN KEY (corsi_id) REFERENCES public.corsis(id);
+
+
+--
+-- Name: wsituation_answers fk_rails_e6c8de3760; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.wsituation_answers
+    ADD CONSTRAINT fk_rails_e6c8de3760 FOREIGN KEY (evaluation_id) REFERENCES public.evaluations(id);
+
+
+--
+-- Name: open_answers fk_rails_e7090d8cb5; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.open_answers
+    ADD CONSTRAINT fk_rails_e7090d8cb5 FOREIGN KEY (evaluation_id) REFERENCES public.evaluations(id);
+
+
+--
+-- Name: csequence_answers fk_rails_ee9037ec4a; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.csequence_answers
+    ADD CONSTRAINT fk_rails_ee9037ec4a FOREIGN KEY (corsi_evaluation_id) REFERENCES public.corsi_evaluations(id);
+
+
+--
+-- Name: evaluations fk_rails_ef42eba623; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluations
+    ADD CONSTRAINT fk_rails_ef42eba623 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: schools fk_rails_f09c23870f; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.schools
+    ADD CONSTRAINT fk_rails_f09c23870f FOREIGN KEY (commune_id) REFERENCES public.communes(id);
+
+
+--
+-- Name: situation_sets fk_rails_f1bc36d297; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.situation_sets
+    ADD CONSTRAINT fk_rails_f1bc36d297 FOREIGN KEY (wsituation_id) REFERENCES public.wsituations(id);
+
+
+--
+-- Name: evaluations fk_rails_f39a71b4c8; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluations
+    ADD CONSTRAINT fk_rails_f39a71b4c8 FOREIGN KEY (fonotest_id) REFERENCES public.fonotests(id);
+
+
+--
+-- Name: student_name_changes fk_rails_f8eb830491; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_name_changes
+    ADD CONSTRAINT fk_rails_f8eb830491 FOREIGN KEY (student_id) REFERENCES public.students(id);
+
+
+--
+-- Name: evaluations fk_rails_fd67edef77; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.evaluations
+    ADD CONSTRAINT fk_rails_fd67edef77 FOREIGN KEY (moment_id) REFERENCES public.moments(id);
+
+
+--
+-- Name: student_courses fk_rails_fee459e6de; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_courses
+    ADD CONSTRAINT fk_rails_fee459e6de FOREIGN KEY (course_id) REFERENCES public.courses(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

@@ -28,10 +28,9 @@ class EvaluationsController < ApplicationController
   def create
 
     evaluation_json = params[:evaluation]
-    evaluation_json = JSON.parse(evaluation_json)
-
-    if evaluation_json
-      evaluation = Evaluation.new instrument_id: evaluation_json["instrumentId"], student_id: evaluation_json["studentId"], realized_at: evaluation_json["timestamp"]
+    if evaluation_json.is_a? String
+      evaluation_json = JSON.parse(evaluation_json)
+      evaluation = Evaluation.new instrument_id: evaluation_json["instrumentId"], user_id: evaluation_json["userId"], student_id: evaluation_json["studentId"], realized_at: evaluation_json["timestamp"]
       evaluation.save
       _answers = evaluation_json["itemAnswerList"]
       _answers.each do |answer|
@@ -41,6 +40,7 @@ class EvaluationsController < ApplicationController
       render json:{request_id_to_delete:params[:request_id_to_delete],headers:{:status=>200}},:status=>:ok
       return
     end
+
 
     test_name=params[:test_name]
     responses=params[:responses]

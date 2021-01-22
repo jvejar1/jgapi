@@ -1,5 +1,8 @@
 class Evaluation < ApplicationRecord
+  belongs_to :instrument
   has_many :open_answers
+  has_many :choice_answers
+  has_many :choices, through: :choice_answers
   belongs_to :user
   belongs_to :student
   belongs_to :wally

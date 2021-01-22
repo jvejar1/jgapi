@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   }
   resources :users
 
+  get '/classifications', to:"classifications#index"
+  get '/classifications/show', to:"classifications#show"
+  post '/classifications', to:"classifications#create"
 
   get '/hnf/get_current_data', to:"hnftests#get_current_data"
   get '/hnf/get_current_data', to:"hnftests#get_current_data"

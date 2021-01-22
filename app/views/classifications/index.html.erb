@@ -1,0 +1,114 @@
+
+<div class="container" >
+  <div>
+    <div>
+    <h4> Exportar excel</h4>
+      <p> Se genera un archivo excel (.xlsx) para rellenar con las respuestas codificadas. <br>
+       </p>
+    <form  action="/classifications/show">
+      <input type="hidden" name="study_id" value="<%=@study_id %>">
+      <table style="width: 100%">
+        <thead>
+        <tr>
+          <th>Usuarios</th>
+          <th>Desde</th>
+          <th>Hasta</th>
+          <th> Acción</th>
+
+        </tr>
+
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+
+            <table>
+              <tbody>
+
+              <%@users.each_with_index do |user,idx|%>
+                <tr>
+                  <td>
+
+                    <input type="checkbox" checked value="<%=user.id%>" name="users[]">
+                    <label for="checkbox_<%=idx%>"> <%=user.email %></label>
+                  </td>
+                </tr>
+              <%end %>
+              </tbody>
+
+            </table>
+          </td>
+          <td>
+            <input type="datetime-local" name="from" value="<%=@from %>">
+          </td>
+          <td>
+
+            <input type="datetime-local" name="until" value="<%=@until %>">
+          </td>
+          <td>
+            <input type="submit" value="Descargar">
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    </form>
+    </div></div>
+<br>
+<hr>
+
+
+  <div id="uploadFormContainer">
+    <h4> Importar excel</h4>
+    <p>  Una vez codificadas las respuestas, es posible adjuntar nuevamente el archivo para así actualizar las variables en el sistema.</p>
+
+    <%= form_tag({:action => :create}, :multipart => true) do %>
+      <input type="hidden" name="study_id" value="<%=@study_id %>">
+      <table >
+    <tbody>
+
+    <tr>
+      <td>
+        <%= file_field_tag 'picture' %>
+      </td>
+      <td>
+        <%= submit_tag'Subir' %>
+      </td>
+
+    </tr>
+    <% end %>
+
+    </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<style>
+  body{
+    height: 80vh;
+  }
+  .container{height: 100%;
+    position: relative;
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+
+  #uploadFormContainer{
+    height: 100%;
+    width: 100%;
+    padding: 60px 0 0 0;
+  }
+
+  tbody{
+    position: relative;
+
+  }
+
+  td{
+    vertical-align: top;
+  }
+
+</style>
