@@ -131,7 +131,8 @@ end
     item.save
   end
 
-  (0..10).step(1).each do |i|
+=begin
+     (0..10).step(1).each do |i|
     items = instrument.items
     items.each_with_index { |item, item_idx|
     }
@@ -140,10 +141,11 @@ end
     evaluation = Evaluation.new(instrument: instrument, choice_answers: choices_answers, open_answers:open_answers)
     evaluation.save
   end
+=end
+
 end
 
-users_mails = ["admin.uandes@uandes.cl"]
-
+users_mails = [ "mfuentes15@alumnos.utalca.cl" ,"dcerda15@alumnos.utalca.cl"]
 users = User.where(email: users_mails)
 study = Study.create(name:"Estudio Wally Original 2021", year:2021, users:users, instruments:instruments)
 result = {study: JSON.parse(study.to_json(:include => :users)), instruments: instruments.map { |instrument| JSON.parse(instrument.to_json(:include => {:items => {:include => :choices}}))  }}

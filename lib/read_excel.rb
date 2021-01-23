@@ -55,6 +55,10 @@ module ExcelUtil
     workbook.define_name('neutro', worksheet.name()+'!$D$1:'+ neutral_max_cell)
 
     worksheet = workbook.add_worksheet(USER_SHEET_NAME)
+    format = workbook.add_format
+    format.set_locked(true)
+
+
     filter_from = date_from
     filter_until = date_until
 
@@ -62,6 +66,7 @@ module ExcelUtil
     items=  instrument.items
     items_count = items.count
 
+    written_rows = 0
 #worksheet.add_table(0,0,15,15, { :data=> info_table})
     headers = ['id']
     metrics_names = ["total_positivos", "total_negativos", "total_neutro", "positivos_sobre_negativos", "diferentes positivos utilizados"]
@@ -79,11 +84,22 @@ module ExcelUtil
 
     name_by_value = {1=> "positivo", 2=>"negativo", 3=>"neutro"}
     worksheet.write(0,0, headers)
+    written_rows+=1
+    header_format = workbook.add_format :bold=> true, :size => 14, :align => :center
+    worksheet.set_row(0,23, header_format)
+    worksheet.set_column('A:A', nil,nil,1)
+
     table_start_row = 1
+    worksheet.freeze_panes(1,0)
+
+    worksheet.set_column(1, metrics_count + items_count*8, 20)
     evals.each_with_index do |eval,eval_index|
+      written_rows+=1
       written_cols = 0
       row_index = eval_index + table_start_row
-      worksheet.write(row_index,0, eval.id)
+
+      worksheet.set_row(row_index,29)
+      worksheet.write(row_index,0, eval.id, format)
       written_cols+=1
       totals = {1=>0, 2=>0, 3=>0}
       items = eval.instrument.items
@@ -148,6 +164,14 @@ module ExcelUtil
         }
       }
     end
+    back_sheet = workbook.add_worksheet()
+    (0..written_rows-1).step(1) do |row_idx|
+      (0..items_count*8 + metrics_count -1).step(1) do | col_idx |
+        a1_cell = xl_rowcol_to_cell(row_idx, col_idx)
+        back_sheet.write(a1_cell, "=#{worksheet.name()}!#{a1_cell}")
+
+    end
+    end
     workbook.close
     return filepath
   end
@@ -190,8 +214,11 @@ module ExcelUtil
     data.each_with_index do |row, idx|
       next if idx==0
       eval_data = Hash[[headers,row].transpose]
-      evaluation = Evaluation.find(eval_data['id'])
-
+      evaluation = Evaluation.find_by_id(eval_data['id'])
+      if evaluation.nil?
+        errors_texts << "Id '#{eval_data['id']}' inválido"
+        next
+      end
       instrument = evaluation.instrument
       items_count = instrument.items.count
 
@@ -243,12 +270,12 @@ module ExcelUtil
       conflictive_words = conflictive_words.uniq
     end
 
-    errors_details = []
+
     unless conflictive_words.first(14).empty?
-      errors_details<< "Se encontraron #{errors} problemas con las palabras: " + conflictive_words.first(14).join("; ")
+      errors_texts<< "Se encontraron #{errors} problemas con las palabras: " + conflictive_words.first(14).join("; ")
     end
 
-    return {errors_details: errors_details, modified_rows: modified_rows}
+    return {errors_details: errors_texts, modified_rows: modified_rows}
   end
 
 

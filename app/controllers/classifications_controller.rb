@@ -41,7 +41,7 @@ class ClassificationsController < ApplicationController
     result = read_excel(uploaded_io.path(), [@instrument],nil)
     unless result[:errors_details].empty?
       text = result[:errors_details].join("; ")
-      flash.alert = "Hubo los siguientes errores: #{text}"
+      flash.alert = "Hubo errores: #{text}"
     end
 
     n_processed_rows = result[:modified_rows]
