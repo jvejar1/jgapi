@@ -71,7 +71,7 @@ end
 
 choices_texts =%w(Admisión\ /\ Decir\ la\ verdad Pedir\ disculpas Pregunta\ por\ una\ razón Pedir\ o\ exigir\ retribución )
 choices_texts+=%w(Preguntar\ /\ Preguntar\ de\ nuevo\ /\ Intentar\ de\ nuevo Afirmar\ verbalmente Reclamar\ para\ si\ mismo)
-choices_texts+=%W(Cumplir Retrasar Desafiar\ /\ Negar\ la\ autoridad\ adulta Mentir\ /\ Ocultar\ la\ verdad Represalias\ destructivas)
+choices_texts+=%W(Cumplir Retrasar Desafiar\ /\ Negar\ la\ autoridad\ adulta Negar\ /\ Mentir\ /\ Ocultar\ la\ verdad Represalias\ destructivas)
 choices_texts +=%W(Diseña\ otras\ estrategias\ apropiadas Jugar Hacer\ nada Actuar\ con\ autocontrol Explicar\ /\ Dar\ una\ razón\ o\ excusa )
 choices_texts +=%W(Expresar\ sentimientos\ de\ rechazo Expresar\ sentimientos\ negativos Expresar\ sentimientos\ positivos Jugar\ solo)
 choices_texts +=%w(Encuentra\ una\ actividad\ alternativa Encuentra\ un\ objetivo\ alternativo Encuentra\ una\ persona\ alternativa)
@@ -86,7 +86,7 @@ choices_texts+=["Arreglar / Reparar o hacer por si mismo / Ayuda a reparar",
                 "Irse / Caminar / Escapar / Esconderse",
                 "Moralizar / Criticar / Culpar",
                 "Negociar / Negotiate",
-                "Ofrecer sugerencias o ayuda","Respuesta fisica negativa para la persona", "Castigar al otro", "Castigarse a sí mismo",
+                "Ofrecer sugerencias o ayuda","Respuesta fisica negativa para la persona", "Castigar a otro", "Castigarse a sí mismo",
                 "Ser castigada por un adulto/a",
                 "Rechazar verbalmente",
                 "Solicitar que otro comparta",
@@ -96,7 +96,7 @@ choices_texts+=["Arreglar / Reparar o hacer por si mismo / Ayuda a reparar",
                 "Compartir", "Expresión verbal espontánea", "Mantenerse alejado en el futuro / Evitar", "Robar", "Burlas, Insultos, Sarcasmo",
                 "Amenazar / Obligar",
                 "Espera / Acepta",
-                "Gritar /Pisotear",
+                "Gritar / Pisotear",
                 "Defenderse",
                 "Decir por favor / Cortés",
                 "Llorar / Gemir",
