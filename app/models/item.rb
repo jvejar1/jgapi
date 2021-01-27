@@ -1,4 +1,5 @@
 class Item < ApplicationRecord
+  scope :ordered, -> {order(order: :asc)}
   has_many :choices
   belongs_to :instrument
   belongs_to :picture

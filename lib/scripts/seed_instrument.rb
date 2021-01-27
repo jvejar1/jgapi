@@ -23,7 +23,7 @@ descriptions = ["Supongamos que le pides a una amiga que juegue contigo y ella d
                "Supongamos que estás solo y quieres jugar con otros niños en el patio. ¿Qué harías?",
                "Supongamos que el queque que tenías guardado desapareció repentinamente y ves migas/pedazos de queque en la boca de tu hermana. ¿Qué harías?",
                "Supongamos que tu hermano destruye tu juguete armable que has estado haciendo durantes dos semana. ¿Qué harías?",
-               "Supongamos que solo queda un trozo de pizza y tu hermana y tú lo quieren. ¿Qué arías?",
+               "Supongamos que solo queda un trozo de pizza y tu hermana y tú lo quieren. ¿Qué harías?",
                "Supongamos que tu profesor está enojado contigo porque no regresaste del recreo cuando sonó el timbre. ¿Qué harías?",
                "Supongamos que un niño mucho menor que tú comienza a pegarte. ¿Qué harías?",
                "Supongamos que un niño ha estado jugando durante mucho, mucho tiempo con una bicicleta y tú quieres jugar con ella. ¿Qué harías?",
