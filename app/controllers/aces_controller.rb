@@ -53,6 +53,13 @@ class AcesController < ApplicationController
 
     json_response[:instruments]= result_instruments
 
+    #showing the current year schools
+    year_beginning = DateTime.new(DateTime.now.year,01,01,0,0,0)
+    year_ending = DateTime.new(DateTime.now.year,12,31,23,59,59)
+    schools_ids = StudentCourse.where(entry: year_beginning..year_ending).map(&:course).map(&:school_id)
+    schools = School.where(id: schools_ids).as_json(include: {:courses => {include: :students}})
+    json_response[:schools] =schools
+
     render json: json_response.as_json
 
   end

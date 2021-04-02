@@ -4,8 +4,7 @@ letters.extend([chr(i) for i in range(48,57)])
 letters.extend([chr(i) for i in range(65,90)])
 
 letters.extend([chr(i) for i in range(97,122)])
-users=[ "mfuentes15@alumnos.utalca.cl", 
-"dcerda15@alumnos.utalca.cl"]
+users=["crojash@uc.cl"]
 
 print letters
 for user in users:
