@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210401185123) do
+ActiveRecord::Schema.define(version: 20210404005434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20210401185123) do
     t.integer "latency_seconds"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "score", default: 0
     t.index ["choice_id"], name: "index_choice_answers_on_choice_id"
     t.index ["evaluation_id"], name: "index_choice_answers_on_evaluation_id"
   end
@@ -94,10 +95,11 @@ ActiveRecord::Schema.define(version: 20210401185123) do
     t.string "choice_text"
     t.integer "choice_value"
     t.bigint "parent_choice_id"
-    t.boolean "is_right"
+    t.boolean "is_correct"
     t.bigint "picture_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "order"
     t.index ["item_id"], name: "index_choices_on_item_id"
     t.index ["parent_choice_id"], name: "index_choices_on_parent_choice_id"
     t.index ["picture_id"], name: "index_choices_on_picture_id"
@@ -355,6 +357,9 @@ ActiveRecord::Schema.define(version: 20210401185123) do
     t.bigint "picture_id"
     t.boolean "is_for_practice"
     t.integer "item_type_id"
+    t.text "report_header_prefix_choice_value", default: "item_choice_value"
+    t.text "report_header_prefix_score", default: "item_score"
+    t.string "report_header_prefix_choice_text", default: "selected_choice_text"
     t.index ["audio_id"], name: "index_items_on_audio_id"
     t.index ["instrument_id"], name: "index_items_on_instrument_id"
     t.index ["picture_id"], name: "index_items_on_picture_id"
