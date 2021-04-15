@@ -10,8 +10,14 @@ class ApplicationController < ActionController::Base
   end
   private
   def authenticate_token
-    authenticate_or_request_with_http_token do |token,options|
-      @current_user=User.find_by(auth_token:token)
+    authenticate_or_request_with_http_token do |token,options|      
+      
+      token = JWT.decode(token, 'none', false)
+      payload = token[0]
+      user_json = payload["user"]
+      user_id = user_json["id"]
+
+      @current_user=User.find(user_id)
     end
   end
 end
