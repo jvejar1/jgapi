@@ -12,12 +12,16 @@ class ApplicationController < ActionController::Base
   def authenticate_token
     authenticate_or_request_with_http_token do |token,options|      
       
-      token = JWT.decode(token, 'none', false)
-      payload = token[0]
-      user_json = payload["user"]
-      user_id = user_json["id"]
-
-      @current_user=User.find(user_id)
+      begin
+        token = JWT.decode(token, 'none', false)
+        payload = token[0]
+        user_json = payload["user"]
+        user_id = user_json["id"]
+        @current_user=User.find(user_id)
+      
+      rescue JWT::DecodeError
+        @current_user=User.find_by(auth_token: token)#legacy
+      end      
     end
   end
 end

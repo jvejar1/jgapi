@@ -27,7 +27,8 @@ class Users::SessionsController < Devise::SessionsController
               }
             }
           token = JWT.encode(payload, nil, 'none')
-          render :json =>{Authorization:user.auth_token,user_id:user.id, jwt: token,status: 200}, status: :ok
+          user.update(auth_token: token) #legacy
+          render :json =>{Authorization:user.auth_token,user_id:user.id, status: 200}, status: :ok
          else
            render :json =>{'messsage': 'user password wrong'}, status: :unauthorized
          end
