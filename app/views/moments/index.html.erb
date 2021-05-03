@@ -1,0 +1,20 @@
+
+<table>
+    <tr> 
+        <th>Estudio</th>
+        <th>Desde</th>
+        <th>Hasta</th>
+        <th>Acciones</th>
+    </tr>
+    <%@moments.each do |moment|%>
+        <tr>
+            <td> <%=moment.study_name%></td>
+            <td> <%=moment.from%></td>
+            <td> <%=moment.until%></td>
+            <td> <%=link_to 'Ver', moment_path(moment.id)%>
+             <%=link_to 'Editar', edit_moment_path(moment.id)%>
+             <%=link_to 'Borrar', moment_path(moment), method: :delete, data: { confirm: 'Are you sure?' }%></td>
+        </tr>
+    <%end%>
+</table>
+<%= link_to 'Nuevo momento', new_moment_path %>

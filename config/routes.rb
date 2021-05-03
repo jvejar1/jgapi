@@ -71,6 +71,9 @@ Rails.application.routes.draw do
   post '/studies/:id/delete', to:"studies#delete", as: 'study_delete' 
   post '/studies/:id', to:"studies#update", as: 'study_update'
 
+  resources :moments
+
+
   root to:"download_csv#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
