@@ -59,6 +59,18 @@ Rails.application.routes.draw do
   get '/download_csv/fonotest', to:"download_csv#fonotest", as: 'download_csv_fonotest'
   get '/get_study_info/', to:"download_csv#get_study_info", as: 'get_study_info'
 
+  get '/studies', to:"studies#index", as:'studies'
+  get '/studies/:id', to:"studies#show", as:'show_study'
+  post '/studies/:id/add_user/', to:"studies#add_user", as:'study_add_user'
+  get '/studies/:id/delete_user/:user_id', to:"studies#delete_user", as:'study_delete_user'
+  post '/studies/:study_id/add_course', to:"studies#add_course", as: 'study_course'
+  post '/studies/:study_id/course_del/:study_course_id', to:"studies#delete_course_group", as: 'study_course_del'
+  post '/studies/:study_id/course_update/:study_course_id', to:"studies#update_study_course", as: 'study_course_update'
+  post '/studies/', to:"studies#create", as: 'study_create'
+
+  post '/studies/:id/delete', to:"studies#delete", as: 'study_delete' 
+  post '/studies/:id', to:"studies#update", as: 'study_update'
+
   root to:"download_csv#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

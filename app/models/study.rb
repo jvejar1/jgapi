@@ -1,12 +1,14 @@
 class Study < ApplicationRecord
-  has_many :user_studies
+  has_many :user_studies, dependent: :delete_all
   has_many :users, through: :user_studies
-  has_many :study_instruments
+  has_many :study_instruments, dependent: :delete_all
   has_many :instruments, through: :study_instruments
-  has_many :moments
-  has_many :study_courses
+  has_many :moments, dependent: :delete_all
+  has_many :study_courses, dependent: :delete_all
   has_many :courses, through: :study_courses
 
+  validates :name, presence: true
+  
   def get_baseline_moment
     self.moments.order(from: :asc).first
   end

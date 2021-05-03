@@ -1,0 +1,146 @@
+<div>
+    <form style="display:inline" method="post" action="<%=study_update_path(@study.id)%>" id="editStudyForm" >
+        <label for="studyName">Nombre</label>
+        <input type="hidden" name="study[id]" value="<%=@study.id%>">
+        <input id="studyName" name="study[name]" type="text" placeholder="Study Name" value="<%=@study.name%>">
+        <input type="submit" value="Guardar">
+    </form>
+
+<form method="post" action="<%=study_delete_path%>" style="display:inline">
+<input type="hidden" name="study[id]" value="<%=@study.id%>">
+<button style="display:inline; float:right" onclick="
+    if(confirm('¡Atención! Se borrarán las asociaciones con usuarios, cursos y momentos. ')){
+        return true;
+    }
+    return false;
+    ">Eliminar</button></form>
+</div>
+<hr>
+<div>
+<table style="width:100%">
+    <tbody>
+        <tr>
+            <td>
+                <div>
+                    
+                    <h3> Usuarios </h3>
+                    <ul>
+                        <%@study.users.each do |user|%>
+                            <li>
+                                <span> <%=user.email%></span>
+                                <span> <a href="<%=study_delete_user_url(@study.id, user.id )%>"
+                                        onclick="if (confirm('Seguro?')){return true}; return false"> delete</a></span>
+                            </li>
+                        <%end%>
+                        <form id="add-user" method="POST" action="<%=study_add_user_url(@study.id)%>">
+                            <li>
+                                <select name="user" id="users">
+                                    <option value="0">Seleccione</option>
+                                    <%@users.each do |user|%>
+                                        <option value="<%=user.id%>"> <%=user.email%> </option>
+                                    <%end%>
+                                </select>
+                            <input type="submit" value="Agregar">
+                        </li>
+                        </form>
+                    </ul>
+
+                  
+                </div>
+            </td>
+            <td style="vertical-align: top">
+                <div style="padding: 10px 20px 10px 40px">
+                    <h3> Participantes </h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N</th>
+                                <th>Curso</th>
+                                <th>Grupo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%@course_groups.each_with_index do |course_group, index|%>
+                                <tr>
+                                    <form method="POST" action="<%=study_course_update_path(@study.id, course_group['id'])%>">
+                                    <td>
+                                        <%=index+1%>
+                                    </td>
+                                    <td>
+                                        <%=course_group['course']['full_name']%>
+                                    </td>
+                                    <td >
+                                        <select name="group" style="max-width:40px">
+                                            <option value="null"
+                                                <%if course_group['group'] != 0 and course_group['group'] != 1%>
+                                                selected
+                                                <%end%>
+                                            >
+                                                Seleccione
+                                            </option>
+                                            <option value="0" 
+                                                <%if course_group['group'] == 0%>
+                                                    selected
+                                                <%end%>
+                                            >
+                                                0
+                                            </option>
+                                            <option value="1"
+                                            <%if course_group['group'] == 1%>
+                                                    selected
+                                                <%end%>
+                                                >
+                                               1
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="submit" value="Ok">
+                                        </form>
+                                        <form style="display:inline" method="post" action="<%=study_course_del_url(@study.id, course_group["id"])%>"
+                                        onsubmit="if(window.confirm('Seguro?')){ return true}else{return false};"
+                                        > 
+                                            <input type="submit" value="Bor">
+                                        </form>
+                                    </td>
+                                </tr>                               
+                            <%end%>
+                        </tbody>
+                    </table>
+        
+                    <hr>
+                    <h4>Agregar Participantes</h4>
+                    <form method="post" action="<%=study_course_url(@study.id)%>"> 
+                        <input type="hidden" name="study_id" value="<%=@study.id%>">
+                        <select id="selectCourse" name="course_id">
+                            <option value="0"> Seleccione curso</option>
+                            <%@courses.each do |course|%>
+                                <option value="<%=course.id%>"> <%=course.full_name%></option>
+                                <%end%>        
+                        </select>
+                        
+                        <select name="group_number">
+                            <option value="0"> Grupo Control (0)</option>
+                            <option value="1"> Grupo Intervencion (1) </option>
+                        </select>
+
+                        <input type="submit" value="Agregar">
+                    </form>
+                </div>
+
+                
+            </td>
+        </tr>
+    </tbody>
+</table>
+<style>
+    #selectCourse{
+        max-width: 160px;
+    }
+
+    td{
+        vertical-align: top;
+    }
+</style>
+</div>

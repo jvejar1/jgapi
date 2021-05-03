@@ -1,0 +1,22 @@
+<h1> Studies - Groups</h1>
+<%@studies.each do |study| %>
+    <ul>
+    <li>
+        <a href="<%=show_study_path(study.id)%>" > <%= study.name%> </a>
+
+    </li>
+    </ul>
+    
+<%end%>
+<button id="addBtn" onclick="
+document.getElementById('addForm').style='visibility:visible'; 
+this.style='visibility:hidden'">Agregar</button>
+
+<form style="visibility: hidden" id="addForm" method="post" action="<%=study_create_path%>">
+    <input type="text" name="study[name]">
+    <input type="submit" value="Crear">
+    <button type="button" onclick="
+    document.getElementById('addForm').style='visibility: hidden';
+    document.getElementById('addBtn').style='visibility: visible';
+    ">Cancelar</button>
+</form>
