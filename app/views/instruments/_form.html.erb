@@ -1,0 +1,73 @@
+
+<%= form_with(model: instrument, local: true) do |form| %>
+  <% if instrument.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(instrument.errors.count, "error") %> prohibited this instrument from being saved:</h2>
+
+      <ul>
+      <% instrument.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :instrument_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :instruction %>
+    <%= form.text_area :instruction, id: :instrument_instruction, rows:5, cols:60%>
+  </div>
+
+  <div class="field">
+  <%=form.label :items%>
+  <table id="items">
+    <tr>
+      <th>Orden</th>
+      <th>Description</th>
+      <th>Imagen</th>
+      <th>Borrar</th>
+    </tr>
+    <%=form.fields_for :items do |items_form|%>
+      <tr>
+        <td>
+          <div class="field">
+              <%= items_form.number_field :order %>
+          </div>
+        </td>
+        <td>
+        <div class="field">
+              <%= items_form.text_area :description, cols:30, rows:5%>
+        </div>
+        </td>
+        <td>
+        <%=items_form.fields_for :picture do |image_form|%>
+         <div class="field">
+                <%= image_tag image_form.object.image.url, :style=>"max-height:100px;" %>
+          </div>
+          <div class="field">
+                <%= image_form.file_field :image %>
+          </div>
+         
+        <%end%>
+        </td>
+
+        <td> <%= items_form.check_box :_destroy %>
+        </td>
+      </tr>
+    <%end%>
+  </table>
+  </div>
+  <div class="actions">
+ 
+    <%= form.submit %>
+  </div>
+<% end %>
+<style>
+table, th, td {
+  border: 1px solid black;
+
+}</style>

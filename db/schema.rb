@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210404005434) do
+ActiveRecord::Schema.define(version: 20210504033517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -315,6 +315,7 @@ ActiveRecord::Schema.define(version: 20210404005434) do
     t.integer "for_sex"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "deleted", default: false
     t.index ["personalisation_of_instrument_id"], name: "index_instruments_on_personalisation_of_instrument_id"
   end
 
