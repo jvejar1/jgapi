@@ -12,6 +12,9 @@ class StudiesController < ApplicationController
     @users= User.all
     @course_groups = @study.study_courses.order(:created_at).as_json(include: {course:{:include => :school, methods: :full_name}})
     @courses=Course.all
+    @study_instruments =@study.study_instruments
+    @study_instruments.build()
+    @instruments = Instrument.active
     puts @course_groups
   end
   
@@ -26,8 +29,9 @@ class StudiesController < ApplicationController
   end
 
   def update
-    study_json = params.require(:study).permit(:id, :name)
-    study = Study.find(study_json[:id])
+    study_id = params[:id]
+    study = Study.find(study_id)
+    study_json = params.require(:study).permit(:id, :name, study_instruments_attributes:[:id, :study_id, :instrument_id, :_destroy])
     study.update(study_json)
     unless study.valid?
       flash[:error] = study.errors.full_messages.join('\n')

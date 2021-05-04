@@ -61,6 +61,7 @@ Rails.application.routes.draw do
 
   get '/studies', to:"studies#index", as:'studies'
   get '/studies/:id', to:"studies#show", as:'show_study'
+  get '/studies/:id', to:"studies#show", as:'study'
   post '/studies/:id/add_user/', to:"studies#add_user", as:'study_add_user'
   get '/studies/:id/delete_user/:user_id', to:"studies#delete_user", as:'study_delete_user'
   post '/studies/:study_id/add_course', to:"studies#add_course", as: 'study_course'
@@ -69,7 +70,7 @@ Rails.application.routes.draw do
   post '/studies/', to:"studies#create", as: 'study_create'
 
   post '/studies/:id/delete', to:"studies#delete", as: 'study_delete' 
-  post '/studies/:id', to:"studies#update", as: 'study_update'
+  patch '/studies/:id', to:"studies#update", as: 'study_update'
 
   resources :moments
   

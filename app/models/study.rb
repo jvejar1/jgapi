@@ -3,6 +3,8 @@ class Study < ApplicationRecord
   has_many :users, through: :user_studies
   has_many :study_instruments, dependent: :delete_all
   has_many :instruments, through: :study_instruments
+  accepts_nested_attributes_for :study_instruments, reject_if: lambda {|attributes| attributes['instrument_id'].blank?}, allow_destroy: true
+
   has_many :moments, dependent: :delete_all
   has_many :study_courses, dependent: :delete_all
   has_many :courses, through: :study_courses

@@ -1,19 +1,18 @@
 <div>
-    <form style="display:inline" method="post" action="<%=study_update_path(@study.id)%>" id="editStudyForm" >
-        <label for="studyName">Nombre</label>
+    <%=form_with model: @study, :html=>{style:"display:inline"} do |form|%>
+        <%=form.label :nombre_estudio %>
+        <%=form.text_field :name, id: :nombre_estudio%>
+        <%=form.submit :actualizar%>
+    <%end%>
+    <form method="post" action="<%=study_delete_path%>" style="display:inline">
         <input type="hidden" name="study[id]" value="<%=@study.id%>">
-        <input id="studyName" name="study[name]" type="text" placeholder="Study Name" value="<%=@study.name%>">
-        <input type="submit" value="Guardar">
+        <button style="display:inline; float:right; background-color:#DD1111; color:#FFFFFF; border: 2px solid black" onclick="
+            if(confirm('¡Atención! Se borrarán las asociaciones con usuarios, cursos y momentos. ')){
+                return true;
+            }
+            return false;
+            ">Eliminar</button>
     </form>
-
-<form method="post" action="<%=study_delete_path%>" style="display:inline">
-<input type="hidden" name="study[id]" value="<%=@study.id%>">
-<button style="display:inline; float:right" onclick="
-    if(confirm('¡Atención! Se borrarán las asociaciones con usuarios, cursos y momentos. ')){
-        return true;
-    }
-    return false;
-    ">Eliminar</button></form>
 </div>
 <hr>
 <div>
@@ -21,9 +20,10 @@
     <tbody>
         <tr>
             <td>
-                <div>
+                <div class="section yellow">
                     
                     <h3> Usuarios </h3>
+                      <hr>
                     <ul>
                         <%@study.users.each do |user|%>
                             <li>
@@ -49,8 +49,9 @@
                 </div>
             </td>
             <td style="vertical-align: top">
-                <div style="padding: 10px 20px 10px 40px">
+                <div class="section" style="padding: 10px 20px 10px 40px">
                     <h3> Participantes </h3>
+                    <hr>
                     <table>
                         <thead>
                             <tr>
@@ -63,7 +64,7 @@
                         <tbody>
                             <%@course_groups.each_with_index do |course_group, index|%>
                                 <tr>
-                                    <form method="POST" action="<%=study_course_update_path(@study.id, course_group['id'])%>">
+                                    <form method="POST" style="display:inline" action="<%=study_course_update_path(@study.id, course_group['id'])%>">
                                     <td>
                                         <%=index+1%>
                                     </td>
@@ -131,9 +132,30 @@
 
                 
             </td>
+            <td>
+                <div class="section">
+                    <h3>Instrumentos</h3>
+                  <hr>
+                    <%=form_with(model: @study, local:true) do |form|%>
+                        <table>
+                            <tr> <th>Nombre</th> <th>Borrar</th></tr>
+                            <%=form.fields_for :study_instruments do |instruments_form|%>
+                                <tr>
+                                    <td><%=instruments_form.collection_select :instrument_id, @instruments, :id, :name,  { include_blank: 'Seleccione Nuevo' } %></td>
+                                    <td><%=instruments_form.check_box :_destroy %></td>
+                                </tr>
+                            <%end%>
+                        </table>
+                        <br>
+                        <%=form.submit%>
+                    <%end%>
+                </div>
+            
+            </td>
         </tr>
     </tbody>
 </table>
+</div>
 <style>
     #selectCourse{
         max-width: 160px;
@@ -142,5 +164,18 @@
     td{
         vertical-align: top;
     }
+
+    .section{
+        
+        border: 1px solid #AAAAAA;
+        border-radius: 3px;
+        box-shadow: 5px 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px 10px 10px 10px;
+    }
+    .yellow{
+background: #DDBBBBAA
+
+    }
 </style>
-</div>
