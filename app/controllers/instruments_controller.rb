@@ -1,6 +1,6 @@
 class InstrumentsController < ApplicationController
+  before_action :ensure_user_is_admin
   before_action :set_instrument, only: %i[ show edit update destroy ]
-
   # GET /instruments or /instruments.json
   def index
     @instruments = Instrument.active.all

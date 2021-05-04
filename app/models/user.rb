@@ -30,6 +30,10 @@ class User < ApplicationRecord
     end
   end
 
+  def is_admin?
+    return self.role==1
+  end
+
   def can_download_content?
     if User.roles[self.role]==User.ADMIN or User.roles[self.role]==User.DATA_INTERPRETER
       return true

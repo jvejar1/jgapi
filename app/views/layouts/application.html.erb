@@ -7,36 +7,32 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body>
+    <div id="nav-bar">
+        <%if current_user%>
+            <span><a class="active" href=<%=download_csv_url%>>Evaluaciones</a></span>
+            <%if current_user.is_admin?%>
+              <span><%=link_to 'Usuarios',users_url%></span>
+              <span><%=link_to 'Colegios',schools_url%></span>
+              <span><%=link_to 'Cursos',courses_url%></span>
 
+              <span><%=link_to 'Estudios', studies_url%></span>
+              <span><%=link_to 'Momentos', moments_path%></span>
+              <span><%=link_to 'Instrumentos', instruments_path%></span>
 
-  <div id="nav-bar">
-   
-      <span><a class="active" href=<%=download_csv_url%>>Evaluaciones</a></span>
-      <%if current_user
-          if current_user.can_admin_users?%>
-          <span><%=link_to 'Usuarios',users_url%></span>
-          <span><%=link_to 'Colegios',schools_url%></span>
-          <span><%=link_to 'Cursos',courses_url%></span>
-
-          <span><%=link_to 'Estudios', studies_url%></span>
-          <span><%=link_to 'Momentos', moments_path%></span>
-          <span><%=link_to 'Instrumentos', instruments_path%></span>
-
-
-    <%end%>
-        <!--<li><%=link_to 'Log Out',destroy_user_session_url(current_user),method: :delete, data: {confirm:'¿Está seguro/a?'}%></li-->
-      <%end%>    
-
-  </div>
-
+            <%end%>
+            <span>
+              <%=form_with(url:destroy_user_session_url, method: :delete, :html=>{method: "DELETE",style:"display:inline; float:right"}) do |form|%>
+                <%=form.submit 'salir', data: {confirm: "¿Salir?"} %>
+              <%end%>
+            </span>
+        <%end%>    
+    </div>
     <div class="container" style="margin-top: 2%">
       <% flash.each do |key, value| %>
             <div class="<%=flash_class(key)%>"><%= value %></div>
       <% end %>
-    <%= yield %>
-
+      <%= yield %>
     </div>
   </body>
 </html>
@@ -53,6 +49,7 @@
     padding-top:10px;
     padding-bottom:10px;
     padding-left:10px;
+    padding-right:10px;
   }
 
   #nav-bar>span{

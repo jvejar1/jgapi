@@ -2,6 +2,8 @@ class StudiesController < ApplicationController
   # GET /aces
   # GET /aces.json
   skip_before_action :verify_authenticity_token
+  before_action :ensure_user_is_admin
+
   def index
     @studies = Study.all
   end
@@ -94,4 +96,5 @@ class StudiesController < ApplicationController
     redirect_back fallback_location:show_study_url(study_id)
   end
 
+  
 end

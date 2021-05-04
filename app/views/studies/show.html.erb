@@ -20,9 +20,9 @@
     <tbody>
         <tr>
             <td>
-                <div class="section yellow">
+                <div class="section">
                     
-                    <h3> Usuarios </h3>
+                    <h4> Usuarios </h4>
                       <hr>
                     <ul>
                         <%@study.users.each do |user|%>
@@ -50,7 +50,7 @@
             </td>
             <td style="vertical-align: top">
                 <div class="section" style="padding: 10px 20px 10px 40px">
-                    <h3> Participantes </h3>
+                    <h4> Participantes </h4>
                     <hr>
                     <table>
                         <thead>
@@ -111,7 +111,7 @@
                     </table>
         
                     <hr>
-                    <h4>Agregar Participantes</h4>
+                    <h5>Agregar Participantes</h5>
                     <form method="post" action="<%=study_course_url(@study.id)%>"> 
                         <input type="hidden" name="study_id" value="<%=@study.id%>">
                         <select id="selectCourse" name="course_id">
@@ -134,7 +134,7 @@
             </td>
             <td>
                 <div class="section">
-                    <h3>Instrumentos</h3>
+                    <h4>Instrumentos</h4>
                   <hr>
                     <%=form_with(model: @study, local:true) do |form|%>
                         <table>
@@ -173,9 +173,10 @@
         margin-left: 10px;
         margin-right: 10px;
         padding: 10px 10px 10px 10px;
+        background: #DDBBBBAA
     }
     .yellow{
-background: #DDBBBBAA
+
 
     }
 </style>

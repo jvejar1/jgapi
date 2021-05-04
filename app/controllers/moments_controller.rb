@@ -1,5 +1,6 @@
 class MomentsController<ApplicationController
 
+    before_action :ensure_user_is_admin
     def index
         @moments= Moment.all
     end
