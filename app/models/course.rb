@@ -27,7 +27,7 @@ class Course < ApplicationRecord
   end
 
   def full_name
-    return self.school.name+": "+@@course_levels_by_number[self.level] + ' '+ @@course_letter_by_number[self.letter]
+    return self.school.name.to_s+": "+@@course_levels_by_number[self.level].to_s + ' '+ @@course_letter_by_number[self.letter].to_s
   end
 
   def validate_level_and_letter
