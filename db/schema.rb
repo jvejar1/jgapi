@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210404005434) do
+ActiveRecord::Schema.define(version: 20210505191413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(version: 20210404005434) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "year"
+    t.string "name"
     t.index ["school_id"], name: "index_courses_on_school_id"
   end
 
@@ -315,6 +316,7 @@ ActiveRecord::Schema.define(version: 20210404005434) do
     t.integer "for_sex"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "deleted", default: false
     t.index ["personalisation_of_instrument_id"], name: "index_instruments_on_personalisation_of_instrument_id"
   end
 
@@ -446,7 +448,7 @@ ActiveRecord::Schema.define(version: 20210404005434) do
     t.datetime "updated_at", null: false
     t.bigint "course_id"
     t.boolean "active", default: true
-    t.bigint "id_rut"
+    t.string "id_rut"
     t.integer "sex"
     t.index ["course_id"], name: "index_students_on_course_id"
   end

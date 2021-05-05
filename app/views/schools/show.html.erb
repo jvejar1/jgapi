@@ -5,13 +5,17 @@
   <%@school.courses do |course|%>
     <tr>
       <td><%=course.students.count%></td>
-
       <td></td>
 
       <td></td>
     <tr>
     <%end%>
   </table>
+<%=form_with url:school_upload_students_path(@school.id) do |form|%>
+  <%=form.file_field :csv_file%>
+  <%=select_year Date.today, {field_name: "year"} %>
+  <%=form.submit :csv%>
+<%end%>
 <%= link_to 'Edit', edit_school_path(@school) %> |
 <%= link_to 'Back', schools_path %>
 

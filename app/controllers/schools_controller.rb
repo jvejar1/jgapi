@@ -1,9 +1,10 @@
 class SchoolsController < ApplicationController
 
-  before_action :set_school, only:[:show,:edit,:destroy,:update]
+  before_action :set_school, only:[:show,:edit,:destroy,:update, :upload_students]
 
   before_action :check_permissions, except:[:students,:schools_and_courses]
 
+  require 'csv'
   skip_before_action :authenticate_user!, only:[:students,:schools_and_courses]
   def check_permissions
     if current_user.can_admin_schools?
@@ -47,6 +48,29 @@ class SchoolsController < ApplicationController
     end
   end
 
+  def upload_students
+    if params[:csv_file].blank?
+      flash[:error] = "Especifique archivo"
+      # nothing to do, just ensure the exceptions is rescued
+      redirect_to action: 'show', id: @school.id
+      return
+    end
+     
+    csv_param = params[:csv_file]
+    @csv_file=CSV.read(csv_param.path, headers:true)
+    set_csv_file
+    year = params[:date][:year].to_i
+    csvprocessor=CSVProcessor.new()
+    student_inserter=StudentInserter.new(@school.id, year)
+  
+    csvprocessor.process(@csv_file,student_inserter,student_inserter.required_fields_with_course_name)
+  
+
+    flash[:notice]= student_inserter.report_str
+
+    redirect_to action: 'show', id: @school.id
+
+  end
 
 
 
@@ -121,6 +145,12 @@ class SchoolsController < ApplicationController
   end
   def set_school
     @school=School.find(params[:id])
+  end
+
+  def set_csv_file
+    
+   
+    
   end
 
 end

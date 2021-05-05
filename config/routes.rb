@@ -59,6 +59,8 @@ Rails.application.routes.draw do
   get '/download_csv/fonotest', to:"download_csv#fonotest", as: 'download_csv_fonotest'
   get '/get_study_info/', to:"download_csv#get_study_info", as: 'get_study_info'
 
+  post '/schoools/:id/csv', to:"schools#upload_students", as: 'school_upload_students'
+
   root to:"download_csv#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

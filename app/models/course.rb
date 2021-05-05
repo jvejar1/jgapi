@@ -3,7 +3,6 @@ class Course < ApplicationRecord
   has_many :student_courses
   has_many :students, through: :student_courses
   belongs_to :school
-  validates :school_id, uniqueness: { scope: [:level, :letter], message:"Curso existente en el colegio"}
   validate :validate_level_and_letter
   @@course_levels_by_number={1=>"PRE - KINDER",
                              2=>"KINDER",
@@ -23,17 +22,17 @@ class Course < ApplicationRecord
   end
 
   def get_full_name()
-    return @@course_levels_by_number[self.level] + ' '+ @@course_letter_by_number[self.letter]
+    unless self.name.nil? or self.name.blank?
+      return self.name
+    end
+    unless self.level.nil? or self.letter.nil?
+      return @@course_levels_by_number[self.level] + ' '+ @@course_letter_by_number[self.letter]
+    end
+    return "sin nombre"
   end
 
   def validate_level_and_letter
-    if !@@course_levels_by_number.keys.include?(self.level)
-      self.errors.add(:base,"Nivel inválido")
-      return false
-    elsif     !@@course_letter_by_number.keys.include?(self.letter)
-      self.errors.add(:base,"Letra inválida")
-      return false
-    end
+    
   end
 
   def to_string
