@@ -4,9 +4,6 @@ class StudentInserter<Inserter
     return @model_field_by_csv_field.keys
   end
 
-  def required_fields_with_course_name
-    return @model_field_by_csv_field.keys
-  end
   def initialize(course_id)
     @course_id=course_id
     @has_course_name = nil
@@ -17,19 +14,31 @@ class StudentInserter<Inserter
     @model_field_by_csv_field=Hash({"Nombre"=>"name","Apellido"=>"last_name","Rut"=>"rut", "Id"=>'id_rut'})
   end
 
-  def initialize(school_id, year)
+  def initialize(school_id, year, replace_with_rut=true)
     @courses = []
+    @replace_with_rut = replace_with_rut
     @has_course_name=true
     @ncourses = 0
     @school_id = school_id
     @year = year
     @correct_rows=0
     @incorrect_rows=0
-    @model_field_by_csv_field=Hash({"Nombre"=>"name","Apellido"=>"last_name","Rut"=>"rut", "Id"=>'id_rut', "Curso"=>"Curso"})
+  end
+  
+  @@required_fields_with_course=["Nombre","Apellido","Rut","Id", "Curso"]
+  def self.required_fields_with_course
+    @@required_fields_with_course
   end
 
+  @@required_fields=["Nombre","Apellido","Rut","Id"]
+  def self.required_fields
+    @@required_fields
+  end
+
+  
+
   def report_str
-    "#{@correct_rows} filasaaa correctas, #{@incorrect_rows} filas incorrectas, #{@ncourses} cursos distintos.\n
+    "#{@correct_rows} filas correctas, #{@incorrect_rows} filas incorrectas, #{@ncourses} cursos distintos.\n
     Cursos:
     #{@courses.join(",")}
     "
@@ -45,18 +54,33 @@ class StudentInserter<Inserter
   def insert(row)
     id_rut = row["Id"]
     rut=row["Rut"]
-    name=row["Nombre"]
-    last_name=row["Apellido"]
-    student=Student.new(name:name,last_name:last_name,rut:rut,id_rut:id_rut)
     
+    unless rut.nil?
+      rut=rut.strip.upcase
+    end
+
+    name=row["Nombre"]
+    name= name.upcase unless name.nil?
+    last_name=row["Apellido"]
+    last_name= last_name.upcase unless last_name.nil?
+    
+    if @replace_with_rut and !rut.blank? and !rut.nil?
+      student = Student.where(rut: rut).first
+      if student.nil?
+        student=Student.new(name:name,last_name:last_name,rut:rut,id_rut:id_rut)
+      end
+    else
+      student=Student.new(name:name,last_name:last_name,rut:rut,id_rut:id_rut)
+    end
+
     if student.errors.any?
       puts student.errors.as_json
       @incorrect_rows+=1
+      return
     else
 
-    student.save
-    if (@has_course_name)
-      course_name =row["Curso"]
+    course_name =row["Curso"]
+    unless course_name.nil? 
       course_name = course_name.strip
       school = School.find(@school_id)
       course = school.courses.find_by(name: course_name, year:@year)
@@ -67,14 +91,29 @@ class StudentInserter<Inserter
       end
       
       entry = DateTime.new(@year,01,01)
-      StudentCourse.create(student_id:student.id, course_id: course.id, entry: entry)
-      @correct_rows+=1
+      
+      student_in_course = course.students.where(name: name, last_name:last_name, rut:rut).first
+      if student_in_course.nil?
+        student=Student.new(name:name,last_name:last_name,rut:rut,id_rut:id_rut)
+        student.save
+      else
+        student = student_in_course
+      end
+      
+      course_association = StudentCourse.where(student_id:student.id, course_id:course.id).first
+      if course_association.nil?
+        StudentCourse.create(student_id:student.id, course_id: course.id, entry: entry)
+        @correct_rows+=1
+      end
       return
     end
-    
-    course_association = StudentCourse.create(student_id:student.id, course_id: @course_id, entry: DateTime.now)
-    @correct_rows+=1
 
+    student.save
+    course_association = StudentCourse.where(student_id:student.id, course_id: @course_id).first
+    if course_association.nil?
+      course_association = StudentCourse.create(student_id:student.id, course_id: @course_id, entry: DateTime.now)
+      @correct_rows+=1
+    end
     end
     #create the student and sum to student_created or student_creation_failed
   end

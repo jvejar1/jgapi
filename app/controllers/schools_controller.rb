@@ -22,6 +22,7 @@ class SchoolsController < ApplicationController
   end
 
   def show
+    @required_fields = StudentInserter.required_fields_with_course
   end
 
   def new
@@ -63,8 +64,7 @@ class SchoolsController < ApplicationController
     csvprocessor=CSVProcessor.new()
     student_inserter=StudentInserter.new(@school.id, year)
   
-    csvprocessor.process(@csv_file,student_inserter,student_inserter.required_fields_with_course_name)
-  
+    csvprocessor.process(@csv_file,student_inserter,StudentInserter.required_fields_with_course)
 
     flash[:notice]= student_inserter.report_str
 
