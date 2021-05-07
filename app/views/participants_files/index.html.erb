@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Participants Files</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Year</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @participants_files.each do |participants_file| %>
+      <tr>
+        <td><%= participants_file.user %></td>
+        <td><%= participants_file.year %></td>
+        <td><%= link_to 'Show', participants_file %></td>
+        <td><%= link_to 'Edit', edit_participants_file_path(participants_file) %></td>
+        <td><%= link_to 'Destroy', participants_file, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Participants File', new_participants_file_path %>

@@ -15,12 +15,11 @@
     <li><a class="active" href=<%=download_csv_url%>>Evaluaciones</a></li>
     <%if current_user
         if current_user.can_admin_users?%>
-        <li><%=link_to 'Usuarios',users_url%></li>
-        <li><%=link_to 'Colegios',schools_url%></li>
-        <li><%=link_to 'Cursos',courses_url%></li>
-
-  <%end%>
-      <!--<li><%=link_to 'Log Out',destroy_user_session_url(current_user),method: :delete, data: {confirm:'¿Está seguro/a?'}%></li-->
+          <li><%=link_to 'Usuarios',users_url%></li>
+          <li><%=link_to 'Colegios',schools_url%></li>
+          <li><%=link_to 'Cursos',courses_url%></li>
+          <li><%=link_to 'Archivos',participants_files_url%></li>
+        <%end%>
     <%end%>
 
   </ul>

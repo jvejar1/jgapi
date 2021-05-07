@@ -1,7 +1,10 @@
 class Course < ApplicationRecord
   require 'date'
   has_many :student_courses
+  accepts_nested_attributes_for :student_courses, reject_if: proc {|attributes| attributes['course_id'].blank?}
   has_many :students, through: :student_courses
+
+  accepts_nested_attributes_for :students, reject_if: proc {|attributes| attributes['name'].blank? and attributes['last_name'].blank?}
   belongs_to :school
   validate :validate_level_and_letter
   @@course_levels_by_number={1=>"PRE - KINDER",
@@ -29,6 +32,20 @@ class Course < ApplicationRecord
       return @@course_levels_by_number[self.level] + ' '+ @@course_letter_by_number[self.letter]
     end
     return "sin nombre"
+  end
+
+  def name_with_school
+    unless self.name.nil? or self.name.blank?
+      name = self.name
+      unless self.school.nil?
+        name+=" - "+self.school.name
+      end
+      return name
+    end
+
+    unless self.level.nil? or self.letter.nil?
+      return @@course_levels_by_number[self.level] + ' '+ @@course_letter_by_number[self.letter]
+    end
   end
 
   def validate_level_and_letter

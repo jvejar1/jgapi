@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :participants_files
   get 'apk/latest'
 
   devise_for :users, controllers: {

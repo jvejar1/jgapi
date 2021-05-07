@@ -11,18 +11,7 @@
     <%end%>
   </table>
 
-<p> Se requieren las columnas: <%=@required_fields%></p>
 
-<p> La columna Rut se usará para reemplazar los estudiantes.
-En caso de existir alcance de nombre y ausencia de rut en un curso, el alumno no se ingresa (hacerlo manualmente)</p>
-
-
-
-<%=form_with url:school_upload_students_path(@school.id) do |form|%>
-  <%=form.file_field :csv_file%>
-  <%=select_year Date.today, {field_name: "year"} %>
-  <%=form.submit :csv%>
-<%end%>
 <%= link_to 'Edit', edit_school_path(@school) %> |
 <%= link_to 'Back', schools_path %>
 

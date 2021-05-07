@@ -50,24 +50,8 @@ class SchoolsController < ApplicationController
   end
 
   def upload_students
-    if params[:csv_file].blank?
-      flash[:error] = "Especifique archivo"
-      # nothing to do, just ensure the exceptions is rescued
-      redirect_to action: 'show', id: @school.id
-      return
-    end
-     
-    csv_param = params[:csv_file]
-    @csv_file=CSV.read(csv_param.path, headers:true)
-    set_csv_file
-    year = params[:date][:year].to_i
-    csvprocessor=CSVProcessor.new()
-    student_inserter=StudentInserter.new(@school.id, year)
   
-    csvprocessor.process(@csv_file,student_inserter,StudentInserter.required_fields_with_course)
-
-    flash[:notice]= student_inserter.report_str
-
+    flash[:notice]= "metodo no implementado"
     redirect_to action: 'show', id: @school.id
 
   end

@@ -1,0 +1,107 @@
+<%= form_with(model: participants_file, local: true) do |form| %>
+  <% if participants_file.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(participants_file.errors.count, "error") %> prohibited this participants_file from being saved:</h2>
+
+      <ul>
+      <% participants_file.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= collection_select(:participants_file, :user_id, User.all, :id, :email)  %>
+  </div>
+
+  <div class="field">
+    <%= form.label :year %>
+    <%= form.number_field :year, id: :participants_file_year %>
+  </div>
+
+  <div class="field">
+    <%= form.label :csv_file %>
+    <%= form.file_field :csv_file, id: :csv_file %>
+  </div>
+  <div class="field">
+    <%=@schools.count%>
+    <%=form.fields_for :schools, @schools do |schools_form|%>
+      <%school_div_id= "school_n_#{@schools.index(schools_form.object)}"%>
+      <div>
+        <div class="school-title" onclick="
+        
+          div = document.getElementById('<%=school_div_id%>');
+          div.classList.toggle('field-closed');
+          div.classList.toggle('field-opened');
+        ">
+          <%=schools_form.label :name %>
+          <%=schools_form.text_field :name%>
+        </div>
+        <div id="<%=school_div_id%>" class="field-closed school-body">
+            <%=schools_form.fields_for :courses, schools_form.object.courses do |course_fields|%>
+              <%course_div_id="#{school_div_id}_course_n_#{schools_form.object.courses.index(course_fields.object)}"%>
+             
+              <div class="course-title" onclick="
+                div = document.getElementById('<%=course_div_id%>');
+                div.classList.toggle('field-closed');
+                div.classList.toggle('field-opened');
+              ">
+                <%=course_fields.label :name%>
+                <%=course_fields.text_field :name%>
+              </div>
+              <div id="<%=course_div_id%>" class="field-closed course-body">
+              
+                <%=course_fields.fields_for :students, course_fields.object.students do |student_fields|%>
+                  <div>
+                    <%=student_fields.label :name%>
+                    <%=student_fields.text_field :name%>
+                    <%=student_fields.label :last_name%>
+                    <%=student_fields.text_field :last_name%>
+                    <%=student_fields.label :rut%>
+                    <%=student_fields.text_field :rut%>
+
+                    <%=student_fields.label :id_rut%>
+                    <%=student_fields.text_field :id_rut%>
+                  </div>
+
+                <%end%>
+            
+               
+
+              </div>
+              <hr>
+            <%end%>
+        </div>
+        <hr>
+        
+      </div>
+    <%end%>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<style>
+  .field-closed{
+    display:none;
+  }
+  .school-title{
+    background-color:#AAAAAA;
+    border-radius:2px;
+  }
+  .course-body{
+
+  }
+  .school-body, .course-body{
+    padding:10px 10px 10px 30px;
+  }
+
+  .field-opened{
+    height:auto
+  }
+</style>

@@ -4,8 +4,7 @@ class Student < ApplicationRecord
   before_save :clean_fields
 
   def clean_fields
-    self.name=self.name.upcase
-    self.last_name=self.last_name.upcase
+
   end
 
   def get_evaluations_number(test)
