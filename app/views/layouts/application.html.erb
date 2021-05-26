@@ -30,7 +30,9 @@
 
     <div class="container-fluid" id="main">
       <% flash.each do |key, value| %>
-            <div class="<%=flash_class(key)%>"> <%= sanitize(value,:tags=>%w(p strong br) ) %></div>
+        <%unless key==:timedout %>
+          <div class="<%=flash_class(key)%>"> <%= sanitize(value,:tags=>%w(p strong br) ) %></div>
+        <%end %>
       <% end %>
 
       <%= yield %>
