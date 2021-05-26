@@ -1,12 +1,11 @@
 
-
-<h1>Evaluaciones</h1>
+<br/>
+<h1>Reporte en formato CSV</h1>
 <hr>
-<p>Existe un total de <%=@evaluations_count%> evaluaciones en el sistema</p>
+<p id="count-summary">Existe un total de <%=@evaluations_count%> evaluaciones en el sistema</p>
 
-
-
-  <div class="row" >
+<h5> Filtros</h5>
+  <div class="row filters" >
     <div class="col-sm-3">
   <select onchange="selected_study()" name="study" id="study_select" class ="browser-default custom-select">
     <%@studies.each do |study| %>
@@ -14,7 +13,6 @@
     <% end %>
   </select>
     </div>
-
     <div class="col-sm-3" >
       <div class="multiselect" id="school_multiselect">
         <div class="selectBox" onclick="showCheckboxes('school_checkboxes')">
@@ -23,14 +21,11 @@
           </select>
           <div class="overSelect" id="schools_button"></div>
         </div>
-        <div class="checkboxes pre-scrollable" id="school_checkboxes" style="border-radius: 3px; display: none; width:80%">
+        <div class="checkboxes pre-scrollable" id="school_checkboxes" style="border-radius: 3px; display: none; width:80%; z-index: 3;">
 
         </div>
       </div>
     </div>
-
-
-
     <div class="col-sm-2" style="margin-left: -2%">
     <div class="multiselect">
       <div class="selectBox" onclick="showCheckboxes('moment_checkboxes')">
@@ -39,7 +34,7 @@
         </select >
         <div class="overSelect" id="moments_button"></div>
       </div>
-      <div class="checkboxes" id="moment_checkboxes" style="border-radius: 3px; width:75%">
+      <div class="checkboxes" id="moment_checkboxes" style="border-radius: 3px; width:75%; z-index: 3">
         <label for="one">
           <input type="checkbox" id="one" value=1 />First checkbox</label>
         <label for="two">
@@ -51,73 +46,41 @@
 
     </div>
   </div>
-
-
-
-  <div class="row" style=" margin-top: 2%; padding-left: 2%" >
-
-    <div class="col-sm-6" style="z-index: -1;position:absolute;">
-
-      <div class="row" style="border: solid #730E15 1px;padding-top:1%">
-
-        <div class="col-sm-9 ">
-          <h4 style="z-index: -1;">Aces (<%=@ace_evaluations_count%>)</h4>
-        </div>
-        <div class="col-md-1" style="margin-right: 0">
-          <input type="button" class="btn btn-info btn-sm" onclick="get_csv('aces')" value="Descargar CSV" />
-        </div>
+<br>
+<h5> Exportar archivo</h5>
+  <ul>
+    <li>
+      <div class="instrument-container" >
+          <p >Aces (<%=@ace_evaluations_count%>)</p>
+          <input type="button" class="btn btn-success btn-sm download-btn" onclick="get_csv('aces')" value="Descargar &#8681;" />
       </div>
-
-      </br>
-      <div class="row" style="border: solid #730E15 1px;padding-top:1%">
-
-        <div class="col-sm-9 ">
-          <h4>Wally (<%=@wally_evaluations_count%>)</h4>
-        </div>
-        <div class="col-md-1" style="margin-right: 0">
-          <input type="button" class="btn btn-dark btn-sm" onclick="get_csv('wally')" value="Descargar CSV" />
-        </div>
+    </li>
+    <li>
+      <div class="row instrument-container">
+          <p>Wally (<%=@wally_evaluations_count%>)</p>
+          <input type="button" class="btn btn-success btn-sm download-btn" onclick="get_csv('wally')" value="Descargar &#8681;" />
       </div>
-
-      <br>
-
-      <div class="row" style="border: solid #730E15 1px;padding-top:1%">
-
-        <div class="col-sm-9 ">
-          <h4>Corsi (<%=@corsi_evaluations_count%>)</h4>
-        </div>
-        <div class="col-md-1" style="margin-right: 0">
-          <input type="button" class="btn btn-info btn-sm" onclick="get_csv('corsi')" value="Descargar CSV" />
-        </div>
+    </li>
+    <li>
+      <div class="row instrument-container" >
+          <p>Corsi (<%=@corsi_evaluations_count%>)</p>
+          <input type="button" class="btn btn-success btn-sm download-btn" onclick="get_csv('corsi')" value="Descargar &#8681;" />
       </div>
-
-      </br>
-      <div class="row" style="border: solid #730E15 1px;padding-top:1%">
-
-        <div class="col-sm-9 ">
-          <h4>C&Flores (<%=@hnf_evaluations_count%>)</h4>
-        </div>
-        <div class="col-md-1" style="margin-right: 0">
-          <input type="button" class="btn btn-dark btn-sm" onclick="get_csv('hnf')" value="Descargar CSV" />
-        </div>
+    </li>
+    <li>
+      <div class="row instrument-container">
+        <p>C&Flores (<%=@hnf_evaluations_count%>)</p>
+        <input type="button" class="btn btn-success btn-sm download-btn" onclick="get_csv('hnf')" value="Descargar &#8681;" />
       </div>
-      </br>
-      <div class="row" style="border: solid #730E15 1px;padding-top:1%">
-
-        <div class="col-sm-9 ">
-          <h4>Fonológico (<%=@fonotest_evaluations_count%>)</h4>
-        </div>
-        <div class="col-md-1" style="margin-right: 0">
-          <input type="button" class="btn  btn-info btn-sm" onclick="get_csv('fonotest')" value="Descargar CSV" />
-        </div>
+    </li>
+    <li>
+      <div class="row instrument-container">
+        <p>Fonológico (<%=@fonotest_evaluations_count%>)</p>
+        <input type="button" class="btn btn-success btn-sm download-btn" onclick="get_csv('fonotest')" value="Descargar &#8681;" />
       </div>
-      <br>
+    </li>
+  </ul>
 
-
-    </div>
-
-
-  </div>
 
 
 
@@ -353,6 +316,36 @@
 </script>
 <style>
 
+  #count-summary{
+      margin-left: 20px;
+  }
+  .filters{
+      margin-top:5px;
+      margin-left: 20px;
+  }
+  ul{
+      margin-left: 40px;
+      padding: 2px 13px 13px 13px;
+  }
+  .instrument-container{
+      position:relative;
+      padding:5px 5px 5px 5px;
+      margin-left: 5px;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content: flex-start;
+      align-items: center;
+  }
+
+  .instrument-container>p{
+      margin-bottom: unset;
+  }
+
+  .download-btn{
+      margin-left: 5px;
+  }
+
+
   .multiselect {
     width: 90%;
   }
@@ -375,9 +368,9 @@
     display: none;
     border: 1px #dadada solid;
     background-color: #ffffff;
-    padding-left: 2%;
-    padding-right: 2%;
+    padding: 10px 10px 10px 10px;
     position: absolute;
+    box-shadow: 5px 5px 5px gray;
   }
 
   #checkboxes label {

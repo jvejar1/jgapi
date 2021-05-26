@@ -14,7 +14,7 @@
   <tbody>
     <% @participants_files.each do |participants_file| %>
       <tr>
-        <td><%= participants_file.user %></td>
+        <td><%= participants_file.user.email unless participants_file.user.nil? %></td>
         <td><%= participants_file.year %></td>
         <td><%= link_to 'Show', participants_file %></td>
         <td><%= link_to 'Edit', edit_participants_file_path(participants_file) %></td>

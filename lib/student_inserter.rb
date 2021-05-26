@@ -35,7 +35,10 @@ class StudentInserter<Inserter
     @ncourses = 0
     @nschools = 0
     @correct_rows=0
+    @inserted_rows=0
+    @updated_rows=0
     @incorrect_rows=0
+    @not_changed_rows=0
     @errors=[]
   end
 
@@ -43,6 +46,13 @@ class StudentInserter<Inserter
     @participants_file = participants_file
   end
 
+  def have_errors?
+    !@errors.empty?
+  end
+
+  def get_errors_rows
+    @errors
+  end
   
   @@required_fields_with_course=["Nombre","Apellido","Rut","Id", "Curso"]
   def self.required_fields_with_course
@@ -60,10 +70,9 @@ class StudentInserter<Inserter
   end
 
   def report_str
-    "#{@correct_rows} filas correctas, #{@incorrect_rows} filas incorrectas, #{@nschools} escuelas,#{@ncourses} cursos distintos.\n
+    "(CSV) #{@inserted_rows} filas insertadas, #{@updated_rows} filas actualizadas, #{@not_changed_rows} correctas sin cambios, #{@incorrect_rows} filas incorrectas,  #{@nschools} escuelas,#{@ncourses} cursos distintos.\n
     Cursos:
-    #{@courses.join(",")}
-    "
+    #{@courses.join(",")}"
   end
 
   def get_correct_rows
@@ -74,15 +83,17 @@ class StudentInserter<Inserter
   end
 
   def insert_using_participants_file(row)
+    row_idx = row["index"]
     id_rut = row["Id"]
     rut=row["Rut"]
+    rut = "" if rut.blank?
     name=row["Nombre"]
     last_name=row["Apellido"]
     course_name =row["Curso"]
     school_name =row["Colegio"]
   
-    id_rut = id_rut.strip.upcase unless id_rut.nil?
-    rut = rut.strip.upcase unless rut.nil?
+    id_rut = id_rut.strip.upcase unless id_rut.blank?
+    rut = rut.strip.upcase unless rut.blank?
     name=name.upcase.strip unless name.nil?
     last_name= last_name.upcase.strip unless last_name.nil?
     course_name = course_name.strip.upcase unless course_name.nil?
@@ -91,20 +102,21 @@ class StudentInserter<Inserter
     if school.nil?
       school = School.create(name:school_name)
       @participants_file.schools<<school
-      @participants_file.save
+      school.save
     end
 
     course = school.courses.where(name:course_name).first
     if course.nil?
       course = Course.create(name:course_name)
-      school.courses<< course  
+      school.courses<< course
+      course.save
     end
     
     entry = Date.today
-    unless rut.blank? and rut.nil? #replacement with rut, it can be id_rut
+    unless id_rut.blank? #replacement with id_rut
       all_student_ids = @participants_file.schools.map{|s| s.courses}.flatten.map{|c| c.student_courses}.flatten.map{|sc| sc.student_id}.flatten
       all_students = Student.where(id: all_student_ids)
-      old_student = all_students.where(rut: rut).first
+      old_student = all_students.where(id_rut: id_rut).first
       unless old_student.nil?
         old_course_assoc = @participants_file.schools.map{|s| s.courses}.flatten.map{|c| c.student_courses}.flatten.select{|sc| sc.student_id == old_student.id}.first
         old_course = Course.find(old_course_assoc.course_id)
@@ -112,21 +124,29 @@ class StudentInserter<Inserter
         unless old_course_is_current_course
           old_course.students.delete(old_student)
           StudentCourse.create(course:course, entry:entry, student:old_student)
+          @updated_rows+=1
+        else
+          @not_changed_rows
         end
       else
         student = Student.new(name:name, last_name:last_name, rut:rut, id_rut:id_rut)
+        student.save
         StudentCourse.create(course:course, entry:entry, student:student)
+        @inserted_rows+=1
       end
     else
       old_student_current_course = course.students.where(name: name, last_name:last_name, rut:rut).first
       if old_student_current_course.nil?
-        student = Student.new(name:name, last_name:last_name, rut:rut, id_rut:id_rut)
+        student = Student.new(name:name, last_name:last_name, rut:rut)
+        student.save
         StudentCourse.create(course:course, entry:entry, student:student)
+        @inserted_rows+=1
       else
-        @errors<<"Alcance de nombre y rut en el curso para la fila #{row.fields.join(",")}. Cambie el rut."
+        @incorrect_rows+=1
+        @errors<<"(CSV) Alcance de nombre y rut en el curso para la fila ##{row_idx+1}: #{row.fields.join(",")}. Cambie el rut."
       end
     end
-    course.save
+
   end
 
   def insert(row)

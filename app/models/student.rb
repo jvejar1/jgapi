@@ -20,7 +20,7 @@ class Student < ApplicationRecord
   end
 
   def get_full_name
-    return self.last_name + ' ' + self.name
+    return self.last_name.to_s + ' ' + self.name.to_s
   end
 
 end

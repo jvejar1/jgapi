@@ -15,20 +15,31 @@ class ParticipantsFilesController < ApplicationController
   # GET /participants_files/new
   def new
     @participants_file = ParticipantsFile.new
+    @schools = @participants_file.schools
+    @schools.build()
+
   end
 
   # GET /participants_files/1/edit
   def edit
     @selectable_courses = Course.where(id: @participants_file.schools.map{|s| s.courses}.flatten.map{|c| c.id})
     @schools = @participants_file.schools
+    @course_change_url = {}
     @schools.each do |school|
       school.courses.each do |course|
+        if @course_change_url[course.id].nil?
+          @course_change_url[course.id]={}
+        end
+
+        course.student_courses.each do |sc|
+          url=edit_student_course_url(sc.id, :redirect_to=>request.url, :back_url=>request.url, :courses=>@selectable_courses.map{|c| c.id}, :edit_student=> false,)
+          @course_change_url[course.id][sc.student.id]= url
+        end
         course.students.build()
-        #course.student_courses.where(student_id:nil).first.update(course_id: nil)
+        @course_change_url[course.id][nil]="#"
       end
       school.courses.build(students:[])
     end
-
     @participants_file.schools.build(courses: [])
   end
 
@@ -55,7 +66,8 @@ class ParticipantsFilesController < ApplicationController
     params =participants_file_params
     csv_file = params[:csv_file]
     params.delete("csv_file")
-    notice = []
+    notices = []
+    errors=[]
     unless csv_file.nil?
       @csv_file=CSV.read(csv_file.path, headers:true)
       csvprocessor=CSVProcessor.new()
@@ -68,21 +80,27 @@ class ParticipantsFilesController < ApplicationController
       StudentInserter.required_fields_with_school_and_course,
       student_inserter.method(:insert_using_participants_file))      
 
-      csvprocessor.report_str
-
-      flash[:notice]= student_inserter.report_str
-      notice << student_inserter.report_str
+      if student_inserter.have_errors?
+        errors+= student_inserter.get_errors_rows
+      end
+      notices << student_inserter.report_str
     end
-    
+
     respond_to do |format|
       if @participants_file.update(params)
+
+        flash[:error]= errors.join("<br>") unless errors.empty?
+
         format.html { 
-          notice<< "Participants file was successfully updated."
-          redirect_to @participants_file, notice: notice.join(". ")
+          notices<< "Participants file was successfully updated."
+          redirect_to @participants_file, notice: notices.join("<br>")
         }
         format.json { render :show, status: :ok, location: @participants_file }
       else
-        puts @participants_file.errors.to_json
+        errors<< @participants_file.errors
+
+        flash[:error]= errors.join("<br>")
+
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @participants_file.errors, status: :unprocessable_entity }
       end
@@ -116,6 +134,8 @@ class ParticipantsFilesController < ApplicationController
           courses_attributes:[
             :id,
             :name,
+            :level,
+            :letter,
             students_attributes:[
               :id,
               :name,

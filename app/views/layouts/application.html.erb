@@ -11,41 +11,41 @@
   <body>
 
 
-  <ul>
-    <li><a class="active" href=<%=download_csv_url%>>Evaluaciones</a></li>
-    <%if current_user
-        if current_user.can_admin_users?%>
+  <nav>
+
+    <ul>
+      <li><a class="active" href=<%=download_csv_url%>>Evaluaciones</a></li>
+      <%if current_user
+          if current_user.can_admin_users?%>
           <li><%=link_to 'Usuarios',users_url%></li>
           <li><%=link_to 'Colegios',schools_url%></li>
           <li><%=link_to 'Cursos',courses_url%></li>
           <li><%=link_to 'Archivos',participants_files_url%></li>
         <%end%>
-    <%end%>
+      <%end%>
 
-  </ul>
-
-
-
+    </ul>
+  </nav>
 
 
-  <div class="container" style="margin-top: 2%">
-    <% flash.each do |key, value| %>
-          <div class="<%=flash_class(key)%>"><%= value %></div>
-    <% end %>
-  <%= yield %>
+    <div class="container-fluid" id="main">
+      <% flash.each do |key, value| %>
+            <div class="<%=flash_class(key)%>"> <%= sanitize(value,:tags=>%w(p strong br) ) %></div>
+      <% end %>
 
-</div>
+      <%= yield %>
+    </div>
   </body>
 </html>
 
 
 <style>
 
-  body{
-
+  body,html{
     background: #f0f3f8;
+    height:100%;
   }
-  ul {
+  nav>ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -53,11 +53,11 @@
     background-color: #333;
   }
 
-  li {
+  nav>ul>li {
     float: left;
   }
 
-  li a {
+  nav>ul>li>a {
     display: block;
     color: white;
     text-align: center;
@@ -65,7 +65,7 @@
     text-decoration: none;
   }
 
-  li a:hover {
+  nav>ul>li>a:hover {
     background-color: #111;
   }
 </style>

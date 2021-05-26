@@ -23,7 +23,8 @@ class CSVProcessor
       end
     end
 
-    csv.each do |row|
+    csv.each_with_index do |row,idx|
+      row["index"]=idx
       unless insert_method.nil?
         insert_method.call(row)
       else

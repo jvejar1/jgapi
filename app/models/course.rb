@@ -44,7 +44,7 @@ class Course < ApplicationRecord
     end
 
     unless self.level.nil? or self.letter.nil?
-      return @@course_levels_by_number[self.level] + ' '+ @@course_letter_by_number[self.letter]
+      return @@course_levels_by_number[self.level] + ' '+ @@course_letter_by_number[self.letter]+" - "+ school.name unless school.nil?
     end
   end
 
