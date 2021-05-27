@@ -1,0 +1,39 @@
+<%= form_with(model: student_course, local: true) do |form| %>
+  <% if student_course.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(student_course.errors.count, "error") %> prohibited this student_course from being saved:</h2>
+
+      <ul>
+      <% student_course.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%=hidden_field_tag 'redirect_to', @redirect_to%>
+  <div class="field">
+    <%= form.label :student_name %>
+    <%student_name = if student_course.student.nil? then "No asignado" else student_course.student.get_full_name end%>
+    <%= form.label "#{student_name}", id: student_name%>
+  </div>
+  <%if @edit_student!=false%>
+    <div class="field">
+      <%= form.label :student_id %>
+      <%= form.collection_select(:student_id, Student.all, :id,:get_full_name) %>
+    </div>
+  <%end%>
+
+  <div class="field">
+    <%= form.label :course_id %>
+    <%= form.collection_select :course_id, @courses.nil? ? Course.all : @courses, :id, :name_with_school%>
+  </div>
+
+  <div class="field">
+    <%= form.label :entry %>
+    <%= form.datetime_select :entry, id: :student_course_entry %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

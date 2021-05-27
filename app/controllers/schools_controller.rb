@@ -1,9 +1,10 @@
 class SchoolsController < ApplicationController
 
-  before_action :set_school, only:[:show,:edit,:destroy,:update]
+  before_action :set_school, only:[:show,:edit,:destroy,:update, :upload_students]
 
   before_action :check_permissions, except:[:students,:schools_and_courses]
 
+  require 'csv'
   skip_before_action :authenticate_user!, only:[:students,:schools_and_courses]
   def check_permissions
     if current_user.can_admin_schools?
@@ -21,6 +22,7 @@ class SchoolsController < ApplicationController
   end
 
   def show
+    @required_fields = StudentInserter.required_fields_with_course
   end
 
   def new
@@ -47,6 +49,12 @@ class SchoolsController < ApplicationController
     end
   end
 
+  def upload_students
+  
+    flash[:notice]= "metodo no implementado"
+    redirect_to action: 'show', id: @school.id
+
+  end
 
 
 
@@ -121,6 +129,12 @@ class SchoolsController < ApplicationController
   end
   def set_school
     @school=School.find(params[:id])
+  end
+
+  def set_csv_file
+    
+   
+    
   end
 
 end

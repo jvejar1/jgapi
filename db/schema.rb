@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210504033517) do
+ActiveRecord::Schema.define(version: 20210506172433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(version: 20210504033517) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "year"
+    t.string "name"
     t.index ["school_id"], name: "index_courses_on_school_id"
   end
 
@@ -386,6 +387,14 @@ ActiveRecord::Schema.define(version: 20210504033517) do
     t.index ["item_id"], name: "index_open_answers_on_item_id"
   end
 
+  create_table "participants_files", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_participants_files_on_user_id"
+  end
+
   create_table "pictures", force: :cascade do |t|
     t.string "image_file_name"
     t.string "image_content_type"
@@ -404,7 +413,9 @@ ActiveRecord::Schema.define(version: 20210504033517) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "group"
+    t.bigint "participants_file_id"
     t.index ["commune_id"], name: "index_schools_on_commune_id"
+    t.index ["participants_file_id"], name: "index_schools_on_participants_file_id"
   end
 
   create_table "situation_sets", force: :cascade do |t|
@@ -447,7 +458,7 @@ ActiveRecord::Schema.define(version: 20210504033517) do
     t.datetime "updated_at", null: false
     t.bigint "course_id"
     t.boolean "active", default: true
-    t.bigint "id_rut"
+    t.string "id_rut"
     t.integer "sex"
     t.index ["course_id"], name: "index_students_on_course_id"
   end
@@ -608,7 +619,9 @@ ActiveRecord::Schema.define(version: 20210504033517) do
   add_foreign_key "moments", "studies"
   add_foreign_key "open_answers", "evaluations"
   add_foreign_key "open_answers", "items"
+  add_foreign_key "participants_files", "users"
   add_foreign_key "schools", "communes"
+  add_foreign_key "schools", "participants_files"
   add_foreign_key "situation_sets", "wallies"
   add_foreign_key "situation_sets", "wsituations"
   add_foreign_key "student_courses", "courses"

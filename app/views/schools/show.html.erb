@@ -1,17 +1,17 @@
-<p id="notice"><%= notice %></p>
+
 <%= @school.name %>
 <br>
 <table>
   <%@school.courses do |course|%>
     <tr>
       <td><%=course.students.count%></td>
-
       <td></td>
-
       <td></td>
     <tr>
     <%end%>
   </table>
+
+
 <%= link_to 'Edit', edit_school_path(@school) %> |
 <%= link_to 'Back', schools_path %>
 

@@ -10,8 +10,14 @@
       </ul>
     </div>
   <% end %>
-  <%=form.label :school_id,"Institucion"%>
-
+  <div class="field">
+    <%=form.label :name%>
+    <%=form.text_field :name%>
+  </div>
+  <div class="field">
+  <%=form.label :year, "Año"%>
+  <%=form.select(:year, Date.today.year-3..Date.today.year+3,{include_blank: 'Seleccione'},id: :course_year)%>
+  </div>
   <%=form.select(:school_id,School.all.collect{|school| [school.name,school.id]},{include_blank: 'Seleccione'})%>
   <div class="field">
   <%=form.label :level, "Nivel"%>

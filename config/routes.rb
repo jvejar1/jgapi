@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :participants_files
   get 'apk/latest'
 
   devise_for :users, controllers: {
@@ -75,6 +76,10 @@ Rails.application.routes.draw do
   resources :moments
   
   resources :instruments
+
+  post '/schoools/:id/csv', to:"schools#upload_students", as: 'school_upload_students'
+
+  resources :student_courses
 
   root to:"download_csv#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

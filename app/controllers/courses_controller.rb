@@ -52,7 +52,7 @@ class CoursesController < ApplicationController
 
     rescue Exception =>e
       flash[:notice]=e.to_s
-      render :show
+      redirect_to action: 'show', id: @course.id
       return
     end
 
@@ -88,6 +88,6 @@ class CoursesController < ApplicationController
     @course = Course.find(params[:id])
   end
   def course_params
-    params.require(:course).permit(:level,:letter,:school_id)
+    params.require(:course).permit(:level,:letter,:school_id, :year)
   end
 end

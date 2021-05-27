@@ -10,8 +10,7 @@ class ApplicationController < ActionController::Base
   end
   private
   def authenticate_token
-    authenticate_or_request_with_http_token do |token,options|      
-      
+    authenticate_or_request_with_http_token do |token,options|
       begin
         token = JWT.decode(token, 'none', false)
         payload = token[0]

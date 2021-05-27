@@ -8,30 +8,43 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body>
-    <div id="nav-bar">
-        <%if current_user%>
-            <span><a class="active" href=<%=download_csv_url%>>Evaluaciones</a></span>
-            <%if current_user.is_admin?%>
-              <span><%=link_to 'Usuarios',users_url%></span>
-              <span><%=link_to 'Colegios',schools_url%></span>
-              <span><%=link_to 'Cursos',courses_url%></span>
 
-              <span><%=link_to 'Estudios', studies_url%></span>
-              <span><%=link_to 'Momentos', moments_path%></span>
-              <span><%=link_to 'Instrumentos', instruments_path%></span>
+  <nav>
+    <ul>
+      <li><a class="active" href=<%=download_csv_url%>>Evaluaciones</a></li>
+      <%if current_user
+          if current_user.can_admin_users?%>
+          <li><%=link_to 'Usuarios',users_url%></li>
+          <li><%=link_to 'Colegios',schools_url%></li>
+          <li><%=link_to 'Cursos',courses_url%></li>
+          <li><%=link_to 'Archivos',participants_files_url%></li>
+          <li><%=link_to 'Estudios', studies_url%></li>
+          <li><%=link_to 'Momentos', moments_path%></li>
+          <li><%=link_to 'Instrumentos', instruments_path%></li>
 
-            <%end%>
-            <span>
-              <%=form_with(url:destroy_user_session_url, method: :delete, :html=>{method: "DELETE",style:"display:inline; float:right"}) do |form|%>
-                <%=form.submit 'salir', data: {confirm: "¿Salir?"} %>
-              <%end%>
-            </span>
-        <%end%>    
-    </div>
-    <div class="container" style="margin-top: 2%">
+        <%end%>
+      <%end%>
+
+        <li id="nav-logout-item">
+          <%=form_with(url:destroy_user_session_url, method: :delete, :html=>{method: "DELETE",style:"display:inline; float:right"}) do |form|%>
+            <%=form.submit 'salir', data: {confirm: "¿Salir?"} %>
+          <%end%>
+
+        </li>
+
+
+    </ul>
+  </nav>
+
+
+    <div class="container-fluid" id="main">
       <% flash.each do |key, value| %>
-            <div class="<%=flash_class(key)%>"><%= value %></div>
+        <%begin %>
+          <div class="<%=flash_class(key)%>"> <%= sanitize(value,:tags=>%w(p strong br) ) %></div>
+        <%rescue%>
+        <%end %>
       <% end %>
+
       <%= yield %>
     </div>
   </body>
@@ -39,26 +52,43 @@
 
 
 <style>
-
-  body{
+  body,html{
     background: #f0f3f8;
+    height:100%;
   }
 
-  #nav-bar{
+
+  nav>ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
     background-color: #333;
-    padding-top:10px;
-    padding-bottom:10px;
-    padding-left:10px;
-    padding-right:10px;
+
+  }
+  nav>ul>li {
+      float: left;
+      padding: 10px 15px 15px 10px;
   }
 
-  #nav-bar>span{
-    padding: 10px 20px 10px 0px;
-  }
-  
-  #nav-bar>span>a{
-    color:#ffffff
+
+  #nav-logout-item{
+      position: absolute;
+      right:20px;
   }
 
- 
+  #nav-logout-item>form{
+
+  }
+
+  nav>ul>li>a {
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  nav>ul>li>a:hover {
+    color: #ffffff;
+  }
 </style>

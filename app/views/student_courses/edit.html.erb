@@ -1,0 +1,13 @@
+<h1>Editing Student Course</h1>
+
+
+<%unless @back_url.nil?%>
+    <%= render 'form', student_course: @student_course %>
+    <%= link_to 'Back', @back_url %>
+<%else%>
+
+    <%= render 'form', student_course: @student_course %>
+    <%= link_to 'Show', @student_course %> |
+    <%= link_to 'Back', student_courses_path %>
+<%end%>
+

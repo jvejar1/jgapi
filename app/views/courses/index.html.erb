@@ -14,6 +14,8 @@
       <tr>
 
         <td><%= course.school.name unless course.school.nil? %></td>
+
+        <td><%= course.get_full_name %></td>
         <td><%= Course.course_level_hash[course.level] %></td>
         <td><%= Course.course_letter_hash[course.letter] %></td>
         <td><%= link_to 'Show', course %></td>

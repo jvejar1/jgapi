@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-<p><%=Course.course_level_hash[@course.level]+" "+Course.course_letter_hash[@course.letter] +" "+@course.school.name unless @course.school.nil? %></p>
+<p><%=@course.get_full_name+" "+@course.school.name unless @course.school.nil? %></p>
 <p><%=@students_count %> alumnos</p>
 <%= link_to 'Edit', edit_course_path(@course) %> |
 <%= link_to 'Back', courses_path %>
