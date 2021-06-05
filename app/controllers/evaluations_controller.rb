@@ -10,16 +10,32 @@ class EvaluationsController < ApplicationController
   #TODO: respond to erase
   require 'json'
   def create
-
     evaluation_json = params[:evaluation]
-    if evaluation_json.is_a? String
-      evaluation_json = JSON.parse(evaluation_json)
+    unless evaluation_json.nil?
+      instrument_id = evaluation_json["instrumentId"]
+      instrument= Instrument.find(instrument_id)
       evaluation = Evaluation.new instrument_id: evaluation_json["instrumentId"], user_id: evaluation_json["userId"], student_id: evaluation_json["studentId"], realized_at: evaluation_json["timestamp"]
       evaluation.save
       _answers = evaluation_json["itemAnswerList"]
       _answers.each do |answer|
-        open_answer = OpenAnswer.new(item_id: answer["itemId"], answer_text: answer["answer"], latency_seconds: answer["latencySeconds"], evaluation_id: evaluation.id)
-        open_answer.save
+        answer["choiceSelections"].each { |cs|
+          evaluation_id = evaluation.id
+          ChoiceAnswer.create(choice_id: cs["choiceId"], evaluation_id:evaluation_id, latency_seconds: cs["latencySeconds"])
+        }
+        item_id = answer["itemId"]
+        item = Item.find(item_id)
+        if item.item_type_id.nil?
+          OpenAnswer.create(item_id: answer["itemId"], answer_text: answer["answer"], latency_seconds: answer["latencySeconds"], evaluation_id: evaluation.id)
+        end
+      end
+
+      instrument.constructs.each do |construct|
+        if construct.calculation_type_id==1
+          correct_choices = construct.items.map{|item| item.choices.where(is_correct:true)}.flatten
+          result = evaluation.choice_answers.where(choice: correct_choices).count
+          ecs = EvaluationConstructScore.create(evaluation: evaluation, construct: construct, score:result)
+          evaluation.evaluation_construct_scores.push(ecs)
+        end
       end
       render json:{request_id_to_delete:params[:request_id_to_delete],headers:{:status=>200}},:status=>:ok
       return
