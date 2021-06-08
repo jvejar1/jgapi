@@ -60,6 +60,8 @@ Rails.application.routes.draw do
   get '/download_csv/fonotest', to:"download_csv#fonotest", as: 'download_csv_fonotest'
   get '/get_study_info/', to:"download_csv#get_study_info", as: 'get_study_info'
 
+  get 'download_csv/instrument_report/:instrument_id', to: "download_csv#instrument_report"
+
   get '/studies', to:"studies#index", as:'studies'
   get '/studies/:id', to:"studies#show", as:'show_study'
   get '/studies/:id', to:"studies#show", as:'study'

@@ -23,7 +23,7 @@ wally.situation_sets.order(:index).map{|ss| ss.wsituation}.each_with_index do |s
   situation_img = File.open(situation.picture.image.path(:horizontal))
   situation_picture = Picture.new(image:situation_img)
   situation_description = data[idx][0]
-  situation_item = Item.new(order: current_itm_order, item_type_id:102, description:situation_description, picture: situation_picture, report_header_prefix_choice_value:nil)
+  situation_item = Item.new(order: current_itm_order, item_type_id:102, description:situation_description, picture: situation_picture)
   current_itm_order+=1
   items<< situation_item
   orders = orders.shuffle
@@ -40,8 +40,8 @@ wally.situation_sets.order(:index).map{|ss| ss.wsituation}.each_with_index do |s
   end
 
   reportable_index = idx+1
-  header_prefix_itm1="wally_emotion_#{reportable_index}_"
-  itm1 = Item.new(order: current_itm_order, item_type_id:2, description:itm1_text, choices: itm1_choices, report_header_prefix_choice_value: header_prefix_itm1)
+  header_prefix_itm1="wally_emotion_"
+  itm1 = Item.new(order: current_itm_order, item_type_id:2, description:itm1_text, choices: itm1_choices, report_header_prefix_choice_value: header_prefix_itm1, reportable_index:reportable_index)
   current_itm_order+=1
   items<<itm1
   orders = orders.shuffle
@@ -56,8 +56,8 @@ wally.situation_sets.order(:index).map{|ss| ss.wsituation}.each_with_index do |s
     itm2_choices<< Choice.new(choice_text: choice_text, choice_value: choice_value, picture:picture, order:choice_order)
   end
 
-  header_prefix_itm2 = "wally_behaviour_#{reportable_index}_"
-  items<< Item.new(order: current_itm_order, item_type_id:2, description: itm2_text, choices: itm2_choices, report_header_prefix_choice_value:header_prefix_itm2)
+  header_prefix_itm2 = "wally_behaviour_"
+  items<< Item.new(order: current_itm_order, item_type_id:2, description: itm2_text, choices: itm2_choices, report_header_prefix_choice_value:header_prefix_itm2, reportable_index:reportable_index)
   current_itm_order+=1
 end
 

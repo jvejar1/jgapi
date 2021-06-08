@@ -25,7 +25,8 @@ class Course < ApplicationRecord
   end
 
   def full_name
-    return self.school.name.to_s+": "+@@course_levels_by_number[self.level].to_s + ' '+ @@course_letter_by_number[self.letter].to_s
+    school_name = (self.school.nil?) ? "Sin escuela" : self.school.name
+    return "#{school_name}"+": "+"#{@@course_levels_by_number[self.level].to_s}" + ' '+ "#{@@course_letter_by_number[self.letter].to_s}"
   end
 
   def get_full_name()

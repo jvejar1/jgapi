@@ -79,6 +79,15 @@
         <input type="button" class="btn btn-success btn-sm download-btn" onclick="get_csv('fonotest')" value="Descargar &#8681;" />
       </div>
     </li>
+
+    <%@instruments.each do |instrument| %>
+      <li>
+        <div class="row instrument-container">
+          <p><%=instrument.name%></p>
+          <input type="button" class="btn btn-success btn-sm download-btn" onclick="get_csv_report(<%=instrument.id%>)" value="Descargar &#8681;" />
+        </div>
+      </li>
+    <% end %>
   </ul>
 
 
@@ -223,13 +232,24 @@
       window.location = generate_download_url(test_name,selected_study_id,selected_school_ids,selected_moment_ids)
   }
 
+  function get_csv_report(instrument_id){
+      var study_id = get_selected_study_id();
+      study_param = "study_id="+study_id;
+      var school_ids = get_selected_school_ids()
+      school_ids_param = school_ids.map(val => "school_ids[]="+val).join("&")
+      moment_ids = getSelectedMomentIds();
+      moment_ids_param = moment_ids.map(id=> "moment_ids[]="+id).join("&")
+      download_url = "/download_csv/instrument_report/"+instrument_id+"?"+study_param+"&"+school_ids_param+"&"+moment_ids_param;
+      window.location = download_url;
+
+  }
   function getSelectedMomentIds(){
 
       var checkboxes = document.getElementById('moment_checkboxes').getElementsByTagName('input');
       var selected_ids = []
       for (var i = 0; i< checkboxes.length; i++){
           var checkbox = checkboxes[i];
-          if (checkbox.checked){
+          if (checkbox.checked && checkbox.value!=0){
               selected_ids.push(checkbox.value);
           }
       }
@@ -249,7 +269,7 @@
       var selected_school_ids = []
       for (var i = 0; i< schools_checkboxes.length; i++){
           var checkbox = schools_checkboxes[i];
-          if (checkbox.checked){
+          if (checkbox.checked && checkbox.value!=0){
               selected_school_ids.push(checkbox.value);
           }
       }
