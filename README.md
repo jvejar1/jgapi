@@ -21,12 +21,25 @@ Things you may want to cover:
 
 * Deployment instructions
 
-When deploying, you must report pre and post data and compare them to avoid missings:
+When deploying, you must:
+1. Make a db backup and save it to another location (persitent):
+#postgres is the owner of the database
+$ su postgres
+$ cd ~/backups
+$ echo "insert dirname in the form 202110101515 (date with time): " && read dirname
+$ mkdir $dirname && cd $dirname
+$ pg_dump -O -f $dirname.sql prod_database
+$ tar -cvf "$dirname.tar" /home/deploy/jgapi/public/system $dirname.sql
+$ curl --upload-file ./$dirname.tar https://transfer.sh/backup.tar > url.txt
+$ echo "The file is located on $(cat url.txt)"
 
 Before deploy:
+$ su deploy
+$ cd ~/jgapi
 $ cd report_logs/
-$ #def your filename as 202105051422_pre.log or 202105051422_post.log
-$ bundle exec rails runner --environment=production report.rb > filename_pre.log
+$ echo "insert the folder name in the form 202108081550" && read dirname
+$ mkdir $dirname && cd $dirname
+$ rails runner --environment=production ../report.rb > <pre|post>.log
 
 after deploy is finished, run the same command specifying the _post filename and compare with the '_pre' file using the 'cmp -b pre.log post.log' (compary binary).
 
