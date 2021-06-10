@@ -40,7 +40,11 @@ def get_realization_flag(evaluation)
 end
 
 def get_course(student, date)
-  return StudentCourse.where('student_id = ? AND EXTRACT(year from entry) = ?',student,date.year).first.course
+  sc = StudentCourse.where('student_id = ? AND EXTRACT(year from entry) = ?',student.id,date.year).first
+  if sc.nil?
+    sc = StudentCourse.where('student_id = ?',student.id).first
+  end
+  return sc.course
 end
 
 def get_group(study, course)
@@ -62,90 +66,83 @@ def generate_file(test:, study:, evaluation_class:, schools:, moments:)
   generate_csv_string(csv_lines)
 end
 
-def generate_report(instrument, study, schools)
+def generate_csv_str(instrument, items, study, moments, students)
   csv_lines = []
   headers = []
   headers.concat(Student.get_headers)
-  study.moments.each_with_index do |moment, moment_idx|
+  moments.each_with_index do |moment, moment_idx|
     moment_index = study.get_moment_index(moment)
     headers << study.get_moment_name(moment)
-    headers.concat(Evaluation.get_headers(moment_index.to_s))
+    headers+= ["course_#{moment_idx}", "evaluator_#{moment_idx}","application_date_#{moment_idx}","server_date_#{moment_idx}"]
 
-    instrument.items.each_with_index do |item, item_idx|
-
+    items.each_with_index do |item, item_idx|
+      suffix = "#{item.reportable_index}_#{moment_idx}"
       if item.report_header_prefix_choice_value
-        headers << item.report_header_prefix_choice_value + "_#{item_idx}_#{moment_idx}"
+        headers << item.report_header_prefix_choice_value + suffix
       end
-
       if item.report_header_prefix_choice_text
-        headers << item.report_header_prefix_choice_text
+        headers << item.report_header_prefix_choice_text + suffix
       end
-
       if item.report_header_prefix_score
-        headers << item.report_header_prefix_score + "_#{item_idx}_#{moment_idx}"
+        headers << item.report_header_prefix_score + suffix
       end
     end
-
     instrument.constructs.each do |construct|
       headers << construct.name+"_#{moment_idx}"
     end
   end
-
   csv_lines<<headers
   baseline = study.get_baseline_moment
-  courses = get_courses(schools, study)
-  students = courses.collect{|course| course.get_students(baseline.from.year)}.flatten
   evaluations = Evaluation.where(instrument:instrument)
-
   students.each do |student|
     row = []
-    row.concat(student.get_info)
+    row.concat([student.id_rut.to_s, student.rut.to_s, student.get_full_name])
     course =get_course(student, baseline.from)
     row<< course.school.name
-    row<< get_group(study,course)
-    study.moments.each_with_index do |moment, moment_idx|
+    group = study.study_courses.where(course_id: course.id).first.group
+    row<< group
+    moments.each_with_index do |moment, moment_idx|
       #get the evaluation associated to this moment, for this student, and puts his info in the csv
       evaluation = get_evaluation(evaluations, moment, student)
       row << get_realization_flag(evaluation)
       row << get_course(student, moment.from).to_string
       row.concat( Evaluation.get_info(evaluation))
 
-      instrument.items.each_with_index { |item,index |
-        choice_text = ""
-        if evaluation.nil?
-          answer_value = ""
-          answer_score = ""
-        else
-          choice_answers = evaluation.choice_answers.where(choice_id: item.choices)
-          if choice_answers[0].nil? || choice_answers.empty?
-            answer_value = ""
-            answer_score = ""
-          else
-            choice_text = choice_answers.map(&:choice).map(&:choice_text).join (" - ")
-            if choice_answers.count >1
-              answer_value = choice_answers.map(&:choice).map(&:choice_value).join (" - ")
-            else
-              answer_value = choice_answers[0].choice.choice_value
-            end
-            #Show the correctness of the response//the response can be multiple or single
-            answer_score = choice_answers.map(&:score).reduce(0,:+)
-          end
-        end
-
+      items.each_with_index { |item,index |
         if item.report_header_prefix_choice_value
-          row<< answer_value
+          answer_value=""
+          unless evaluation.nil?
+            choice_answers = evaluation.choice_answers.where(choice_id: item.choices)
+            if choice_answers[0].nil? || choice_answers.empty?
+              answer_value = "null"
+            else
+              if choice_answers.count >1
+                answer_value = choice_answers.map(&:choice).map(&:choice_value).join (" - ")
+              else
+                answer_value = choice_answers[0].choice.choice_value
+              end
+            end
+          end
+          row<<answer_value
         end
-
         if item.report_header_prefix_choice_text
+          choice_text=""
+          unless evaluation.nil?
+            choice_answers = evaluation.choice_answers.where(choice_id: item.choices)
+            choice_text = choice_answers.map{|ca| ca.choice.choice_text}.join(" - ")
+          end
           row<< choice_text
         end
-
         if item.report_header_prefix_score
-          row<< answer_score
+          answer_score=""
+          unless evaluation.nil?
+            choice_answers = evaluation.choice_answers.where(choice_id: item.choices)
+            answer_score = choice_answers.map(&:score).reduce(0,:+)
+          end
+          row<<answer_score
         end
         }
       #the total score, or the maths over the items.
-
       instrument.constructs.each do |construct|
         construct_score =""
         if not evaluation.nil?
@@ -159,17 +156,11 @@ def generate_report(instrument, study, schools)
         end
         row<< construct_score
       end
-
     end
     csv_lines<<row
   end
-
-  report_str = ""
-  csv_lines.each do |csv_line|
-    report_str += csv_line.join (",")
-    report_str +="\n"
-  end
-  report_str
+  csv_str = csv_lines.map{|l| l.join(",")}.join("\n")
+  csv_str
 end
 
 def generate_csv_lines(test:, study:, evaluation_class:, schools:, moments:)

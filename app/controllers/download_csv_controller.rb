@@ -12,10 +12,26 @@ class DownloadCsvController < ApplicationController
     @fonotest_evaluations_count=Evaluation.where(fonotest_id:!nil).count
     @hnf_evaluations_count=Evaluation.where(hnfset_id:!nil).count
 
-  end
-  before_action :set_params, only: [:aces, :wally, :corsi, :hnf, :fonotest]
+    @instruments = Instrument.usable
 
-  before_action :set_study, only: :get_study_info
+  end
+
+  def instrument_report
+    study = Study.find(params[:study_id])
+    schools = School.find(params[:school_ids])
+    desired_courses = schools.map{|s| s.courses}.flatten
+    courses = study.courses & desired_courses
+    students = courses.map{|c| c.students}.flatten
+    instrument = Instrument.find(params[:instrument_id])
+    items = instrument.items.where(item_type_id: 1..99)
+    moments = Moment.find(params[:moment_ids])
+    csv_str = generate_csv_str(instrument, items, study, moments, students)
+    csv_filename = "#{instrument.name}.csv"
+    send_data(csv_str, options={:filename=> csv_filename})
+  end
+  before_action :set_params, only: [:aces, :wally, :corsi, :hnf, :fonotest, :instrument]
+
+  before_action :set_study, only: [:get_study_info]
   def aces
     file = generate_file(test: Ace.first, study: @study, evaluation_class: Evaluation, schools:@schools,moments: @moments)
     send_data file, filename: "aces.csv"
@@ -41,6 +57,10 @@ class DownloadCsvController < ApplicationController
     send_data file, filename: "test_fonologico.csv"
   end
 
+  def instrument
+
+  end
+
   def get_study_info
     render json: {moments: @study.get_moments_with_name,
                   schools: @study.get_schools}
@@ -50,10 +70,7 @@ class DownloadCsvController < ApplicationController
 
   def set_params
     @study = Study.find(JSON.parse(params[:study]).to_i)
-    puts "HOLA"
-    puts @study.as_json
     @schools = School.where(id: JSON.parse(params[:schools]))
-    puts @schools.as_json
     @moments = @study.get_moments.where(id: JSON.parse(params[:moments]))
   end
 

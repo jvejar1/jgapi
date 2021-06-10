@@ -35,8 +35,9 @@ class MomentsController<ApplicationController
     end
 
     def update
-        @moment = Moment.new(params.require(:moment).permit(:id, :study_id, :from, :until))
-        @moment.save
+        moment_params = params.require(:moment).permit(:id, :study_id, :from, :until)
+        @moment = Moment.find(params[:id])
+        @moment.update(moment_params)
 
         render 'show'
     end

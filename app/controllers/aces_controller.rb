@@ -17,8 +17,9 @@ class AcesController < ApplicationController
 
     result_instruments = []
     user = User.find(user_id)
-    instruments = user.studies.where(year: Date.today.year).map{|study| study.instruments}.flatten
+    instruments = Instrument.usable
 
+    pictures=[]
     instruments.each do | instrument|
       items = []
       instrument.items.each do | item|
@@ -35,7 +36,20 @@ class AcesController < ApplicationController
           item[:audioUrl] = audio_url
         end
 
-        item = item.as_json
+        unless item.choices.blank?
+          item.choices.each do |choice|
+            unless choice.picture.nil?
+              picture_json = choice.picture.as_json
+              picture_id = choice.picture.id
+              picture_json["url"] = url_for download_picture_url(picture_id)
+              pictures<<picture_json
+            end
+          end
+        end
+        item = item.as_json(include: {:choices => {include: :picture}})
+
+
+
         item["pictureUrl"] = picture_url
         item["pictureId"] = picture_id
 
@@ -51,6 +65,7 @@ class AcesController < ApplicationController
 
     end
 
+    json_response[:pictures] = pictures
     json_response[:instruments]= result_instruments
 
     #showing the current year schools

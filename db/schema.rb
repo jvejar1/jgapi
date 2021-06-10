@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210506172433) do
+ActiveRecord::Schema.define(version: 20210608040111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -359,9 +359,10 @@ ActiveRecord::Schema.define(version: 20210506172433) do
     t.bigint "picture_id"
     t.boolean "is_for_practice"
     t.integer "item_type_id"
-    t.text "report_header_prefix_choice_value", default: "item_choice_value"
-    t.text "report_header_prefix_score", default: "item_score"
-    t.string "report_header_prefix_choice_text", default: "selected_choice_text"
+    t.string "report_header_prefix_choice_value"
+    t.string "report_header_prefix_score"
+    t.string "report_header_prefix_choice_text"
+    t.integer "reportable_index"
     t.index ["audio_id"], name: "index_items_on_audio_id"
     t.index ["instrument_id"], name: "index_items_on_instrument_id"
     t.index ["picture_id"], name: "index_items_on_picture_id"

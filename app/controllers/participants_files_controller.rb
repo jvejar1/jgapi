@@ -1,5 +1,5 @@
 class ParticipantsFilesController < ApplicationController
-  before_action :set_participants_file, only: %i[ show edit update destroy ]
+  before_action :set_participants_file, only: %i[ show edit update destroy csv post_csv ]
 
   skip_before_action :verify_authenticity_token
 
@@ -10,6 +10,8 @@ class ParticipantsFilesController < ApplicationController
 
   # GET /participants_files/1 or /participants_files/1.json
   def show
+    @user_email= @participants_file.user.nil? ? "Sin usuario asignado" : @participants_file.user.email
+    @schools= @participants_file.schools
   end
 
   # GET /participants_files/new
@@ -61,36 +63,43 @@ class ParticipantsFilesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /participants_files/1 or /participants_files/1.json
-  def update
-    params =participants_file_params
-    csv_file = params[:csv_file]
-    params.delete("csv_file")
-    notices = []
-    errors=[]
+  def csv
+
+  end
+
+  def post_csv
+    csv_file = params[:file]
     unless csv_file.nil?
       @csv_file=CSV.read(csv_file.path, headers:true)
       csvprocessor=CSVProcessor.new()
       student_inserter=StudentInserter.new()
       student_inserter.set_participants_file(@participants_file)
-    
+
       csvprocessor.process(
-      @csv_file,
-      student_inserter,
-      StudentInserter.required_fields_with_school_and_course,
-      student_inserter.method(:insert_using_participants_file))      
+        @csv_file,
+        student_inserter,
+        StudentInserter.required_fields_with_school_and_course,
+        student_inserter.method(:insert_using_participants_file))
 
       if student_inserter.have_errors?
-        errors+= student_inserter.get_errors_rows
+        flash[:error]=student_inserter.get_errors_rows
       end
-      notices << student_inserter.report_str
+      flash[:notice]=student_inserter.report_str
     end
+
+    redirect_to :action=>'show', :id=> @participants_file.id
+
+  end
+
+  # PATCH/PUT /participants_files/1 or /participants_files/1.json
+  def update
+    params =participants_file_params
+    notices = []
+    errors=[]
 
     respond_to do |format|
       if @participants_file.update(params)
-
         flash[:error]= errors.join("<br>") unless errors.empty?
-
         format.html { 
           notices<< "Participants file was successfully updated."
           redirect_to @participants_file, notice: notices.join("<br>")
@@ -98,9 +107,7 @@ class ParticipantsFilesController < ApplicationController
         format.json { render :show, status: :ok, location: @participants_file }
       else
         errors<< @participants_file.errors
-
         flash[:error]= errors.join("<br>")
-
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @participants_file.errors, status: :unprocessable_entity }
       end

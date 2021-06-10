@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
   resources :participants_files
+  get 'participants_files/:id/csv', to:"participants_files#csv", as: "participants_file_csv"
+  post 'participants_files/:id/csv', to:"participants_files#post_csv", as:"participants_file_post_csv"
   get 'apk/latest'
 
   devise_for :users, controllers: {
@@ -59,6 +61,8 @@ Rails.application.routes.draw do
   get '/download_csv/hnf', to:"download_csv#hnf", as: 'download_csv_hnf'
   get '/download_csv/fonotest', to:"download_csv#fonotest", as: 'download_csv_fonotest'
   get '/get_study_info/', to:"download_csv#get_study_info", as: 'get_study_info'
+
+  get 'download_csv/instrument_report/:instrument_id', to: "download_csv#instrument_report"
 
   get '/studies', to:"studies#index", as:'studies'
   get '/studies/:id', to:"studies#show", as:'show_study'

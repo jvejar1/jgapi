@@ -1,14 +1,63 @@
+<%= stylesheet_link_tag params[:controller] %>
 <p id="notice"><%= notice %></p>
-
 <p>
   <strong>User:</strong>
-  <%= @participants_file.user %>
+  <%= @user_email %>
 </p>
 
 <p>
   <strong>Year:</strong>
   <%= @participants_file.year %>
 </p>
+
+<p>
+<%=link_to(participants_file_csv_path(@participants_file),html_options = {})do %>
+  <button class="btn btn-primary">Subir csv</button>
+<%end %>
+</p>
+
+<p>
+  <strong>Colegios</strong>
+</p>
+<%@schools.each do |school| %>
+
+  <div class="school-container">
+    <div class="school-title" onclick="sib=this.nextElementSibling; sib.classList.toggle('field-closed'); sib.classList.toggle('field-opened');">
+        <strong> <%=school.name %></strong>
+    </div>
+    <div class="school-body field-closed">
+      <div class="fields-container">
+        <%school.courses.each do |course| %>
+          <div class="course-container">
+            <div class="course-title" onclick="courseBody=this.parentElement.getElementsByClassName('course-body').item(0); courseBody.classList.toggle('field-closed'); courseBody.classList.toggle('field-opened')">
+              <%=course.name %>
+            </div>
+            <div class="course-body field-closed">
+              <div class="fields-container">
+
+                <table>
+                  <tr>
+                    <th>N°</th>
+                    <th>Nombre</th>
+                  </tr>
+                  <%course.students.each_with_index  do |student,idx| %>
+                    <tr>
+                      <td><%=idx+1%></td>
+                      <td><%=student.get_full_name %></td>
+                    </tr>
+                  <%end %>
+                </table>
+
+              </div>
+            </div>
+          </div>
+        <%end %>
+      </div>
+    </div>
+  </div>
+  <br>
+<% end %>
+<br>
 
 <%= link_to 'Edit', edit_participants_file_path(@participants_file) %> |
 <%= link_to 'Back', participants_files_path %>
