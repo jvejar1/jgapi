@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
   resources :participants_files
+  get 'participants_files/:id/csv', to:"participants_files#csv", as: "participants_file_csv"
+  post 'participants_files/:id/csv', to:"participants_files#post_csv", as:"participants_file_post_csv"
   get 'apk/latest'
 
   devise_for :users, controllers: {
