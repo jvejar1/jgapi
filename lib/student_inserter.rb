@@ -83,6 +83,7 @@ class StudentInserter<Inserter
   end
 
   def insert_using_participants_file(row)
+    puts row
     row_idx = row["index"]
     id_rut = row["Id"]
     rut=row["Rut"]
@@ -118,15 +119,14 @@ class StudentInserter<Inserter
       all_students = Student.where(id: all_student_ids)
       old_student = all_students.where(id_rut: id_rut).first
       unless old_student.nil?
+        @updated_rows+=1
+        old_student.update(name:name, last_name:last_name, rut:rut)
         old_course_assoc = @participants_file.schools.map{|s| s.courses}.flatten.map{|c| c.student_courses}.flatten.select{|sc| sc.student_id == old_student.id}.first
         old_course = Course.find(old_course_assoc.course_id)
         old_course_is_current_course = old_course.id == course.id
         unless old_course_is_current_course
           old_course.students.delete(old_student)
           StudentCourse.create(course:course, entry:entry, student:old_student)
-          @updated_rows+=1
-        else
-          @not_changed_rows
         end
       else
         student = Student.new(name:name, last_name:last_name, rut:rut, id_rut:id_rut)

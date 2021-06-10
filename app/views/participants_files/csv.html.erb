@@ -1,0 +1,14 @@
+<br>
+<h2> Subir Csv</h2>
+
+<form method="post" enctype="multipart/form-data" action="<%=participants_file_post_csv_path(@participants_file.id) %>">
+  <input type="file" name="file" value="Seleccione archivo">
+  <input type="submit" class="btn btn-success" value="Ingresar">
+</form>
+
+<style>
+  form>input{
+      display: block;
+      margin-top: 15px;
+  }
+</style>
