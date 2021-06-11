@@ -12,7 +12,7 @@ class DownloadCsvController < ApplicationController
     @fonotest_evaluations_count=Evaluation.where(fonotest_id:!nil).count
     @hnf_evaluations_count=Evaluation.where(hnfset_id:!nil).count
 
-    @instruments = Instrument.usable
+    @instruments = Instrument.active
 
   end
 
