@@ -17,7 +17,7 @@ class AcesController < ApplicationController
 
     result_instruments = []
     user = User.find(user_id)
-    instruments = Instrument.usable
+    instruments = Instrument.active
 
     pictures=[]
     instruments.each do | instrument|
