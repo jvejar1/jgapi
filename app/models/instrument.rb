@@ -4,5 +4,5 @@ class Instrument < ApplicationRecord
   has_many :items, -> { ordered }, class_name: 'Item'
   accepts_nested_attributes_for :items, reject_if: lambda {|attributes| attributes['order'].blank?}, allow_destroy: true
   has_many :constructs
-  scope :usable, ->{where(deleted: false)}
+  scope :active, ->{where(deleted: false)}
 end
